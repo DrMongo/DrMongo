@@ -1,19 +1,42 @@
+Template.TreeRow.onCreated(function() {
+  let value = this.data.value;
+  let key = this.data.key;
+  let type = typeof this.value;
+
+  let info = {
+    formattedValue: typeof value,
+    hasChildren: false
+  };
+  if(key == '_id') {
+    info['formattedValue'] = value;
+  } else if(_.isString(value)) {
+    info['formattedValue'] = value;
+  } else if(_.isNull(value)) {
+    info['formattedValue'] = 'null';
+  } else if(_.isBoolean(value)) {
+    info['formattedValue'] = value ? 'true' : 'false';
+  } else if(_.isDate(value)) {
+    info['formattedValue'] = value;
+  } else if(_.isArray(value)) {
+    info['formattedValue'] = '[ ' + value.length + ' fields ]';
+    info['hasChildren'] = true;
+  } else if(_.isObject(value)) {
+    info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
+    info['hasChildren'] = true;
+  }
+
+  this.data.info = info;
+
+});
+
+
 Template.TreeRow.helpers({
   formattedValue() {
-    let value = null;
-    if(this.key == '_id') {
-      value = this.value;
-    } else if(_.isString(this.value)) {
-      value = this.value;
-    } else if(_.isArray(this.value)) {
-      value = '[ ' + this.value.length + ' fields ]';
-    } else if(_.isObject(this.value)) {
-      value = '{ ' + Object.keys(this.value).length + ' fields }';
-    } else {
-      value = typeof this.value;
-    }
+    return this.info.formattedValue;
+  },
 
-    return value;
+  hasChildren() {
+    return this.info.hasChildren;
   },
 
   isType(assertType) {
@@ -31,5 +54,21 @@ Template.TreeRow.helpers({
       })
     });
     return fields;
+  },
+
+  collapsedClass() {
+    return this.level > 0 ? 'collapsed' : '';
+  },
+
+  childrenClass() {
+    return this.level > 0 ? 'children' : '';
+  },
+
+  nextLevel() {
+    return this.level + 1;
+  },
+
+  levelClass() {
+    return this.level > 0 ? '' : 'document'
   }
 });

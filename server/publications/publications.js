@@ -13,10 +13,8 @@ Meteor.publish('connections', () => {
 });
 Meteor.publish('connection', (connectionId) => {
 	return [
-		Connections.find(connectionId),
-
+		Connections.find(connectionId)
 	]
-	return
 });
 
 Meteor.publish('collections', () => {

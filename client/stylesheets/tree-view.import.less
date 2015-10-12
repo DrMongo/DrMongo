@@ -1,0 +1,38 @@
+.tree-view {
+  .toggle-children {
+    cursor: pointer;
+    &:hover { background-color: #eee; }
+  }
+
+  .parent {
+    .toggle-children {
+      &::before {
+        font-family: Icons;
+        position: absolute;
+        content: "\f105";
+        top: 15px;
+        left: 5px;
+      }
+    }
+
+
+    & > .children {
+      height: 0;
+      overflow: hidden;
+      margin-left: 10px;
+    }
+  }
+
+  .parent.collapsed {
+    .toggle-children {
+      &::before {
+        content: "\f107";
+        left: 2px;
+      }
+    }
+
+
+    & > .children { height: auto;  }
+  }
+
+}
