@@ -1,0 +1,16 @@
+<template name="collections">
+  <h1>collections</h1>
+
+  <div class="ui grid collections-dashboard">
+    {{#each collections}}
+      <div class="two wide column">
+        <div class="collection">
+          <a href="{{pathFor route='collectionList' data=this}}">
+            <i class="{{collectionIcon}} icon"></i> {{name}}
+          </a>
+        </div>
+      </div>
+    {{/each}}
+  </div>
+
+</template>

@@ -1,0 +1,12 @@
+<template name="breadcrumb">
+  <div class="ui breadcrumb">
+    {{#each breadcrumb}}
+      {{#if isLast}}
+        <div class="active section">{{text}}</div>
+      {{else}}
+        <a class="section" href="{{link}}">{{text}}</a>
+        <div class="divider"> / </div>
+      {{/if}}
+    {{/each}}
+  </div>
+</template>
