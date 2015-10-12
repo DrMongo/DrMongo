@@ -15,13 +15,14 @@
                     <div class="item">
                         <div class="right floated content">
                             <a href="/{{_id}}" class="mini ui green button">Connect</a>
+                            <div class="mini ui green button" id="refresh-connection"><i class="refresh icon"></i> Refresh</div>
                             <div class="mini ui blue button" id="edit-connection">Edit</div>
                             <div class="mini ui red button" id="remove-connection">Remove</div>
                         </div>
                         <i class="lightning icon"></i>
 
                         <div class="content">
-                            {{name}}
+                            {{name}} <small>{{host}}:{{port}}/{{database}}</small>
                         </div>
                     </div>
                 {{/each}}

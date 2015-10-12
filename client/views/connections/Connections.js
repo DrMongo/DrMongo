@@ -26,6 +26,12 @@ Template.Connections.events({
 		});
 		$('#EditConnectionModal').modal('show');
 	},
+	'click #refresh-connection': function (e, t) {
+		e.preventDefault();
+		Meteor.call('getConnectionStructure', this._id, function(e,r) {
+			console.log(e, r)
+		})
+	},
 	'click #remove-connection': function (e, t) {
 		e.preventDefault();
 		Connections.remove(this._id)

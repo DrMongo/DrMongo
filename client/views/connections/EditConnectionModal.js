@@ -12,11 +12,11 @@ Template.EditConnectionModal.helpers({
 Template.EditConnectionModalContent.events({
 	'click #submit-button': function (e, t) {
 		e.preventDefault();
-		console.log('tu som')
 		Connections.update(this._id, {$set: {
 			name: t.$('[name=name]').val() || 'New Connection',
 			host: t.$('[name=host]').val() || 'localhost',
-			port: t.$('[name=port]').val() || '27017'
+			port: t.$('[name=port]').val() || '27017',
+			database: t.$('[name=database]').val()
 		}});
 		$('#EditConnectionModal').modal('hide');
 	}

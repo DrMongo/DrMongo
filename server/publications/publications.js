@@ -9,13 +9,20 @@
 //});
 
 Meteor.publish('connections', () => {
-  return Connections.find({});
+	return Connections.find({});
+});
+Meteor.publish('connection', (connectionId) => {
+	return [
+		Connections.find(connectionId),
+
+	]
+	return
 });
 
-Meteor.publish('collectiones', () => {
-  return Collections.find({});
+Meteor.publish('collections', () => {
+	return Collections.find({});
 });
 
 Meteor.publish('collection', (name) => {
-  return Mongo.Collection.get(name).find({});
+	return Mongo.Collection.get(name).find({});
 });
