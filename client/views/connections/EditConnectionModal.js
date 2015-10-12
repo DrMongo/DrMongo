@@ -10,7 +10,7 @@ Template.EditConnectionModal.helpers({
 	}
 });
 Template.EditConnectionModalContent.events({
-	'click #submit-button': function (e, t) {
+	'submit form': function (e, t) {
 		e.preventDefault();
 		Connections.update(this._id, {$set: {
 			name: t.$('[name=name]').val() || 'New Connection',
