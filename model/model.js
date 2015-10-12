@@ -1,6 +1,3 @@
-CollectionNames = new Mongo.Collection('collectionNames');
-
-
 class CollectionManager {
   constructor() {
     this.collections = {}

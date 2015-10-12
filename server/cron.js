@@ -26,24 +26,24 @@ SyncedCron.config({
 });
 
 
-SyncedCron.add({
-  name: 'Fetch collection names',
-  schedule: function(parser) {
-    return parser.text('every 1000 seconds');
-  },
-  job: function() {
-    let helpers = new MongoHelpers;
-    let names = helpers.collectionNames();
-    _.each(names, (value) => {
-      CollectionNames.upsert(
-        {connection: 'default', name: value.name},
-        {$set: {
-          updatedAt: new Date
-        }}
-      );
-    });
-  }
-});
+// SyncedCron.add({
+//   name: 'Fetch collection names',
+//   schedule: function(parser) {
+//     return parser.text('every 1000 seconds');
+//   },
+//   job: function() {
+//     let helpers = new MongoHelpers;
+//     let names = helpers.collectionNames();
+//     _.each(names, (value) => {
+//       CollectionNames.upsert(
+//         {connection: 'default', name: value.name},
+//         {$set: {
+//           updatedAt: new Date
+//         }}
+//       );
+//     });
+//   }
+// });
 
 
 SyncedCron.start();

@@ -1,0 +1,37 @@
+<template name="Connections">
+    {{> EditConnectionModal}}
+    <div class="ui middle aligned center aligned grid">
+        <div class="column">
+            <h2 class="ui teal image header">
+                <i class="lightning icon"></i>
+
+                <div class="content">
+                    Mongo Connections
+                </div>
+            </h2>
+
+            <div class="ui middle aligned divided list">
+                {{#each connections}}
+                    <div class="item">
+                        <div class="right floated content">
+                            <a href="/{{_id}}" class="mini ui green button">Connect</a>
+                            <div class="mini ui blue button" id="edit-connection">Edit</div>
+                            <div class="mini ui red button" id="remove-connection">Remove</div>
+                        </div>
+                        <i class="lightning icon"></i>
+
+                        <div class="content">
+                            {{name}}
+                        </div>
+                    </div>
+                {{/each}}
+                <div class="item">
+                    <div class="content">
+                        <div class="ui green button" id="add-connection">Add new connection</div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</template>

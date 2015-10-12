@@ -8,8 +8,12 @@
 //  return [];
 //});
 
-Meteor.publish('collectionNames', () => {
-  return CollectionNames.find({});
+Meteor.publish('connections', () => {
+  return Connections.find({});
+});
+
+Meteor.publish('collectiones', () => {
+  return Collections.find({});
 });
 
 Meteor.publish('collection', (name) => {
