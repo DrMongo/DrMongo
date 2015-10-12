@@ -1,4 +1,4 @@
-Template.collectionList.onCreated(function() {
+Template.TreeView.onCreated(function() {
   let collectionName = FlowRouter.getParam('name');
 
   breadcrumb.path([
@@ -13,7 +13,7 @@ Template.collectionList.onCreated(function() {
 });
 
 
-Template.collectionList.helpers({
+Template.TreeView.helpers({
   items() {
     return Template.instance().items();
   }

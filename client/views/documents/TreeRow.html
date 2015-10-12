@@ -1,0 +1,13 @@
+<template name="TreeRow">
+  <div class="sixteen wide column">
+    <div class="ui grid">
+      <div class="eight wide column">{{key}}</div>
+      <div class="eight wide column">{{formattedValue}}</div>
+      {{#if isType 'object'}}
+        {{#each fields}}
+          {{> TreeRow key=key value=value}}
+        {{/each}}
+      {{/if}}
+    </div>
+  </div>
+</template>
