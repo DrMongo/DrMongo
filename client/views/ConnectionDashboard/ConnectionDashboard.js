@@ -1,13 +1,11 @@
 Template.ConnectionDashboard.onCreated(function () {
-	breadcrumb.path([]);
-	this.subscribe('connection', FlowRouter.current().params._id);
 });
 
 Template.ConnectionDashboard.helpers({
 	connection() {
-		return Connections.findOne(FlowRouter.current().params._id);
+		return Connections.findOne(FlowRouter.getParam('connectionId'));
 	},
 	databases() {
-		return Databases.find({}, {sort: {name: 1}});
+		return Databases.find({connection_id: FlowRouter.getParam('connectionId')}, {sort: {name: 1}});
 	}
 });

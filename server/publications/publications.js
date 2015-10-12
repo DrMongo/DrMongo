@@ -8,21 +8,19 @@
 //  return [];
 //});
 
-Meteor.publish('connections', () => {
-	return Connections.find({});
-});
-
-Meteor.publish('connection', (connectionId) => {
+Meteor.publish('connectionStructure', () => {
 	return [
-		Connections.find(connectionId),
-		Databases.find({connection_id: connectionId})
+		Connections.find({}),
+		Databases.find({}),
+		Collections.find({})
 	];
 });
 
-Meteor.publish('collections', () => {
-	return Collections.find({});
-});
-
-Meteor.publish('collection', (name) => {
-	return Mongo.Collection.get(name).find({});
+Meteor.publish('documents', (collectionId) => {
+	console.log(collectionId)
+	var collection = Collections.findOne(collectionId);
+	if (collection) {
+		console.log(Mongo.Collection.get(collection.name).find({}).count())
+		return Mongo.Collection.get(collection.name).find({});
+	}
 });

@@ -1,16 +1,18 @@
-<template name="collections">
-  <h1>collections</h1>
+<template name="DatabaseDashboard">
+    {{#with database}}
+        <h1>{{name}}</h1>
 
-  <div class="ui grid collections-dashboard">
-    {{#each collections}}
-      <div class="two wide column">
-        <div class="collection">
-          <a href="{{pathFor route='collectionList' data=this}}">
-            <i class="{{collectionIcon}} icon"></i> {{name}}
-          </a>
+        <div class="ui grid dashboard">
+            {{#each collections}}
+                <div class="two wide column">
+                    <div class="icon-item">
+                        <a href="/{{currentConnection._id}}/{{../_id}}/{{_id}}">
+                            <i class="database icon"></i> {{name}}
+                        </a>
+                    </div>
+                </div>
+            {{/each}}
         </div>
-      </div>
-    {{/each}}
-  </div>
+    {{/with}}
 
 </template>

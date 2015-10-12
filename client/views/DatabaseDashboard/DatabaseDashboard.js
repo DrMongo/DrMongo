@@ -1,15 +1,14 @@
-Template.collections.onCreated(function() {
-  breadcrumb.path([]);
-
-  this.subscribe('collectionNames');
+Template.DatabaseDashboard.onCreated(function () {
 });
 
-Template.collections.helpers({
-  collections() {
-    return CollectionNames.find({}, {sort: {name: 1}});
-  },
-
-  collectionIcon() {
-    return Icons.forCollection(this.name)
-  }
+Template.DatabaseDashboard.helpers({
+	currentConnection() {
+		return Connections.findOne(FlowRouter.getParam('connectionId'));
+	},
+	database() {
+		return Databases.findOne(FlowRouter.getParam('databaseId'));
+	},
+	collections() {
+		return Collections.find({database_id: FlowRouter.getParam('databaseId')}, {sort: {name: 1}});
+	}
 });
