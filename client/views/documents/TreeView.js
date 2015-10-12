@@ -1,5 +1,5 @@
 Template.TreeView.onCreated(function() {
-  let collectionName = FlowRouter.getParam('name');
+  let collectionName = FlowRouter.getParam('collection');
 
   breadcrumb.path([
     {text: collectionName}

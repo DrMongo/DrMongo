@@ -1,13 +1,15 @@
 <template name="TreeRow">
-  <div class="sixteen wide column">
-    <div class="ui grid">
+  <div class="sixteen wide column parent {{collapsedClass}} {{levelClass}}">
+    <div class="ui grid {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="eight wide column">{{key}}</div>
       <div class="eight wide column">{{formattedValue}}</div>
-      {{#if isType 'object'}}
-        {{#each fields}}
-          {{> TreeRow key=key value=value}}
-        {{/each}}
-      {{/if}}
     </div>
+    {{#if hasChildren}}
+      <div class="ui grid children">
+        {{#each fields}}
+          {{> TreeRow key=key value=value level=nextLevel}}
+        {{/each}}
+      </div>
+    {{/if}}
   </div>
 </template>
