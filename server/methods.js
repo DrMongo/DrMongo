@@ -9,10 +9,10 @@ Meteor.methods({
 		if (!connection) return false;
 		let databases = MongoHelpers.getDatabases(connection);
 
-		Databases.update({connection: connectionId}, {$set: {keep: false}})
+		Databases.update({connection_id: connectionId}, {$set: {keep: false}})
 		_.each(databases, (databaseName) => {
 			Databases.upsert(
-				{connection: connectionId, name: databaseName},
+				{connection_id: connectionId, name: databaseName},
 				{
 					$set: {
 						updatedAt: new Date,
@@ -21,13 +21,13 @@ Meteor.methods({
 				}
 			);
 
-			let database = Databases.findOne({connection: connectionId, name: databaseName});
+			let database = Databases.findOne({connection_id: connectionId, name: databaseName});
 
-			Collections.update({database: database._id}, {$set: {keep: false}});
+			Collections.update({database_id: database._id}, {$set: {keep: false}});
 			let collections = MongoHelpers.getCollections(connection, databaseName);
 			_.each(collections, (collectionName) => {
 				Collections.upsert(
-					{database: database._id, name: collectionName},
+					{database_id: database._id, name: collectionName},
 					{
 						$set: {
 							updatedAt: new Date,
@@ -36,10 +36,10 @@ Meteor.methods({
 					}
 				);
 			});
-			Collections.remove({database: database._id, keep: false});
+			Collections.remove({database_id: database._id, keep: false});
 
 		});
-		Databases.remove({connection: connectionId, keep: false});
+		Databases.remove({connection_id: connectionId, keep: false});
 		return true;
 	}
 });

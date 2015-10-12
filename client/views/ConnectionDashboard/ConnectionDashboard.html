@@ -1,0 +1,18 @@
+<template name="ConnectionDashboard">
+    {{#with connection}}
+    <h1>{{name}}</h1>
+
+    <div class="ui grid dashboard">
+        {{#each databases}}
+            <div class="two wide column">
+                <div class="icon-item">
+                    <a href="{{pathFor route='DatabaseDashboard' data=this}}">
+                        <i class="database icon"></i> {{name}}
+                    </a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+    {{/with}}
+
+</template>

@@ -40,7 +40,6 @@ bojicas:inflections
 # design
 semantic:ui
 flemay:less-autoprefixer
-kit:basscss
 
 # debug
 # meteortoys:allthings

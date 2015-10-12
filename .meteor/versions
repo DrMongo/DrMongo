@@ -40,7 +40,6 @@ insecure@1.0.4
 jquery@1.11.4
 kadira:blaze-layout@2.1.0
 kadira:flow-router@2.7.0
-kit:basscss@7.0.4
 lai:collection-extensions@0.1.4
 launch-screen@1.0.4
 livedata@1.0.15

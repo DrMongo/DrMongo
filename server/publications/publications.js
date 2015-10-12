@@ -11,12 +11,12 @@
 Meteor.publish('connections', () => {
 	return Connections.find({});
 });
+
 Meteor.publish('connection', (connectionId) => {
 	return [
 		Connections.find(connectionId),
-
-	]
-	return
+		Databases.find({connection_id: connectionId})
+	];
 });
 
 Meteor.publish('collections', () => {

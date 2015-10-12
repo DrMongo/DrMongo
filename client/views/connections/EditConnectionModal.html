@@ -9,27 +9,29 @@
 <template name="EditConnectionModalContent">
     <div class="header">{{name}}</div>
     <div class="content">
-        <form class="ui form">
-            <div class="field">
-                <label>Name</label>
-                <input type="text" name="name" placeholder="Name" value="{{name}}">
-            </div>
-            <div class="field">
-                <label>Address</label>
-                <div class="fields">
-                    <div class="eight wide field">
-                        <input type="text" name="host" placeholder="Host" value="{{host}}">
-                    </div>
-                    <div class="four wide field">
-                        <input type="text" name="port" placeholder="Port" value="{{port}}">
-                    </div>
-                    <div class="four wide field">
-                        <input type="text" name="database" placeholder="Database" value="{{database}}">
+        <div class="ui form">
+            <form>
+                <div class="field">
+                    <label>Name</label>
+                    <input type="text" name="name" placeholder="Name" value="{{name}}">
+                </div>
+                <div class="field">
+                    <label>Address</label>
+                    <div class="fields">
+                        <div class="eight wide field">
+                            <input type="text" name="host" placeholder="Host" value="{{host}}">
+                        </div>
+                        <div class="four wide field">
+                            <input type="text" name="port" placeholder="Port" value="{{port}}">
+                        </div>
+                        <div class="four wide field">
+                            <input type="text" name="database" placeholder="Database" value="{{database}}">
+                        </div>
                     </div>
                 </div>
-            </div>
-            <button class="ui button" type="submit">Save</button>
-        </form>
+                <button class="ui button" type="submit">Save</button>
+            </form>
+        </div>
     </div>
 
 </template>
