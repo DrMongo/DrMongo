@@ -1,4 +1,5 @@
 Template.TreeRow.onCreated(function() {
+
   let value = this.data.value;
   let key = this.data.key;
   let type = typeof this.value;
@@ -56,16 +57,8 @@ Template.TreeRow.helpers({
     return fields;
   },
 
-  collapsedClass() {
-    return this.level > 0 ? 'collapsed' : '';
-  },
-
-  childrenClass() {
-    return this.level > 0 ? 'children' : '';
-  },
-
   nextLevel() {
-    return this.level + 1;
+    return Template.instance().data.level + 1;
   },
 
   levelClass() {

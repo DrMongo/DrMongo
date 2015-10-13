@@ -5,7 +5,7 @@
   }
 
   .parent {
-    .toggle-children {
+    & > .toggle-children {
       &::before {
         font-family: Icons;
         position: absolute;
@@ -24,7 +24,7 @@
   }
 
   .parent.collapsed {
-    .toggle-children {
+    & > .toggle-children {
       &::before {
         content: "\f107";
         left: 2px;
@@ -35,4 +35,12 @@
     & > .children { height: auto;  }
   }
 
+
+  // L A Y O U T
+  border: 1px solid #ccc;
+  border-radius: 3px;
+
+  .document {
+    border-bottom: 1px solid #ccc;
+  }
 }
