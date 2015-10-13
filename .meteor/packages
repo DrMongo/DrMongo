@@ -38,7 +38,7 @@ bojicas:inflections
 
 
 # design
-semantic:ui
+nemo64:bootstrap
 flemay:less-autoprefixer
 
 # debug

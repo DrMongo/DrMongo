@@ -54,6 +54,8 @@ mobile-experience@1.0.1
 mobile-status-bar@1.0.6
 mongo@1.1.2
 mongo-id@1.0.1
+nemo64:bootstrap@3.3.5_2
+nemo64:bootstrap-data@3.3.5
 npm-container@1.2.0
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
@@ -66,8 +68,6 @@ reactive-var@1.0.6
 reload@1.1.4
 retry@1.0.4
 routepolicy@1.0.6
-semantic:ui@2.1.4_5
-semantic:ui-data@2.1.4_5
 session@1.1.1
 spacebars@1.0.7
 spacebars-compiler@1.0.7
