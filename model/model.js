@@ -8,6 +8,8 @@ class CollectionManager {
       this.collections[name] = new Mongo.Collection(name);
       Meteor.call('mountCollection', name, "default");
     }
+
+    return this.collections[name];
   }
 
   mountCollectionOnServer(name, connection) {

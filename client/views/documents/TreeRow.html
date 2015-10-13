@@ -1,11 +1,11 @@
 <template name="TreeRow">
-  <div class="sixteen wide column parent {{levelClass}}">
-    <div class="ui grid {{printIf hasChildren 'toggle-children' ''}} head">
-      <div class="eight wide column">{{key}}</div>
-      <div class="eight wide column">{{formattedValue}}</div>
+  <div class="col-xs-12 parent {{levelClass}}">
+    <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
+      <div class="col-xs-6 column">{{key}}</div>
+      <div class="col-xs-6 column">{{formattedValue}}</div>
     </div>
     {{#if hasChildren}}
-      <div class="ui grid children">
+      <div class="row children">
         {{#each fields}}
           {{> TreeRow key=key value=value level=nextLevel}}
         {{/each}}

@@ -1,5 +1,6 @@
 Template.TreeRow.onCreated(function () {
 
+  log('> ROW data', this.data);
   let value = this.data.value;
   let key = this.data.key;
   let type = typeof this.value;
@@ -26,18 +27,18 @@ Template.TreeRow.onCreated(function () {
     info['hasChildren'] = true;
   }
 
-  this.data.info = info;
+  this.info = info;
 
 });
 
 
 Template.TreeRow.helpers({
   formattedValue() {
-    return this.info.formattedValue;
+    return Template.instance().info.formattedValue;
   },
 
   hasChildren() {
-    return this.info.hasChildren;
+    return Template.instance().info.hasChildren;
   },
 
   isType(assertType) {

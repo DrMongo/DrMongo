@@ -1,0 +1,23 @@
+<template name="DocumentsFilter">
+  <h1>filter</h1>
+
+  <form class="document-filter">
+    <div class="row">
+      <div class="col-xs-6">
+        <div class="form-group">
+          <div class="pull-right text-danger">{{invalidSelection}}</div>
+          <label for="selection">Selector</label>
+          <input type="text" class="form-control" id="selection" placeholder="{&quot;status&quot;: &quot;ready&quot;}">
+        </div>
+      </div>
+      <div class="col-xs-6">
+        <div class="form-group">
+          <div class="pull-right text-danger">{{invalidOptions}}</div>
+          <label for="selection">Options</label>
+          <input type="text" class="form-control" id="options" placeholder="{&quot;limit&quot;: 10}">
+        </div>
+      </div>
+    </div>
+    <input class="hidden" type="submit" value="submit">
+  </form>
+</template>
