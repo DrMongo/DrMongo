@@ -1,42 +1,42 @@
 <template name="HomeLayout">
-    <div class="ui grid full height">
-        <div class="row">
-            {{> Menu}}
-        </div>
-        <div class="row">
-            <div class="column">
-                {{> Template.dynamic template=template}}
-            </div>
-        </div>
+  <div class="ui grid full height">
+    <div class="row">
+      {{> Menu}}
     </div>
+    <div class="row">
+      <div class="column">
+        {{> Template.dynamic template=template}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="DefaultLayout">
-    <div class="ui grid full height">
-        <div class="row">
-            {{> Menu}}
-        </div>
-        <div class="row">
-            <div class="three wide column">
-                {{> Sidebar}}
-            </div>
-            <div class="thirteen wide column">
-                {{> Template.dynamic template=template}}
-            </div>
-        </div>
+  <div class="ui grid full height">
+    <div class="row">
+      {{> Menu}}
     </div>
+    <div class="row">
+      <div class="three wide column">
+        {{> Sidebar}}
+      </div>
+      <div class="thirteen wide column">
+        {{> Template.dynamic template=template}}
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="Sidebar">
-    <div class="ui vertical inverted fluid menu">
-        <a class="item">
-            Collection 1
-        </a>
-        <a class="item">
-            Collection 1
-        </a>
-        <a class="item">
-            Collection 1
-        </a>
-    </div>
+  <div class="ui vertical inverted fluid menu">
+    <a class="item">
+      Collection 1
+    </a>
+    <a class="item">
+      Collection 1
+    </a>
+    <a class="item">
+      Collection 1
+    </a>
+  </div>
 </template>

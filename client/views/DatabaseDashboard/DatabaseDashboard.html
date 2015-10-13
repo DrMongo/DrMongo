@@ -1,18 +1,18 @@
 <template name="DatabaseDashboard">
-    {{#with database}}
-        <h1>{{name}}</h1>
+  {{#with database}}
+    <h1>{{name}}</h1>
 
-        <div class="ui grid dashboard">
-            {{#each collections}}
-                <div class="two wide column">
-                    <div class="icon-item">
-                        <a href="/{{currentConnection._id}}/{{../_id}}/{{_id}}">
-                            <i class="database icon"></i> {{name}}
-                        </a>
-                    </div>
-                </div>
-            {{/each}}
+    <div class="ui grid dashboard">
+      {{#each collections}}
+        <div class="two wide column">
+          <div class="icon-item">
+            <a href="/{{currentConnection._id}}/{{../_id}}/{{_id}}">
+              <i class="database icon"></i> {{name}}
+            </a>
+          </div>
         </div>
-    {{/with}}
+      {{/each}}
+    </div>
+  {{/with}}
 
 </template>

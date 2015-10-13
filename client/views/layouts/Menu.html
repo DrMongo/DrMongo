@@ -1,34 +1,37 @@
 <template name="Menu">
-    <div class="ui inverted menu sixteen wide column">
-        <div class="ui container">
-            <div href="#" class="header item">
-                <i class="heartbeat icon"></i>
-                Dr. Mongo
-            </div>
-            <a href="#" class="ui simple dropdown item">
-                <i class="lightning icon"></i>
-                {{#if currentConnection}}{{currentConnection.name}}{{else}}Select connection{{/if}} <i
-                    class="dropdown icon"></i>
+  <div class="ui inverted menu sixteen wide column">
+    <div class="ui container">
+      <div href="#" class="header item">
+        <i class="heartbeat icon"></i>
+        Dr. Mongo
+      </div>
+      <a href="#" class="ui simple dropdown item">
+        <i class="lightning icon"></i>
+        {{#if currentConnection}}{{currentConnection.name}}{{else}}Select connection{{/if}}
+        <i
+            class="dropdown icon"></i>
 
-                <div class="menu">
-                    {{#each connections}}
-                        <a class="item" href="/{{_id}}">{{name}}</a>
-                    {{/each}}
-                </div>
-            </a>
-            {{#if currentConnection}}
-                <a href="#" class="ui simple dropdown item">
-                    <i class="database icon"></i>
-                    {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}} <i
-                        class="dropdown icon"></i>
-
-                    <div class="menu">
-                        {{#each databases}}
-                            <a class="item" href="/{{currentConnection._id}}/{{_id}}">{{name}}</a>
-                        {{/each}}
-                    </div>
-                </a>
-            {{/if}}
+        <div class="menu">
+          {{#each connections}}
+            <a class="item" href="/{{_id}}">{{name}}</a>
+          {{/each}}
         </div>
+      </a>
+      {{#if currentConnection}}
+        <a href="#" class="ui simple dropdown item">
+          <i class="database icon"></i>
+          {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}}
+          <i
+              class="dropdown icon"></i>
+
+          <div class="menu">
+            {{#each databases}}
+              <a class="item"
+                 href="/{{currentConnection._id}}/{{_id}}">{{name}}</a>
+            {{/each}}
+          </div>
+        </a>
+      {{/if}}
     </div>
+  </div>
 </template>

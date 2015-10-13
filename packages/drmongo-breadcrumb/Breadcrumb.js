@@ -6,9 +6,9 @@ Breadcrumb = class Breadcrumb {
   _setPath(path) {
     let defaultPath = _.filter(this._path.get(), v => !!v.default);
     path = defaultPath.concat(path);
-    _.each(path, v => v.last = false );
-    if(path.length) {
-      path[path.length -1]['last'] = true;
+    _.each(path, v => v.last = false);
+    if (path.length) {
+      path[path.length - 1]['last'] = true;
     }
     this._path.set(path);
   }

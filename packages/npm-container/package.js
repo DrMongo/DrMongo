@@ -18,7 +18,7 @@ try {
 
 // Adding the app's packages.json as a used file for this package will get
 // Meteor to watch it and reload this package when it changes
-Package.onUse(function(api) {
+Package.onUse(function (api) {
   api.addFiles('index.js', 'server');
   if (api.addAssets) {
     api.addAssets('../../packages.json', 'server');

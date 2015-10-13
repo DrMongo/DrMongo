@@ -1,4 +1,4 @@
-Template.TreeRow.onCreated(function() {
+Template.TreeRow.onCreated(function () {
 
   let value = this.data.value;
   let key = this.data.key;
@@ -8,20 +8,20 @@ Template.TreeRow.onCreated(function() {
     formattedValue: typeof value,
     hasChildren: false
   };
-  if(key == '_id') {
+  if (key == '_id') {
     info['formattedValue'] = value;
-  } else if(_.isString(value)) {
+  } else if (_.isString(value)) {
     info['formattedValue'] = value;
-  } else if(_.isNull(value)) {
+  } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
-  } else if(_.isBoolean(value)) {
+  } else if (_.isBoolean(value)) {
     info['formattedValue'] = value ? 'true' : 'false';
-  } else if(_.isDate(value)) {
+  } else if (_.isDate(value)) {
     info['formattedValue'] = value;
-  } else if(_.isArray(value)) {
+  } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' fields ]';
     info['hasChildren'] = true;
-  } else if(_.isObject(value)) {
+  } else if (_.isObject(value)) {
     info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
     info['hasChildren'] = true;
   }
@@ -42,7 +42,7 @@ Template.TreeRow.helpers({
 
   isType(assertType) {
     let type = typeof this.value;
-    if(this.key === '_id') type = 'string';
+    if (this.key === '_id') type = 'string';
     return type === assertType
   },
 
