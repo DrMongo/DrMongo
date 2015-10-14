@@ -4,11 +4,8 @@ class CollectionManager {
 	}
 
 	mountCollection(collectionId) {
-    log(collectionId);
     let collection = Collections.findOne(collectionId);
-    let database = Databases.findOne(collection.database_id);
-    let connection = Connections.findOne(database.connection_id);
-		if (!connection || !database || !collection) return false;
+		if (!collection) return false;
 
 		if (!this.collections[collectionId]) {
 			this.collections[collectionId] = new Mongo.Collection(collection.name);
@@ -21,8 +18,8 @@ class CollectionManager {
 	mountCollectionOnServer(collectionId) {
 		if (Meteor.isServer) {
       let collection = Collections.findOne(collectionId);
-      let database = Databases.findOne(collection.database_id);
-      let connection = Connections.findOne(database.connection_id);
+      let database = collection.database();
+      let connection = database.connection();
 			if (!connection || !database || !collection) return false;
 
 			if (!Mongo.Collection.get(collection.name)) {
