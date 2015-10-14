@@ -1,9 +1,7 @@
 Meteor.methods({
-  mountCollection(connectionId, databaseId, collectionId) {
+  mountCollection(connectionId) {
     check(connectionId, String);
-    check(databaseId, String);
-    check(collectionId, String);
-    cm.mountCollectionOnServer(connectionId, databaseId, collectionId);
+    cm.mountCollectionOnServer(connectionId);
   },
   getConnectionStructure(connectionId) {
     let connection = Connections.findOne(connectionId);

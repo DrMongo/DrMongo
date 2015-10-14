@@ -8,7 +8,7 @@ Template.Documents.onCreated(function () {
     if(FlowRouter.subsReady("connectionStructure")) {
       let collection = Collections.findOne(FlowRouter.getParam('collectionId'));
       Tracker.nonreactive(() => {
-        externalCollection = cm.mountCollection(FlowRouter.getParam('connectionId'), FlowRouter.getParam('databaseId'), FlowRouter.getParam('collectionId'));
+        externalCollection = cm.mountCollection(FlowRouter.getParam('connectionId'));
         this.subscribe('externalCollection', collection.name);
       });
     }
