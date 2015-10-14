@@ -13,6 +13,7 @@ Package.onUse(function (api) {
   ]);
 
   api.addFiles([
+    'faIconsList.js',
     'Icons.js'
   ], ['client', 'server']);
 

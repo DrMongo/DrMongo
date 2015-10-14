@@ -29,6 +29,7 @@ kadira:blaze-layout
 # collections
 tmeasday:publish-counts
 dburles:mongo-collection-instances
+dburles:collection-helpers
 
 # lib
 reactive-var
@@ -40,6 +41,7 @@ bojicas:inflections
 # design
 nemo64:bootstrap
 flemay:less-autoprefixer
+fortawesome:fontawesome
 
 # debug
 # meteortoys:allthings
@@ -50,4 +52,3 @@ npm-container
 drmongo:mongo-helpers
 drmongo:icons
 drmongo:breadcrumb
-fortawesome:fontawesome

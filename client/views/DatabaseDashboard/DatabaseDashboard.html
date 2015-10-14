@@ -5,7 +5,7 @@
         <div class="container-fluid dashboard">
             {{#each collections}}
                 <a class="btn btn-info col-md-1 icon-item" href="/{{currentConnection._id}}/{{../_id}}/{{_id}}" role="button">
-                    <i class="fa fa-database icon"></i><br>{{name}}
+                    <i class="{{icon}} icon"></i><br>{{name}}
                 </a>
             {{/each}}
         </div>
