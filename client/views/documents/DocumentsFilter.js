@@ -1,4 +1,6 @@
 let parseJson = (str) => {
+  // http://stackoverflow.com/questions/24175802/missing-quotation-marks-on-keys-in-json
+  str = str.replace(/(['"])?([a-zA-Z0-9_]+)(['"])?:([^\/])/g, '"$2":$4');
   try {
     return JSON.parse(str);
   } catch (e) {
