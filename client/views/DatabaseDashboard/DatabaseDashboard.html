@@ -1,14 +1,14 @@
 <template name="DatabaseDashboard">
-    {{#with database}}
-        <h1>{{name}}</h1>
+  {{#with database}}
+    <h1>{{name}}</h1>
 
-        <div class="container-fluid dashboard">
-            {{#each collections}}
-                <a class="btn btn-info col-md-1 icon-item" href="{{pathForCollection data=this}}" role="button">
-                    <i class="{{icon}} icon"></i><br>{{name}}
-                </a>
-            {{/each}}
-        </div>
-    {{/with}}
+    <div class="container-fluid dashboard">
+      {{#each collections}}
+        <a class="btn btn-info col-xs-3 col-sm-2 col-md-1 icon-item" href="{{pathForCollection data=this}}" role="button">
+          <i class="{{icon}} icon"></i><br>{{name}}
+        </a>
+      {{/each}}
+    </div>
+  {{/with}}
 
 </template>
