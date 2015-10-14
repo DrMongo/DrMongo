@@ -1,13 +1,12 @@
 <template name="Sidebar">
   {{#with database}}
-      <div class="list-group">
+    <div class="list-group">
       {{#each collections}}
-          <a href="/{{currentConnection._id}}/{{../_id}}/{{_id}}" class="list-group-item">
-              <span class="badge">0</span>
-              {{name}}
-          </a>
+        <a class="list-group-item" href="/{{currentConnection._id}}/{{../_id}}/{{_id}}">
+          {{name}}
+        </a>
       {{/each}}
-      </div>
+    </div>
   {{/with}}
 
 </template>
