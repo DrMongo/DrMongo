@@ -1,14 +1,14 @@
 <template name="DefaultLayout">
-    {{> Navigation}}
-    <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-2">
-                {{> Sidebar}}
-            </div>
-            <div class="col-md-9">
-                {{> Template.dynamic template=template}}
-            </div>
-        </div>
+  {{> Navigation}}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-2">
+        {{> Template.dynamic template=sidebar}}
+      </div>
+      <div class="col-md-9">
+        {{> Template.dynamic template=template}}
+      </div>
     </div>
+  </div>
 
 </template>
