@@ -50,3 +50,4 @@ npm-container
 drmongo:mongo-helpers
 drmongo:icons
 drmongo:breadcrumb
+fortawesome:fontawesome

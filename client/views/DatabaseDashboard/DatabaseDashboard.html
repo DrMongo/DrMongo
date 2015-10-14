@@ -1,18 +1,14 @@
 <template name="DatabaseDashboard">
-  {{#with database}}
-    <h1>{{name}}</h1>
+    {{#with database}}
+        <h1>{{name}}</h1>
 
-    <div class="ui grid dashboard">
-      {{#each collections}}
-        <div class="two wide column">
-          <div class="icon-item">
-            <a href="/{{currentConnection._id}}/{{../_id}}/{{_id}}">
-              <i class="database icon"></i> {{name}}
-            </a>
-          </div>
+        <div class="container-fluid dashboard">
+            {{#each collections}}
+                <a class="btn btn-info col-md-1 icon-item" href="/{{currentConnection._id}}/{{../_id}}/{{_id}}" role="button">
+                    <i class="fa fa-database icon"></i><br>{{name}}
+                </a>
+            {{/each}}
         </div>
-      {{/each}}
-    </div>
-  {{/with}}
+    {{/with}}
 
 </template>
