@@ -1,7 +1,7 @@
-Template.Menu.onCreated(function () {
+Template.Navigation.onCreated(function () {
 });
 
-Template.Menu.helpers({
+Template.Navigation.helpers({
   currentConnection() {
     return Connections.findOne(FlowRouter.getParam('connectionId'));
   },
@@ -16,7 +16,7 @@ Template.Menu.helpers({
   }
 });
 
-Template.Menu.events({
+Template.Navigation.events({
   'click #add-connection': function (e, t) {
     e.preventDefault();
     Connections.insert({
