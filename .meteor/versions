@@ -22,7 +22,6 @@ ddp-common@1.2.1
 ddp-server@1.2.1
 deps@1.0.9
 diff-sequence@1.0.1
-drmongo:breadcrumb@0.1.0
 drmongo:icons@0.1.0
 drmongo:mongo-helpers@0.1.0
 ecmascript@0.1.5

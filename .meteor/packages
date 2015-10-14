@@ -51,4 +51,3 @@ npm-container
 # Dr Mongo
 drmongo:mongo-helpers
 drmongo:icons
-drmongo:breadcrumb
