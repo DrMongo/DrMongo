@@ -6,24 +6,21 @@ Template.Documents.onCreated(function () {
   let externalCollection = null;
   this.autorun(() => {
     if(FlowRouter.subsReady("connectionStructure")) {
-      let collectionName = FlowRouter.getParam('collectionId');
-
+      let collection = Collections.findOne(FlowRouter.getParam('collectionId'));
       Tracker.nonreactive(() => {
-        let collection = Collections.findOne(collectionName);
-        externalCollection = cm.mountCollection(collection.name);
-        this.subscribe('externalCollection', collection);
+        externalCollection = cm.mountCollection(FlowRouter.getParam('connectionId'), FlowRouter.getParam('databaseId'), FlowRouter.getParam('collectionId'));
+        this.subscribe('externalCollection', collection.name);
       });
-
-
     }
   });
 
   this.result = () => {
-    let selection = this.filterSelection.get();
-    let options = this.filterOptions.get();
-    log('> after', selection, typeof selection);
-    log('> after', options, typeof options);
-    return externalCollection ? externalCollection.find(selection, options) : null;
+    let selector = this.filterSelection.get() || {};
+    let options = this.filterOptions.get() || {};
+    //log('> after', selector, typeof selector);
+    //log('> after', options, typeof options);
+    //log(externalCollection ? externalCollection.find(selector, options) : null)
+    return externalCollection ? externalCollection.find(selector, options) : null;
   }
 });
 
@@ -40,8 +37,11 @@ Template.Documents.helpers({
   },
 
   result() {
+    if (!Template.instance().subscriptionsReady()) return false;
     let instance = Template.instance();
-    log('> count', instance.result().count());
+    let cursor = instance.result()
+    if (!cursor) return false;
+    //log('> count', instance.result().count());
     return {result: instance.result()};
   }
 });

@@ -1,6 +1,6 @@
 Template.TreeRow.onCreated(function () {
 
-  log('> ROW data', this.data);
+  //log('> ROW data', this.data);
   let value = this.data.value;
   let key = this.data.key;
   let type = typeof this.value;

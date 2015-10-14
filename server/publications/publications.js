@@ -17,14 +17,12 @@ Meteor.publish('connectionStructure', () => {
 });
 
 Meteor.publish('documents', (collectionId) => {
-  console.log(collectionId)
   var collection = Collections.findOne(collectionId);
   if (collection) {
-    console.log(Mongo.Collection.get(collection.name).find({}).count())
     return Mongo.Collection.get(collection.name).find({});
   }
 });
 
 Meteor.publish('externalCollection', (collection) => {
-  return Mongo.Collection.get(collection.name).find();
+  return Mongo.Collection.get(collection).find();
 });
