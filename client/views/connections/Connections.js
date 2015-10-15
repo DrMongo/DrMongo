@@ -39,7 +39,7 @@ Template.Connections.events({
   },
   'click #refresh-connection': function (e, t) {
     e.preventDefault();
-    Meteor.call('getConnectionStructure', this._id, function (e, r) {
+    Meteor.call('updateConnectionStructure', this._id, function (e, r) {
       console.log(e, r)
     })
   },

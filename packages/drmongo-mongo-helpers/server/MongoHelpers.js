@@ -37,7 +37,6 @@ MongoHelpers = {
   },
 
   getCollections(connection, database) {
-    let Future = Meteor.npmRequire('fibers/future');
     let getConnectionWrapper = Meteor.wrapAsync(getConnection);
     let db = getConnectionWrapper({connection: connection, database: database});
 
@@ -56,6 +55,22 @@ MongoHelpers = {
       collectionNames.push(value.name)
     });
     return collectionNames;
+  },
+
+  createCollection(database, collectionName) {
+    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
+    let db = getConnectionWrapper({connection: database.connection(), database: database.name});
+
+    let createCollectionWrapper = Meteor.wrapAsync((cb) => {
+      db.createCollection(collectionName, (error, response) => {
+        cb(null, true);
+      });
+    });
+
+    let response = createCollectionWrapper();
+
+    log(response);
+    return response;
   }
 
 };

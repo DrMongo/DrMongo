@@ -4,7 +4,21 @@ Meteor.methods({
 
     cm.mountCollectionOnServer(collectionId);
   },
-  getConnectionStructure(connectionId) {
+
+  createCollection(databaseId, collectionName) {
+    let database = Databases.findOne(databaseId);
+    MongoHelpers.createCollection(database, collectionName);
+
+    // update DR cache
+    Collections.insert({
+      database_id: databaseId,
+      name: collectionName,
+      updatedAt: new Date,
+      keep: true
+    });
+  },
+
+  updateConnectionStructure(connectionId) {
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
