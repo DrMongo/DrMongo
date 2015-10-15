@@ -1,9 +1,6 @@
 .tree-view {
   .toggle-children {
     cursor: pointer;
-    &:hover {
-      background-color: #eee;
-    }
   }
 
   .parent {
@@ -20,7 +17,6 @@
     & > .children {
       height: 0;
       overflow: hidden;
-      margin-left: 10px;
     }
   }
 
@@ -37,11 +33,38 @@
     }
   }
 
-  // L A Y O U T
+  // L A Y O U T  +  D E S I G N
+  margin: 0;
+
   border: 1px solid #ccc;
   border-radius: 3px;
 
   .document {
     border-bottom: 1px solid #ccc;
+  }
+
+  .parent {
+    .children {
+      margin-left: 0;
+    }
+  }
+
+  .head {
+    &:hover {
+      background-color: #eee;
+    }
+  }
+
+  .value-null {
+    color: #aaa;
+    font-style: italic;
+  }
+
+  .value-boolean {
+    font-weight: bold;
+  }
+
+  .value-array, .value-object {
+    color: #aaa;
   }
 }

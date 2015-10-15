@@ -2,7 +2,7 @@
   <div class="col-xs-12 parent {{levelClass}}">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="col-xs-6 column">{{key}}</div>
-      <div class="col-xs-6 column">{{formattedValue}}</div>
+      <div class="col-xs-6 column {{valueClass}}">{{formattedValue}}</div>
     </div>
     {{#if hasChildren}}
       <div class="row children">
