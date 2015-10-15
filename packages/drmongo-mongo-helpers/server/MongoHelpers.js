@@ -1,30 +1,35 @@
+let getConnection = (data, cb) => {
+  const connection = data.connection;
+  const database = data.database || null;
+  const url = 'mongodb://' + connection.host + ':' + connection.port + (database ? '/' + database : '');
+
+  MongoInternals.NpmModules.mongodb.module(url, (error, db) => {
+    if(error) {
+      throw new Error(error.message);
+    } else {
+      cb(null, db);
+    }
+  });
+};
+
+
 MongoHelpers = {
 
   getDatabases(connection) {
-    let Future = Meteor.npmRequire('fibers/future');
-    let futureDb = new Future;
-
-    MongoInternals.NpmModules.mongodb.module('mongodb://' + connection.host + ':' + connection.port, Meteor.bindEnvironment((err, db) => {
-      futureDb.return(db);
-    }));
-
-    let futureDatabases = new Future;
-    let db = futureDb.wait();
-
+    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
+    let db = getConnectionWrapper({connection: connection});
 
     // Use the admin database for the operation
     var adminDb = db.admin();
-    console.log(adminDb);
-    // List all the available databases
-    adminDb.listDatabases(function (err, dbs) {
-      futureDatabases.return(dbs.databases);
-    });
 
-    let databases = futureDatabases.wait();
+    // Get all the available databases
+    let listDatabasesWrapper = Meteor.wrapAsync(adminDb.listDatabases);
+    let databases = listDatabasesWrapper();
 
     db.close();
+
     let databaseNames = [];
-    _.each(databases, (value) => {
+    _.each(databases.databases, (value) => {
       if (value.name == 'local' || value.name == 'admin') return false;
       databaseNames.push(value.name)
     });
@@ -33,20 +38,16 @@ MongoHelpers = {
 
   getCollections(connection, database) {
     let Future = Meteor.npmRequire('fibers/future');
-    let futureDb = new Future;
+    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
+    let db = getConnectionWrapper({connection: connection, database: database});
 
-    MongoInternals.NpmModules.mongodb.module('mongodb://' + connection.host + ':' + connection.port + '/' + database, Meteor.bindEnvironment((err, db) => {
-      futureDb.return(db);
-    }));
 
-    let futureCollections = new Future;
-    let db = futureDb.wait();
-
-    db.collectionNames(Meteor.bindEnvironment(function (err, collections) {
-      futureCollections.return(collections);
-    }));
-
-    let collections = futureCollections.wait();
+    let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
+      db.collectionNames((error, response) => {
+        cb(error, response);
+      })
+    });
+    let collections = collectionNamesWrapper();
 
     db.close();
     let collectionNames = [];
