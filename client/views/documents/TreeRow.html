@@ -1,8 +1,13 @@
 <template name="TreeRow">
   <div class="col-xs-12 parent {{levelClass}}">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
-      <div class="col-xs-6 column">{{key}}</div>
-      <div class="col-xs-6 column {{valueClass}}">{{formattedValue}}</div>
+      <div class="col-xs-4 cell key">{{key}}</div>
+      <div class="col-xs-6 cell value {{valueClass}}">{{formattedValue}}</div>
+      <div class="col-xs-2 cell actions">
+        {{#if isLevel 0}}
+          <div class="btn btn-default btn-xs edit-document">edit</div>
+        {{/if}}
+      </div>
     </div>
     {{#if hasChildren}}
       <div class="row children">

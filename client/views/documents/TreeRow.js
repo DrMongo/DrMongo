@@ -41,6 +41,10 @@ Template.TreeRow.onCreated(function () {
 
 
 Template.TreeRow.helpers({
+  isLevel(level) {
+    return this.level == level;
+  },
+
   formattedValue() {
     return Template.instance().info.formattedValue;
   },
