@@ -49,7 +49,6 @@ Template.Documents.events({
   },
   'click .duplicate-document'(e, i) {
     e.preventDefault();
-    e.stopImmediatePropagation();
 
     let documentId =  $(e.currentTarget).attr('data-id');
     let document = i.collection.findOne(documentId);
@@ -57,5 +56,11 @@ Template.Documents.events({
     delete document._id;
     let newId = i.collection.insert(document);
     log(newId)
+  },
+  'dblclick .delete-document'(e, i) {
+    e.preventDefault();
+
+    let documentId =  $(e.currentTarget).attr('data-id');
+    i.collection.remove(documentId);
   }
 });
