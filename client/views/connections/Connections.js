@@ -24,11 +24,15 @@ Template.Connections.helpers({
 Template.Connections.events({
   'click #add-connection': function (e, t) {
     e.preventDefault();
-    Connections.insert({
+    var newId = Connections.insert({
       name: 'New Connection',
       host: 'localhost',
       port: '27017'
     })
+    Session.set('EditConnectionModal', {
+      connectionId: newId
+    });
+    $('#EditConnectionModal').modal('show');
   },
   'click #edit-connection': function (e, t) {
     e.preventDefault();
