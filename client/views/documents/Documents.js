@@ -3,12 +3,12 @@ Template.Documents.onCreated(function () {
   this.filterSelection = new ReactiveVar(null);
   this.filterOptions = new ReactiveVar({limit: 2});
 
-  let externalCollection = null;
+  this.externalCollection = null;
   this.autorun(() => {
     if(FlowRouter.subsReady("connectionStructure")) {
       let collection = Collections.findOne(FlowRouter.getParam('collectionId'));
       Tracker.nonreactive(() => {
-        externalCollection = cm.mountCollection(FlowRouter.getParam('collectionId'));
+        this.externalCollection = cm.mountCollection(FlowRouter.getParam('collectionId'));
         this.subscribe('externalCollection', collection.name);
       });
     }
@@ -18,7 +18,7 @@ Template.Documents.onCreated(function () {
     let selector = this.filterSelection.get() || {};
     let options = this.filterOptions.get() || {};
 
-    return externalCollection ? externalCollection.find(selector, options) : null;
+    return this.externalCollection ? this.externalCollection.find(selector, options) : null;
   }
 });
 
