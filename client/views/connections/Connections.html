@@ -1,27 +1,32 @@
 <template name="Connections">
-    {{> EditConnectionModal}}
-    <div>
-        <h2 class="">Mongo Connections</h2>
+  {{> EditConnectionModal}}
+  <div>
+    <div class="">
+      <h2 class="">Mongo Connections</h2>
 
-        <div class="row">
-            {{#each connections}}
-                <div class="col-xs-4">
-                    <div class="connection-card">
-                        <i class="fa fa-bolt pull-right connection-icon"></i>
-
-                        <h3><a href="{{connectLink}}" class="mini ui green button">{{name}}</a></h3>
-                        <h4>{{host}}:{{port}}/{{database}}</h4>
-
-                        <div class="pull-right">
-                            <div class="btn btn-xs btn-default" id="edit-connection">Edit</div>
-                            <div class="btn btn-xs btn-default" id="refresh-connection">Refresh</div>
-                            <div class="btn btn-xs btn-danger" id="remove-connection">Remove</div>
-                        </div>
-                        <div class="clearfix"></div>
-                    </div>
-                </div>
-            {{/each}}
+      <div class="row">
+        {{#each connections}}
+          <div class="col-xs-4">
+            <div class="connection-card">
+              <i class="fa fa-bolt pull-right connection-icon"></i>
+              <div class="title"><a href="{{connectLink}}" class="mini ui green button">{{name}}</a></div>
+              <h4>{{host}}:{{port}}/{{database}}</h4>
+              <div>
+                <div class="btn btn-xs btn-default" id="edit-connection">Edit</div>
+                <div class="btn btn-xs btn-default" id="refresh-connection">Refresh</div>
+                <div class="btn btn-xs btn-danger" id="remove-connection">Remove</div>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+        <div class="col-xs-4">
+          <div class="">
+            <div class="" id="add-connection">Add new connection
+            </div>
+          </div>
         </div>
-        <button type="button" class="btn btn-primary btn-lg" id="add-connection">Add new connection</button>
+      </div>
+
     </div>
+  </div>
 </template>

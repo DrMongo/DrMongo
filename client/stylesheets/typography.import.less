@@ -1,0 +1,44 @@
+@import url(http://fonts.googleapis.com/css?family=Oxygen:700,400,300);
+
+.font-family() {
+  font-family: 'Oxygen', sans-serif!important;
+}
+
+
+html, body {
+  .font-family;
+  font-size: 16px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  .font-family;
+  font-weight: 400;
+  margin-bottom: .2em;
+}
+
+h1, .h1 {font-size: 2.1rem;}
+h2, .h2 {font-size: 1.9rem;}
+h3, .h3 {font-size: 1.45rem;}
+h4, .h4 {font-size: 1.2rem;}
+h5, .h5 {font-size: 1rem;}
+h6, .h6 {font-size: .875rem;}
+
+h1, h2, h3, h4, h5, h6 {
+  &.thin { margin: 0; }
+}
+.h1, .h2, .h3, .h4, .h5, .h6 {
+  margin: 0;
+}
+
+.h1, .h2, .h3, .h4, .h5, .h6, h1, h2, h3, h4, h5, h6 {
+  line-height: 1.1;
+}
+
+
+@media (max-width: @screen-sm-max) {
+  html, body { font-size: 15px; }
+}
+
+@media (max-width: @screen-xs-max) {
+  html, body { font-size: 14px; }
+}
