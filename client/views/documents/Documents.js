@@ -17,9 +17,7 @@ Template.Documents.onCreated(function () {
   this.result = () => {
     let selector = this.filterSelection.get() || {};
     let options = this.filterOptions.get() || {};
-    //log('> after', selector, typeof selector);
-    //log('> after', options, typeof options);
-    //log(externalCollection ? externalCollection.find(selector, options) : null)
+
     return externalCollection ? externalCollection.find(selector, options) : null;
   }
 });
@@ -39,9 +37,9 @@ Template.Documents.helpers({
   result() {
     if (!Template.instance().subscriptionsReady()) return false;
     let instance = Template.instance();
-    let cursor = instance.result()
+    let cursor = instance.result();
     if (!cursor) return false;
-    //log('> count', instance.result().count());
+
     return {result: instance.result()};
   }
 });
