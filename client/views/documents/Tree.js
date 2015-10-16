@@ -1,4 +1,4 @@
-Template.TreeView.onCreated(function () {
+Template.Tree.onCreated(function () {
   this.autorun(() => {
     let data = this.data;
     //log('data', data);
@@ -6,6 +6,6 @@ Template.TreeView.onCreated(function () {
 });
 
 
-Template.TreeView.helpers({
+Template.Tree.helpers({
 
 });

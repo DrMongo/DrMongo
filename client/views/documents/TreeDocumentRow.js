@@ -1,4 +1,4 @@
-Template.TreeRow.onCreated(function () {
+Template.TreeDocumentRow.onCreated(function () {
 
   //log('> ROW data', this.data);
   let value = this.data.value;
@@ -40,7 +40,7 @@ Template.TreeRow.onCreated(function () {
 });
 
 
-Template.TreeRow.helpers({
+Template.TreeDocumentRow.helpers({
   isLevel(level) {
     return this.level == level;
   },

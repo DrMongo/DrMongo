@@ -1,18 +1,19 @@
-<template name="TreeRow">
+<template name="TreeDocumentRow">
   <div class="col-xs-12 parent {{levelClass}}">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="col-xs-4 cell key">{{key}}</div>
       <div class="col-xs-6 cell value {{valueClass}}">{{formattedValue}}</div>
       <div class="col-xs-2 cell actions">
         {{#if isLevel 0}}
-          <div class="btn btn-default btn-xs edit-document">edit</div>
+          <div class="btn btn-default btn-xs edit-document">Edit</div>
+          <div class="btn btn-default btn-xs duplicate-document">Duplicate</div>
         {{/if}}
       </div>
     </div>
     {{#if hasChildren}}
       <div class="row children">
         {{#each fields}}
-          {{> TreeRow key=key value=value level=nextLevel}}
+          {{> TreeDocumentRow key=key value=value level=nextLevel}}
         {{/each}}
       </div>
     {{/if}}
