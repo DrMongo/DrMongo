@@ -32,6 +32,8 @@ Template.DocumentEditorModal.helpers({
       editor.getSession().setMode('ace/mode/json')
       editor.setShowPrintMargin(false)
       editor.getSession().setUseWrapMode(true)
+      editor.gotoLine(1, 1)
+      editor.focus()
     }
   }
 });
