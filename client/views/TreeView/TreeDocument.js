@@ -21,10 +21,14 @@ Template.TreeDocument.events({
     event.stopImmediatePropagation();
     Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id)
   },
+  'click .delete-document'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+  },
   'dblclick .delete-document'(event, templateInstance) {
     event.preventDefault();
+    event.stopImmediatePropagation();
 
-    let documentId =  $(e.currentTarget).attr('data-id');
-    i.collection.remove(documentId);
+    Meteor.call('removeDocument', getRouteParameters().collection._id, this.value._id)
   }
 });
