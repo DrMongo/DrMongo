@@ -4,7 +4,6 @@ class CollectionManager {
   }
 
   mountCollection(collection) {
-		log(collection);
     if (!this.collections[collection._id]) {
       this.collections[collection._id] = new Mongo.Collection(collection.name);
       Meteor.call('mountCollection', collection._id);

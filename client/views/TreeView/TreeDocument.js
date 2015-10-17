@@ -19,7 +19,7 @@ Template.TreeDocument.events({
   },
   'click .duplicate-document'(e, i) {
     e.preventDefault();
-    log(this)
+    log(this); return false;
     Meteor.call('duplicateDocument', FlowRouter.getParam(collectionId, this._id))
   },
   'dblclick .delete-document'(e, i) {
