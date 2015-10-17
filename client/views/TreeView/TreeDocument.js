@@ -8,22 +8,21 @@ Template.TreeDocument.helpers({
   }
 });
 
-
 Template.TreeDocument.events({
-  'click .toggle-children'(e, i) {
-    e.preventDefault();
+  'click .toggle-children'(event, templateInstance) {
+    event.preventDefault();
     $(e.currentTarget).parent('.parent').toggleClass('collapsed');
   },
-  'click .edit-document'(e, i) {
-    e.preventDefault();
+  'click .edit-document'(event, templateInstance) {
+    event.preventDefault();
   },
-  'click .duplicate-document'(e, i) {
-    e.preventDefault();
-    log(this); return false;
-    Meteor.call('duplicateDocument', FlowRouter.getParam(collectionId, this._id))
+  'click .duplicate-document'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id)
   },
-  'dblclick .delete-document'(e, i) {
-    e.preventDefault();
+  'dblclick .delete-document'(event, templateInstance) {
+    event.preventDefault();
 
     let documentId =  $(e.currentTarget).attr('data-id');
     i.collection.remove(documentId);

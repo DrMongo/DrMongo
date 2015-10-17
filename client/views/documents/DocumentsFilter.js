@@ -10,13 +10,13 @@ let parseJson = (str) => {
 };
 
 Template.DocumentsFilter.onCreated(function() {
-  this.invalidSelection = new ReactiveVar(null);
+  this.invalidSelector = new ReactiveVar(null);
   this.invalidOptions = new ReactiveVar(null);
 });
 
 Template.DocumentsFilter.helpers({
-  invalidSelection() {
-    return Template.instance().invalidSelection.get();
+  invalidSelector() {
+    return Template.instance().invalidSelector.get();
   },
 
   invalidOptions() {
@@ -26,33 +26,33 @@ Template.DocumentsFilter.helpers({
 
 
 Template.DocumentsFilter.events({
-  'submit form.document-filter'(e, i) {
-    e.preventDefault();
-    const selection = e.currentTarget.selection.value;
-    const options = e.currentTarget.options.value;
+  'submit form.document-filter'(event, templateInstance) {
+    event.preventDefault();
+    const selector = event.currentTarget.selector.value;
+    const options = event.currentTarget.options.value;
 
-    let selectionJson = {};
-    if(!!selection) {
-      selectionJson = parseJson(selection);
-      if(!selectionJson) {
-        i.invalidSelection.set('Invalid json format');
+    let selectorJson = {};
+    if(!!selector) {
+      selectorJson = parseJson(selector);
+      if(!selectorJson) {
+        templateInstance.invalidSelector.set('Invalid JSON format');
         return false;
       }
     } else {
-      i.invalidSelection.set(false);
+      templateInstance.invalidSelector.set(false);
     }
 
     let optionsJson = {};
     if(!!options) {
       optionsJson = parseJson(options);
       if(!optionsJson) {
-        i.invalidOptions.set('Invalid json format');
+        templateInstance.invalidOptions.set('Invalid json format');
         return false;
       }
     } else {
-      i.invalidOptions.set(false);
+      templateInstance.invalidOptions.set(false);
     }
 
-    i.data.onSubmit(selectionJson, optionsJson);
+    templateInstance.data.onSubmit(selectorJson, optionsJson);
   }
 });

@@ -24,10 +24,6 @@ Meteor.publish('documents', (collectionId) => {
 });
 
 Meteor.publish('externalCollection', (collectionName) => {
-	log(collectionName)
 	let c = Mongo.Collection.get(collectionName);
-	if (c) {
-		log(c.find().fetch())
-	}
 	return c ? c.find({}) : false;
 });

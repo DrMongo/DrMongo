@@ -19,8 +19,8 @@ Template.Connections.helpers({
 });
 
 Template.Connections.events({
-  'click #add-connection': function (e, t) {
-    e.preventDefault();
+  'click #add-connection': function (event, templateInstance) {
+    event.preventDefault();
     var newId = Connections.insert({
       name: 'New Connection',
       host: 'localhost',
@@ -31,21 +31,21 @@ Template.Connections.events({
     });
     $('#EditConnectionModal').modal('show');
   },
-  'click #edit-connection': function (e, t) {
-    e.preventDefault();
+  'click #edit-connection': function (event, templateInstance) {
+    event.preventDefault();
     Session.set('EditConnectionModal', {
       connectionId: this._id
     });
     $('#EditConnectionModal').modal('show');
   },
-  'click #refresh-connection': function (e, t) {
-    e.preventDefault();
-    Meteor.call('updateConnectionStructure', this._id, function (e, r) {
-      console.log(e, r)
+  'click #refresh-connection': function (event, templateInstance) {
+    event.preventDefault();
+    Meteor.call('updateConnectionStructure', this._id, function (error, result) {
+      console.log(error, result)
     })
   },
-  'click #remove-connection': function (e, t) {
-    e.preventDefault();
+  'click #remove-connection': function (event, templateInstance) {
+    event.preventDefault();
     Connections.remove(this._id)
   }
 });

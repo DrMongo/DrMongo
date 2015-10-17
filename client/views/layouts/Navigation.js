@@ -18,8 +18,8 @@ Template.Navigation.helpers({
 });
 
 Template.Navigation.events({
-  'click #add-connection': function (e, t) {
-    e.preventDefault();
+  'click #add-connection': function (event, templateInstance) {
+    event.preventDefault();
     Connections.insert({
       name: 'New Connection',
       host: 'localhost',

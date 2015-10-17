@@ -1,14 +1,14 @@
 Template.Documents.onCreated(function () {
   var parameters = validateRouteUrl();
   this.routeParameters = new ReactiveVar(parameters);
-  this.filterSelection = new ReactiveVar({});
+  this.filterSelector = new ReactiveVar({});
   this.filterOptions = new ReactiveVar({});
 
   this.externalCollection = cm.mountCollection(parameters.collection);
   this.subscribe('externalCollection', parameters.collection.name);
 
   this.cursor = () => {
-    let selector = this.filterSelection.get() || {};
+    let selector = this.filterSelector.get() || {};
     let options = this.filterOptions.get() || {};
 
     return this.externalCollection ? this.externalCollection.find(selector, options) : null;
@@ -20,7 +20,7 @@ Template.Documents.helpers({
     let instance = Template.instance();
     return {
       onSubmit: (selection, options) => {
-        instance.filterSelection.set(selection);
+        instance.filterSelector.set(selection);
         instance.filterOptions.set(options);
       }
     }
