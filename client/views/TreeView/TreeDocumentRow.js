@@ -63,14 +63,24 @@ Template.TreeDocumentRow.helpers({
     return type === assertType
   },
 
-  fields() {
+  children() {
     let fields = [];
+    let id = null;
     _.each(this.value, (value, key) => {
+      if(key == '_id') {
+        id = value;
+        return;
+      }
+
       fields.push({
         key: key,
         value: value
       })
     });
+
+    fields = _.sortBy(fields, 'key');
+    if(id) fields.unshift({key: '_id', value: id});
+
     return fields;
   },
 

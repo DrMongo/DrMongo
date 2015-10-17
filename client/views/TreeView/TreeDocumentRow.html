@@ -13,7 +13,7 @@
     </div>
     {{#if hasChildren}}
       <div class="row children">
-        {{#each fields}}
+        {{#each children}}
           {{> TreeDocumentRow key=key value=value level=nextLevel}}
         {{/each}}
       </div>
