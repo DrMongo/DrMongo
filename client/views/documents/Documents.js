@@ -11,7 +11,7 @@ Template.Documents.onCreated(function () {
       let collection = parameters.collection;
       Tracker.nonreactive(() => {
         this.collection = cm.mountCollection(collection._id);
-        this.subscribe('externalCollection', collection._id);
+        this.subscribe('externalCollection', collection.name);
       });
     }
   });

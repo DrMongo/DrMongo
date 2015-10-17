@@ -23,9 +23,9 @@ Meteor.publish('documents', (collectionId) => {
 	}
 });
 
-Meteor.publish('externalCollection', (collectionId) => {
-	log(collectionId)
-	let c = Mongo.Collection.get(collectionId);
+Meteor.publish('externalCollection', (collectionName) => {
+	log(collectionName)
+	let c = Mongo.Collection.get(collectionName);
 	if (c) {
 		log(c.find().fetch())
 	}

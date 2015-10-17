@@ -19,9 +19,9 @@ class CollectionManager {
 			let connection = database.connection();
 			if (!connection || !database || !collection) return false;
 
-			if (!Mongo.Collection.get(collectionId)) {
+			if (!Mongo.Collection.get(collection.name)) {
 				let driver = new MongoInternals.RemoteCollectionDriver('mongodb://' + connection.host + ':' + connection.port +'/' + database.name);
-				new Mongo.Collection(collectionId, {_driver: driver});
+				new Mongo.Collection(collection.name, {_driver: driver});
 			}
 		}
 	}
