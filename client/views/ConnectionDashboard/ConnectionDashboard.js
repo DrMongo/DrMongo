@@ -1,11 +1,13 @@
 Template.ConnectionDashboard.onCreated(function () {
+  this.connection = new ReactiveVar(Connections.findOne({slug: FlowRouter.getParam('connection')}));
 });
 
 Template.ConnectionDashboard.helpers({
   connection() {
-    return Connections.findOne(FlowRouter.getParam('connectionId'));
+    return Template.instance().connection.get();
   },
   databases() {
-    return Databases.find({connection_id: FlowRouter.getParam('connectionId')}, {sort: {name: 1}});
+    let connection = Template.instance().connection.get();
+    return connection.databases();
   }
 });

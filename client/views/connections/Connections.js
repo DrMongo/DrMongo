@@ -8,15 +8,12 @@ Template.Connections.helpers({
   connectLink() {
     let database = null;
     if (this.database) {
-      database = Databases.findOne({
-        connection_id: this._id,
-        name: this.database
-      })
+      database = this.defaultDatabase();
     }
     if (database) {
-      return '/' + this._id + '/' + database._id;
+      return '/' + this.slug + '/' + database.name;
     } else {
-      return '/' + this._id;
+      return '/' + this.slug;
     }
   }
 });

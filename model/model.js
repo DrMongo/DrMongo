@@ -3,20 +3,18 @@ class CollectionManager {
 		this.collections = {}
 	}
 
-	mountCollection(collectionId) {
-    let collection = Collections.findOne(collectionId);
-		if (!collection) return false;
-
-		if (!this.collections[collectionId]) {
-			this.collections[collectionId] = new Mongo.Collection(collection.name);
-			Meteor.call('mountCollection', collectionId);
+	mountCollection(collection) {
+		if (!this.collections[collection._id]) {
+			this.collections[collection._id] = new Mongo.Collection(collection.name);
+			Meteor.call('mountCollection', collection._id);
 		}
 
-		return this.collections[collectionId];
+		return this.collections[collection._id];
 	}
 
 	mountCollectionOnServer(collectionId) {
 		if (Meteor.isServer) {
+			log(collectionId);
       let collection = Collections.findOne(collectionId);
       let database = collection.database();
       let connection = database.connection();

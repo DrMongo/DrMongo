@@ -30,6 +30,7 @@ kadira:blaze-layout
 tmeasday:publish-counts
 dburles:mongo-collection-instances
 dburles:collection-helpers
+todda00:friendly-slugs
 
 # lib
 reactive-var

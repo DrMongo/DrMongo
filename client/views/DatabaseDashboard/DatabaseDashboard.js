@@ -1,15 +1,16 @@
 Template.DatabaseDashboard.onCreated(function () {
+  this.routeParameters = new ReactiveVar(validateRouteUrl());
 });
 
 Template.DatabaseDashboard.helpers({
   currentConnection() {
-    return Connections.findOne(FlowRouter.getParam('connectionId'));
+    return Template.instance().routeParameters.get().connection;
   },
   database() {
-    return Databases.findOne(FlowRouter.getParam('databaseId'));
+    return Template.instance().routeParameters.get().database;
   },
   collections() {
-    return Collections.find({database_id: FlowRouter.getParam('databaseId')}, {sort: {name: 1}});
+    return Template.instance().routeParameters.get().database.collections();
   }
 });
 
@@ -20,7 +21,7 @@ Template.DatabaseDashboard.events({
     let name = prompt("Collection name:");
 
     if(name != null) {
-      Meteor.call('createCollection', FlowRouter.getParam('databaseId'), name);
+      Meteor.call('createCollection', instance.routeParameters.get().database._id, name);
     }
 
   }

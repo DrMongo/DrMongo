@@ -1,12 +1,13 @@
 Template.Navigation.onCreated(function () {
+  this.routeParameters = new ReactiveVar(getRouteParameters());
 });
 
 Template.Navigation.helpers({
   currentConnection() {
-    return Connections.findOne(FlowRouter.getParam('connectionId'));
+    return Template.instance().routeParameters.get().connection;
   },
   currentDatabase() {
-    return Databases.findOne(FlowRouter.getParam('databaseId'));
+    return Template.instance().routeParameters.get().database;
   },
   connections() {
     return Connections.find({}, {sort: {name: 1}});

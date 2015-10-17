@@ -45,6 +45,7 @@ lai:collection-extensions@0.1.4
 launch-screen@1.0.4
 livedata@1.0.15
 logging@1.0.8
+matb33:collection-hooks@0.7.15
 meteor@1.1.9
 meteor-base@1.0.1
 meteorhacks:async@1.0.0
@@ -76,6 +77,7 @@ standard-minifiers@1.0.1
 templating@1.1.4
 templating-tools@1.0.0
 tmeasday:publish-counts@0.7.2
+todda00:friendly-slugs@0.3.4
 tracker@1.0.9
 ui@1.0.8
 underscore@1.0.4

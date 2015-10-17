@@ -6,7 +6,7 @@
       {{#each databases}}
         <div class="two wide column">
           <div class="icon-item">
-            <a href="/{{../_id}}/{{_id}}">
+            <a href="{{pathForDatabaseDashboard data=this}}">
               <i class="database icon"></i> {{name}}
             </a>
           </div>

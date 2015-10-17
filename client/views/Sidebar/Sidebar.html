@@ -1,7 +1,7 @@
 <template name="Sidebar">
   <div class="list-group">
     {{#each collections}}
-      <a class="list-group-item" href="{{pathForCollection data=this}}">
+      <a class="list-group-item" href="{{pathForDocuments data=this}}">
         <i class="{{icon}}"></i> {{name}}
       </a>
     {{/each}}

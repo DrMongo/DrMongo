@@ -1,14 +1,16 @@
 Template.Documents.onCreated(function () {
-
+  var parameters = validateRouteUrl();
+  this.routeParameters = new ReactiveVar(parameters);
   this.filterSelection = new ReactiveVar(null);
   this.filterOptions = new ReactiveVar({});
 
   this.collection = null;
   this.autorun(() => {
     if(FlowRouter.subsReady("connectionStructure")) {
-      let collection = Collections.findOne(FlowRouter.getParam('collectionId'));
+      log('> parameters', parameters);
+      let collection = parameters.collection;
       Tracker.nonreactive(() => {
-        this.collection = cm.mountCollection(FlowRouter.getParam('collectionId'));
+        this.collection = cm.mountCollection(collection);
         this.subscribe('externalCollection', collection.name);
       });
     }
