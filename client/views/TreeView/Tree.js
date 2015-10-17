@@ -1,7 +1,6 @@
 Template.Tree.onCreated(function () {
   this.autorun(() => {
-    let data = this.data;
-    //log('data', data);
+    log('data', this.data);
   })
 });
 

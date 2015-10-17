@@ -7,16 +7,16 @@ Template.Documents.onCreated(function () {
   this.collection = null;
   this.autorun(() => {
     if(FlowRouter.subsReady("connectionStructure")) {
-      log('> parameters', parameters);
+      //log('> parameters', parameters);
       let collection = parameters.collection;
       Tracker.nonreactive(() => {
-        this.collection = cm.mountCollection(collection);
-        this.subscribe('externalCollection', collection.name);
+        this.collection = cm.mountCollection(collection._id);
+        this.subscribe('externalCollection', collection._id);
       });
     }
   });
 
-  this.result = () => {
+  this.cursor = () => {
     let selector = this.filterSelection.get() || {};
     let options = this.filterOptions.get() || {};
 
@@ -35,34 +35,11 @@ Template.Documents.helpers({
     }
   },
 
-  result() {
+  viewParams() {
     if (!Template.instance().subscriptionsReady()) return false;
-    let instance = Template.instance();
-    let cursor = instance.result();
-    if (!cursor) return false;
-
-    return {result: instance.result()};
+    return {documents: Template.instance().cursor() || false};
   }
 });
 
 Template.Documents.events({
-  'click .edit-document'(e, i) {
-    e.preventDefault();
-  },
-  'click .duplicate-document'(e, i) {
-    e.preventDefault();
-
-    let documentId =  $(e.currentTarget).attr('data-id');
-    let document = i.collection.findOne(documentId);
-    if (!document) return false;
-    delete document._id;
-    let newId = i.collection.insert(document);
-    log(newId)
-  },
-  'dblclick .delete-document'(e, i) {
-    e.preventDefault();
-
-    let documentId =  $(e.currentTarget).attr('data-id');
-    i.collection.remove(documentId);
-  }
 });

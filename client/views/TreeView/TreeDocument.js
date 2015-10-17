@@ -14,4 +14,18 @@ Template.TreeDocument.events({
     e.preventDefault();
     $(e.currentTarget).parent('.parent').toggleClass('collapsed');
   },
+  'click .edit-document'(e, i) {
+    e.preventDefault();
+  },
+  'click .duplicate-document'(e, i) {
+    e.preventDefault();
+    log(this)
+    Meteor.call('duplicateDocument', FlowRouter.getParam(collectionId, this._id))
+  },
+  'dblclick .delete-document'(e, i) {
+    e.preventDefault();
+
+    let documentId =  $(e.currentTarget).attr('data-id');
+    i.collection.remove(documentId);
+  }
 });

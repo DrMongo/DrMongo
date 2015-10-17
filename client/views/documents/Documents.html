@@ -1,6 +1,6 @@
 <template name="Documents">
   {{#if Template.subscriptionsReady}}
     {{> DocumentsFilter filterData}}
-    {{> Template.dynamic template='Tree' data=result}}
+    {{> Template.dynamic template='Tree' data=viewParams}}
   {{/if}}
 </template>
