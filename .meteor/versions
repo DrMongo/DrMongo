@@ -32,6 +32,7 @@ fastclick@1.0.7
 flemay:less-autoprefixer@1.1.0
 fortawesome:fontawesome@4.4.0
 geojson-utils@1.0.4
+handlebars@1.0.4
 hot-code-push@1.0.0
 html-tools@1.0.5
 htmljs@1.0.5
@@ -52,10 +53,13 @@ meteorhacks:async@1.0.0
 meteorhacks:npm@1.5.0
 minifiers@1.1.7
 minimongo@1.0.10
+mizzao:sharejs@0.7.5
+mizzao:sharejs-ace@1.2.0
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
 mongo@1.1.2
 mongo-id@1.0.1
+mongo-livedata@1.0.9
 nemo64:bootstrap@3.3.5_2
 nemo64:bootstrap-data@3.3.5
 npm-container@1.2.0

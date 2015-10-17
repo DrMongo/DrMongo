@@ -15,6 +15,16 @@ Template.TreeDocument.events({
   },
   'click .edit-document'(event, templateInstance) {
     event.preventDefault();
+    event.stopImmediatePropagation();
+
+    Session.set('DocumentEditorModal', {
+      connectionId: getRouteParameters().connection._id,
+      databaseId: getRouteParameters().database._id,
+      collectionId: getRouteParameters().collection._id,
+      documentId: this.value._id,
+      document: this.value
+    });
+    $('#DocumentEditorModal').modal('show');
   },
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
