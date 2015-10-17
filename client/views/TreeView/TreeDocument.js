@@ -11,7 +11,7 @@ Template.TreeDocument.helpers({
 Template.TreeDocument.events({
   'click .toggle-children'(event, templateInstance) {
     event.preventDefault();
-    $(e.currentTarget).parent('.parent').toggleClass('collapsed');
+    $(event.currentTarget).parent('.parent').toggleClass('collapsed');
   },
   'click .edit-document'(event, templateInstance) {
     event.preventDefault();

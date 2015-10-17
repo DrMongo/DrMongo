@@ -1,0 +1,34 @@
+.flash-message {
+    position: fixed;
+    top: 0;
+    left: 50%;
+    width: 500px;
+    margin-left: -250px;
+    z-index: 999999;
+    background: #F35405;
+    border-radius: 0 0 10px 10px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+.flash-message .flash-text {
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    padding: 5px 10px;
+}
+.flash-message .flash-text a {
+    font-weight: bold;
+    color: #fff;
+}
+.flash-message .flash-buttons {
+    float: right;
+    width: 100px;
+    text-align: center;
+    border-left: 1px dashed #CBD2A0;
+}
+.flash-message .flash-buttons .btn {
+    padding: 8px 0;
+    color: rgba(255, 255, 255, 0.8);
+}
+.flash-message .flash-buttons .btn:hover {
+    color: #fff;
+}

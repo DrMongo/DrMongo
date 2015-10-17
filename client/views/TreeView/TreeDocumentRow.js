@@ -45,6 +45,14 @@ Template.TreeDocumentRow.helpers({
     return this.level == level;
   },
 
+  jsonValue() {
+    if (this.key != '_id' && (_.isArray(this.value) || _.isObject(this.value))) {
+      return JSON.stringify(this.value);
+    } else {
+      return this.value;
+    }
+  },
+
   formattedValue() {
     return Template.instance().info.formattedValue;
   },
@@ -91,4 +99,12 @@ Template.TreeDocumentRow.helpers({
   levelClass() {
     return this.level > 0 ? '' : 'document'
   }
+});
+
+Template.TreeDocumentRow.events({
+  //'click'(event, templateInstance) {
+  //  if ($(event.currentTarget).is('.copy-value') || $(event.currentTarget).is('.fa-clipboard')) {
+  //    event.stopImmediatePropagation();
+  //  }
+  //}
 });
