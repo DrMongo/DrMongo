@@ -1,6 +1,7 @@
 <template name="Documents">
   {{#if Template.subscriptionsReady}}
     {{> DocumentsFilter filterData}}
+    <a href="{{pathForCommands data=collection}}">advanced commands</a>
     {{> Template.dynamic template='Tree' data=viewParams}}
   {{/if}}
 </template>
