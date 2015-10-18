@@ -1,11 +1,17 @@
 Template.Documents.onCreated(function () {
+  this.routeParameters = new ReactiveVar(null);
   var parameters = validateRouteUrl();
-  this.routeParameters = new ReactiveVar(parameters);
   this.filterSelector = new ReactiveVar({});
   this.filterOptions = new ReactiveVar({});
 
-  this.externalCollection = cm.mountCollection(parameters.collection);
-  this.subscribe('externalCollection', parameters.collection.name);
+  this.autorun(() => {
+    var parameters = validateRouteUrl();
+    const collectionName = FlowRouter.getParam('collection') || null;
+    this.routeParameters.set(parameters);
+
+    this.externalCollection = cm.mountCollection(parameters.collection);
+    this.subscribe('externalCollection', parameters.collection.name);
+  });
 
   this.cursor = () => {
     let selector = this.filterSelector.get() || {};
