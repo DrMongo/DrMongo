@@ -25,5 +25,5 @@ Meteor.publish('documents', (collectionId) => {
 
 Meteor.publish('externalCollection', (collectionName) => {
 	let c = Mongo.Collection.get(collectionName);
-	return c ? c.find({}) : false;
+	return c ? c.find({}, {limit: 10}) : false;
 });
