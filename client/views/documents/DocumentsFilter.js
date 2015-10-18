@@ -26,7 +26,7 @@ Template.DocumentsFilter.helpers({
 
 
 Template.DocumentsFilter.events({
-  'submit form.document-filter'(event, templateInstance) {
+  'submit form.documents-filter'(event, templateInstance) {
     event.preventDefault();
     const selector = event.currentTarget.selector.value;
     const options = event.currentTarget.options.value;
@@ -38,9 +38,8 @@ Template.DocumentsFilter.events({
         templateInstance.invalidSelector.set('Invalid JSON format');
         return false;
       }
-    } else {
-      templateInstance.invalidSelector.set(false);
     }
+    templateInstance.invalidSelector.set(false);
 
     let optionsJson = {};
     if(!!options) {
@@ -49,9 +48,8 @@ Template.DocumentsFilter.events({
         templateInstance.invalidOptions.set('Invalid json format');
         return false;
       }
-    } else {
-      templateInstance.invalidOptions.set(false);
     }
+    templateInstance.invalidOptions.set(false);
 
     templateInstance.data.onSubmit(selectorJson, optionsJson);
   }

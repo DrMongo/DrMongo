@@ -28,7 +28,8 @@ Template.Documents.helpers({
       onSubmit: (selection, options) => {
         instance.filterSelector.set(selection);
         instance.filterOptions.set(options);
-      }
+      },
+      collection: instance.routeParameters.get().collection
     }
   },
 

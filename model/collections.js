@@ -7,5 +7,9 @@ Collections.helpers({
 
   database() {
     return Databases.findOne(this.database_id);
+  },
+
+  className() {
+    return s(this.name).classify().value();
   }
 });

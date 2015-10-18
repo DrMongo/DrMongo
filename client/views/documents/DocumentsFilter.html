@@ -1,19 +1,22 @@
 <template name="DocumentsFilter">
   <div>
-    <form class="document-filter">
+    <form class="documents-filter">
       <div class="row">
-        <div class="col-xs-6">
-          <div class="form-group">
-            <div class="pull-right text-danger">{{invalidSelection}}</div>
-            <label for="selection">Selector</label>
-            <input type="text" class="form-control" id="selection" value="{}">
+        <div class="col-xs-6 p-r-0">
+          <div class="form-group {{#if invalidSelector}}has-error{{/if}}">
+            <div class="input-group">
+              <div class="input-group-addon">{{collection.className}}.find(</div>
+              <input type="text" class="form-control" id="selector" value="{}" autocomplete="off">
+            </div>
           </div>
         </div>
-        <div class="col-xs-6">
-          <div class="form-group">
-            <div class="pull-right text-danger">{{invalidOptions}}</div>
-            <label for="selection">Options</label>
-            <input type="text" class="form-control" id="options" value="{}">
+        <div class="col-xs-6 p-l-0">
+          <div class="form-group {{#if invalidOptions}}has-error{{/if}}">
+            <div class="input-group">
+              <div class="input-group-addon">,</div>
+              <input type="text" class="form-control" id="options" value="{}" autocomplete="off">
+              <div class="input-group-addon">);</div>
+            </div>
           </div>
         </div>
       </div>

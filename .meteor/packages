@@ -37,6 +37,8 @@ reactive-var
 meteorhacks:npm
 percolate:synced-cron
 bojicas:inflections
+underscore
+underscorestring:underscore.string
 
 
 # design
