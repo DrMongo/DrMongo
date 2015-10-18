@@ -28,7 +28,7 @@ Template.DocumentEditorModal.helpers({
     return function (editor) {
       // Set some reasonable options on the editor
       editor.setValue(jsonData)
-      editor.setTheme('ace/theme/monokai')
+      editor.setTheme('ace/theme/chrome')
       editor.getSession().setMode('ace/mode/json')
       editor.setShowPrintMargin(false)
       editor.getSession().setUseWrapMode(true)
