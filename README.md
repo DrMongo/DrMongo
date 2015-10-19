@@ -8,9 +8,8 @@ Dr. Mongo runs as a separate Meteor application, so you need to have Meteor inst
 
 ```
 $ cd /meteor
-$ meteor create drmongo
-$ cd drmongo
-$ git clone --bare https://github.com/DrMongo/DrMongo.git
+$ git clone https://github.com/DrMongo/DrMongo.git
+$ cd DrMongo
 $ meteor --port 3040
 ```
 Your Dr. Mongo isntance has to be running along with your other (development) Meteor app, so we use port 3040, but you are free to use any port.
