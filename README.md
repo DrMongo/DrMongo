@@ -1,6 +1,6 @@
 # Dr. Mongo
 
-The Meteor-based Mongo database manager
+The Meteor-based Mongo database manager.
 
 ## Installation
 
@@ -12,6 +12,6 @@ $ git clone https://github.com/DrMongo/DrMongo.git
 $ cd DrMongo
 $ meteor --port 3040
 ```
-Your Dr. Mongo isntance has to be running along with your other (development) Meteor app, so we use port 3040, but you are free to use any port.
+Your Dr. Mongo instance has to be running along with your other (development) Meteor apps, so we use port 3040, but you are free to use any port.
 
 Once your app is running, try: http://127.0.0.1:3040 in your browser.
