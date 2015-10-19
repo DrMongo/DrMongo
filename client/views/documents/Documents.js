@@ -1,23 +1,46 @@
+let defaultSkip = 0;
+let defaultLimit = 20;
+
 Template.Documents.onCreated(function () {
   this.routeParameters = new ReactiveVar(null);
-  var parameters = validateRouteUrl();
+  let parameters = validateRouteUrl();
   this.filterSelector = new ReactiveVar({});
   this.filterOptions = new ReactiveVar({});
+  this.paginationSkip = new ReactiveVar(defaultSkip);
+  this.paginationLimit = new ReactiveVar(defaultLimit);
 
+  let externalCollection = null;
   this.autorun(() => {
+    const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
     var parameters = validateRouteUrl();
-    const collectionName = FlowRouter.getParam('collection') || null;
     this.routeParameters.set(parameters);
 
-    this.externalCollection = cm.mountCollection(parameters.collection);
+    externalCollection = cm.mountCollection(parameters.collection);
     this.subscribe('externalCollection', parameters.collection.name);
+
+  });
+
+  this.autorun(() => {
+    let selector = this.filterSelector.get() || {};
+    let options = this.filterOptions.get() || {};
+    options = deepClone(options);
+    let paginationSkip = parseInt(this.paginationSkip.get()) || defaultSkip;
+    let paginationLimit = parseInt(this.paginationLimit.get()) || defaultLimit;
+    const limit = parseInt(options.limit) || null;
+    const skip = parseInt(options.skip) || null;
+
+    if((!!limit && limit > paginationLimit) || !limit) {
+      options.limit = paginationLimit;
+    }
+
+    options.skip = skip ? skip + paginationSkip : paginationSkip;
+
+    log('> options', options, skip, paginationSkip);
+    this.subscribe('externalCollection', parameters.collection.name, selector, options);
   });
 
   this.cursor = () => {
-    let selector = this.filterSelector.get() || {};
-    let options = this.filterOptions.get() || {};
-
-    return this.externalCollection ? this.externalCollection.find(selector, options) : null;
+    return externalCollection ? externalCollection.find() : null;
   }
 });
 
@@ -33,15 +56,46 @@ Template.Documents.helpers({
     }
   },
 
-  viewParams() {
+  viewParameters() {
     if (!Template.instance().subscriptionsReady()) return false;
     return {documents: Template.instance().cursor() || false};
   },
 
   collection() {
     return Template.instance().routeParameters.get().collection;
+  },
+
+  defaultSkip() {
+    return Template.instance().paginationSkip.get();
+  },
+
+  defaultLimit() {
+    return Template.instance().paginationLimit.get();
   }
 });
 
 Template.Documents.events({
+  'submit form.pagination-form'(event, templateInstance) {
+    event.preventDefault();
+    let form = event.currentTarget;
+
+    templateInstance.paginationSkip.set(parseInt(form.skip.value));
+    templateInstance.paginationLimit.set(parseInt(form.limit.value));
+  },
+
+  'click .pagination-form .previous'(event, templateInstance) {
+    event.preventDefault();
+    const paginationSkip = parseInt(templateInstance.paginationSkip.get());
+    const paginationLimit = parseInt(templateInstance.paginationLimit.get());
+    const skip = paginationSkip - paginationLimit;
+    templateInstance.paginationSkip.set(skip >= 0 ? skip : 0);
+  },
+
+  'click .pagination-form .next'(event, templateInstance) {
+    event.preventDefault();
+    const paginationSkip = parseInt(templateInstance.paginationSkip.get());
+    const paginationLimit = parseInt(templateInstance.paginationLimit.get());
+    const skip = paginationSkip + paginationLimit;
+    templateInstance.paginationSkip.set(skip);
+  }
 });

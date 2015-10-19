@@ -3,7 +3,16 @@
     <a class="pull-right btn btn-default btn-inverted" href="{{pathForCommands data=collection}}"><i class="fa fa-terminal"></i> commands</a>
     <h1>{{collection.className}}</h1>
     {{> DocumentsFilter filterData}}
-    {{> Template.dynamic template='Tree' data=viewParams}}
+
+    <form class="pagination-form text-center m-b">
+      <a class="previous" href=""><i class="fa fa-arrow-left"></i></a>
+      <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
+      <input id="limit" class="form-control" type="text" value="{{defaultLimit}}">
+      <a class="next" href=""><i class="fa fa-arrow-right"></i></a>
+      <input class="hidden" type="submit">
+    </form>
+
+    {{> Template.dynamic template='Tree' data=viewParameters}}
   {{/if}}
     {{> DocumentEditorModal}}
 </template>

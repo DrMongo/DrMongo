@@ -23,7 +23,7 @@ Meteor.publish('documents', (collectionId) => {
 	}
 });
 
-Meteor.publish('externalCollection', (collectionName) => {
+Meteor.publish('externalCollection', (collectionName, selector, options) => {
 	let c = Mongo.Collection.get(collectionName);
-	return c ? c.find({}, {limit: 10}) : false;
+	return c ? c.find(selector, options) : false;
 });
