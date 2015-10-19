@@ -1,6 +1,6 @@
-# DrMongo
+# Dr. Mongo
 
-Dr. Mongo - the Meteor-based Mongo database manager
+The Meteor-based Mongo database manager
 
 ## Installation
 
