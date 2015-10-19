@@ -7,7 +7,7 @@ Dr. Mongo - the Meteor-based Mongo database manager
 Dr. Mongo runs as a separate Meteor application, so you need to have Meteor installed, first. Follow instructions here: http://docs.meteor.com/#/full/quickstart
 
 ```
-$ /cd meteor
+$ cd /meteor
 $ meteor create drmongo
 $ cd drmongo
 $ git clone --bare https://github.com/DrMongo/DrMongo.git
