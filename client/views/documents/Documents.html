@@ -1,8 +1,8 @@
 <template name="Documents">
   {{#if Template.subscriptionsReady}}
+    <a class="pull-right btn btn-default btn-inverted" href="{{pathForCommands data=collection}}"><i class="fa fa-terminal"></i> commands</a>
     <h1>{{collection.className}}</h1>
     {{> DocumentsFilter filterData}}
-    <a href="{{pathForCommands data=collection}}">advanced commands</a>
     {{> Template.dynamic template='Tree' data=viewParams}}
   {{/if}}
     {{> DocumentEditorModal}}

@@ -8,7 +8,8 @@ Template.TreeDocumentRow.onCreated(function () {
   let info = {
     formattedValue: typeof value,
     hasChildren: false,
-    valueClass: type
+    valueClass: type,
+    copyValue: false
   };
   if (key == '_id') {
     info['formattedValue'] = value;
@@ -27,10 +28,12 @@ Template.TreeDocumentRow.onCreated(function () {
     info['formattedValue'] = '[ ' + value.length + ' fields ]';
     info['valueClass'] = 'array';
     info['hasChildren'] = true;
+    info['copyValue'] = JSON.stringify(value);
   } else if (_.isObject(value)) {
     info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
     info['valueClass'] = 'object';
     info['hasChildren'] = true;
+    info['copyValue'] = JSON.stringify(value);
   }
 
   info.valueClass = 'value-' + info.valueClass;
@@ -45,14 +48,6 @@ Template.TreeDocumentRow.helpers({
     return this.level == level;
   },
 
-  jsonValue() {
-    if (this.key != '_id' && (_.isArray(this.value) || _.isObject(this.value))) {
-      return JSON.stringify(this.value);
-    } else {
-      return this.value;
-    }
-  },
-
   formattedValue() {
     return Template.instance().info.formattedValue;
   },
@@ -63,6 +58,10 @@ Template.TreeDocumentRow.helpers({
 
   valueClass() {
     return Template.instance().info.valueClass;
+  },
+
+  copyValue() {
+    return Template.instance().info.copyValue;
   },
 
   isType(assertType) {

@@ -4,9 +4,11 @@
       <div class="col-xs-4 cell key">{{key}}</div>
       <div class="col-xs-6 cell value {{valueClass}}">
         {{formattedValue}}
-        <div class="btn btn-link btn-xs copy-value" data-clipboard-text="{{jsonValue}}">
-          <i class="fa fa-clipboard"></i>
-        </div>
+        {{#if copyValue}}
+          <div class="btn btn-link btn-xs copy-value" data-clipboard-text="{{copyValue}}">
+            <i class="fa fa-clipboard"></i>
+          </div>
+        {{/if}}
       </div>
       <div class="col-xs-2 cell actions text-right">
         {{#if isLevel 0}}
