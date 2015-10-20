@@ -7,6 +7,7 @@ Template.TreeDocumentRow.onCreated(function () {
 
   let info = {
     formattedValue: typeof value,
+    isPruned: false,
     hasChildren: false,
     valueClass: type,
     copyValue: false
@@ -15,7 +16,8 @@ Template.TreeDocumentRow.onCreated(function () {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
   } else if (_.isString(value)) {
-    info['formattedValue'] = value;
+    info['formattedValue'] = s(value).prune(35).value();
+    info['isPruned'] = value.length > 35;
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
@@ -50,6 +52,10 @@ Template.TreeDocumentRow.helpers({
 
   formattedValue() {
     return Template.instance().info.formattedValue;
+  },
+
+  isPruned() {
+    return Template.instance().info.isPruned;
   },
 
   hasChildren() {
@@ -101,9 +107,4 @@ Template.TreeDocumentRow.helpers({
 });
 
 Template.TreeDocumentRow.events({
-  //'click'(event, templateInstance) {
-  //  if ($(event.currentTarget).is('.copy-value') || $(event.currentTarget).is('.fa-clipboard')) {
-  //    event.stopImmediatePropagation();
-  //  }
-  //}
 });

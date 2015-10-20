@@ -40,5 +40,17 @@ Template.TreeDocument.events({
     event.stopImmediatePropagation();
 
     Meteor.call('removeDocument', getRouteParameters().collection._id, this.value._id)
+  },
+  'click .view-value'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    log('view value event', this);
+
+    Session.set('ViewValueModal', {
+      title: this.key,
+      value: this.value
+    });
+    $('#ViewValueModal').modal('show');
   }
+
 });

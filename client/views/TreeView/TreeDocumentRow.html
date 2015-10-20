@@ -4,6 +4,9 @@
       <div class="col-xs-4 cell key">{{key}}</div>
       <div class="col-xs-6 cell value {{valueClass}}">
         {{formattedValue}}
+        {{#if isPruned}}
+          <a class="view-value" href="#">view</a>
+        {{/if}}
         {{#if copyValue}}
           <div class="btn btn-link btn-xs copy-value" data-clipboard-text="{{copyValue}}">
             <i class="fa fa-clipboard"></i>
