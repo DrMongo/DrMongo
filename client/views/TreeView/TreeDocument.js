@@ -29,7 +29,12 @@ Template.TreeDocument.events({
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id)
+    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id, function(error, result) {
+      log(error, result)
+      if (!error) {
+        sAlert.success('Document duplicated with new _ID: ' + result)
+      }
+    });
   },
   'click .delete-document'(event, templateInstance) {
     event.preventDefault();
