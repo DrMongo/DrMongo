@@ -5,5 +5,8 @@ Template.Sidebar.onCreated(function () {
 Template.Sidebar.helpers({
   collections() {
     return Template.instance().routeParameters.get().database.collections();
+  },
+  database() {
+    return Template.instance().routeParameters.get().database;
   }
 });

@@ -15,6 +15,6 @@ Icons = {
       match = faIconsList[faIconsList.indexOf(singular)];
     }
 
-    return match ? 'fa fa-' + match : 'fa fa-database';
+    return match ? 'fa fa-' + match : 'fa fa-list';
   }
 };

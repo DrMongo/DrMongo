@@ -1,8 +1,14 @@
 <template name="Sidebar">
-  <div class="list-group">
-    {{#each collections}}
-      <a class="list-group-item" href="{{pathForDocuments data=this}}">
-        <i class="{{icon}}"></i> {{name}}
+    <div class="list-group">
+        <a class="list-group-item" href="{{pathForCommands data=database}}">
+            <i class="fa fa-terminal"></i> Mongo Command
+        </a>
+        <a class="list-group-item" href="{{pathForJsCode data=database}}">
+            () JS Code eval()
+        </a>
+        {{#each collections}}
+        <a class="list-group-item" href="{{pathForDocuments data=this}}">
+          <i class="{{icon}}"></i> {{name}}
       </a>
     {{/each}}
   </div>

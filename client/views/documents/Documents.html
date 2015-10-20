@@ -1,7 +1,7 @@
 <template name="Documents">
   {{#if Template.subscriptionsReady}}
-    <a class="pull-right btn btn-default btn-inverted" href="{{pathForCommands data=collection}}"><i class="fa fa-terminal"></i> commands</a>
-    <h1>{{collection.className}}</h1>
+    <a class="pull-right btn btn-default btn-inverted" href="#" id="insert-document"><i class="fa fa-plus"></i> Insert New Document</a>
+    <h1 class="pull-left">{{collection.className}}</h1>
     {{> DocumentsFilter filterData}}
 
     <form class="pagination-form text-center m-b">
@@ -15,4 +15,5 @@
     {{> Template.dynamic template='Tree' data=viewParameters}}
   {{/if}}
     {{> DocumentEditorModal}}
+    {{> DocumentInsertModal}}
 </template>

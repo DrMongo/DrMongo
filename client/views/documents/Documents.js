@@ -97,5 +97,16 @@ Template.Documents.events({
     const paginationLimit = parseInt(templateInstance.paginationLimit.get());
     const skip = paginationSkip + paginationLimit;
     templateInstance.paginationSkip.set(skip);
-  }
+  },
+  'click #insert-document'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Session.set('DocumentInsertModal', {
+      connectionId: getRouteParameters().connection._id,
+      databaseId: getRouteParameters().database._id,
+      collectionId: getRouteParameters().collection._id
+    });
+    $('#DocumentInsertModal').modal('show');
+  },
+
 });
