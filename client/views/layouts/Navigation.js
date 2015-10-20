@@ -32,12 +32,14 @@ Template.Navigation.helpers({
 });
 
 Template.Navigation.events({
-  'click #add-connection': function (event, templateInstance) {
+  'click .refresh-connection': function (event, templateInstance) {
     event.preventDefault();
-    Connections.insert({
-      name: 'New Connection',
-      host: 'localhost',
-      port: '27017'
-    })
+    const connection = templateInstance.routeParameters.get().connection;
+
+    if(connection) {
+      Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
+        console.log(error, result)
+      })
+    }
   }
 });
