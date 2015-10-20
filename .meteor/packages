@@ -46,10 +46,12 @@ nemo64:bootstrap
 flemay:less-autoprefixer
 fortawesome:fontawesome
 
+
 # debug
 # meteortoys:allthings
 
 npm-container
+juliancwirko:s-alert
 
 # Dr Mongo
 drmongo:mongo-helpers
