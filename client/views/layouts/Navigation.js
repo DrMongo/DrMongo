@@ -39,7 +39,7 @@ Template.Navigation.events({
     if(connection) {
       Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
         console.log(error, result)
-      })
+      });
     }
   }
 });

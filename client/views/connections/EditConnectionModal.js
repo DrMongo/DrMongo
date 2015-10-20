@@ -20,6 +20,9 @@ Template.EditConnectionModal.events({
         database: t.$('#database').val()
       }
     });
+    Meteor.call('updateConnectionStructure', this._id, function (error, result) {
+      console.log(error, result)
+    });
     $('#EditConnectionModal').modal('hide');
   }
 });
