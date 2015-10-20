@@ -45,8 +45,7 @@
               </a>
               <ul class="dropdown-menu">
                 {{#each databases}}
-                  <li><a
-                      href="{{pathForDatabaseDashboard data=this}}">{{name}}</a>
+                  <li><a href="{{pathForDatabaseDashboard data=this}}">{{name}}</a>
                   </li>
                 {{/each}}
               </ul>
@@ -57,13 +56,13 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                  role="button"
                  aria-haspopup="true" aria-expanded="false">
-                <i class="fa fa-database"></i>
+                <i class="{{currentCollection.icon}}"></i>
                 {{#if currentCollection}}{{currentCollection.name}}{{else}}Select collection{{/if}}
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu">
                 {{#each collections}}
-                  <li><a href="{{pathForDocuments data=this}}">{{name}}</a></li>
+                  <li><a href="{{pathForDocuments data=this}}"><i class="{{icon}}"></i> {{name}}</a></li>
                 {{/each}}
               </ul>
             </li>
@@ -72,7 +71,13 @@
 
         <ul class="nav navbar-nav navbar-right">
           {{#if currentConnection}}
-            <li><button class="refresh-connection btn btn-default navbar-btn" type="button">Refresh</button></li>
+            <li>
+              <button class="refresh-connection btn btn-default navbar-btn"
+                      type="button" data-toggle="tooltip"
+                      data-placement="bottom" title="Fetch databases and collections">
+                Refresh
+              </button>
+            </li>
           {{/if}}
         </ul>
 

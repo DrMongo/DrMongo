@@ -8,6 +8,11 @@ Template.Navigation.onCreated(function () {
   });
 });
 
+
+Template.Navigation.onRendered(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+});
+
 Template.Navigation.helpers({
   currentConnection() {
     return Template.instance().routeParameters.get().connection;
