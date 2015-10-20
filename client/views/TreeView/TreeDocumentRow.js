@@ -27,7 +27,7 @@ Template.TreeDocumentRow.onCreated(function () {
     info['formattedValue'] = value;
     info['valueClass'] = 'date';
   } else if (_.isArray(value)) {
-    info['formattedValue'] = '[ ' + value.length + ' fields ]';
+    info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['valueClass'] = 'array';
     info['hasChildren'] = true;
     info['copyValue'] = JSON.stringify(value);
