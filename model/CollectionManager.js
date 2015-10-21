@@ -9,6 +9,7 @@ class CollectionManager {
       Meteor.call('mountCollection', collection._id);
     }
 
+    //log('> monted collections', this.collections);
     return this.collections[collection._id];
   }
 

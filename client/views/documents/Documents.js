@@ -9,18 +9,26 @@ Template.Documents.onCreated(function () {
   this.paginationSkip = new ReactiveVar(defaultSkip);
   this.paginationLimit = new ReactiveVar(defaultLimit);
 
-  let externalCollection = null;
+  this.externalCollection = null;
+  let externalCollectionSubscription = null;
   this.autorun(() => {
+    //log('> autorun 1');
     const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
-    var parameters = validateRouteUrl();
+    let parameters = validateRouteUrl();
     this.routeParameters.set(parameters);
 
-    externalCollection = cm.mountCollection(parameters.collection);
-    this.subscribe('externalCollection', parameters.collection.name);
+    if(externalCollectionSubscription) {
+      //log('> stop!!!');
+      externalCollectionSubscription.stop();
+    }
 
+    this.externalCollection = cm.mountCollection(parameters.collection);
   });
 
+
   this.autorun(() => {
+    //log('> autorun 2');
+    const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
     let selector = this.filterSelector.get() || {};
     let options = this.filterOptions.get() || {};
     options = deepClone(options);
@@ -35,12 +43,12 @@ Template.Documents.onCreated(function () {
 
     options.skip = skip ? skip + paginationSkip : paginationSkip;
 
-    log('> options', options, skip, paginationSkip);
-    this.subscribe('externalCollection', parameters.collection.name, selector, options);
+    //log('> options', selector, options);
+    externalCollectionSubscription = this.subscribe('externalCollection', collectionName, selector, options);
   });
 
   this.cursor = () => {
-    return externalCollection ? externalCollection.find() : null;
+    return this.externalCollection ? this.externalCollection.find() : null;
   }
 });
 
