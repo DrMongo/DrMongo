@@ -42,6 +42,7 @@ Template.Documents.onCreated(function () {
     }
 
     options.skip = skip ? skip + paginationSkip : paginationSkip;
+    //options.fields = {_id: 1};
 
     //log('> options', selector, options);
     externalCollectionSubscription = this.subscribe('externalCollection', collectionName, selector, options);
@@ -115,6 +116,6 @@ Template.Documents.events({
       collectionId: getRouteParameters().collection._id
     });
     $('#DocumentInsertModal').modal('show');
-  },
+  }
 
 });

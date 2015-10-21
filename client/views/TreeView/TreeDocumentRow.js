@@ -1,6 +1,5 @@
 Template.TreeDocumentRow.onCreated(function () {
-
-  //log('> ROW data', this.data);
+  this.renderChildren = new ReactiveVar(false);
   let value = this.data.value;
   let key = this.data.key;
   let type = typeof value;
@@ -58,10 +57,6 @@ Template.TreeDocumentRow.helpers({
     return Template.instance().info.isPruned;
   },
 
-  hasChildren() {
-    return Template.instance().info.hasChildren;
-  },
-
   valueClass() {
     return Template.instance().info.valueClass;
   },
@@ -74,6 +69,18 @@ Template.TreeDocumentRow.helpers({
     let type = typeof this.value;
     if (this.key === '_id') type = 'string';
     return type === assertType
+  },
+
+  hasChildren() {
+    return Template.instance().info.hasChildren;
+  },
+
+  renderChildren() {
+    if(this.level == 0) {
+      return Template.instance().renderChildren.get();
+    } else {
+      return Template.instance().info.hasChildren;
+    }
   },
 
   children() {
@@ -107,4 +114,10 @@ Template.TreeDocumentRow.helpers({
 });
 
 Template.TreeDocumentRow.events({
+  'click .toggle-children'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Template.instance().renderChildren.set(true);
+    $(event.currentTarget).parent('.parent').toggleClass('collapsed');
+  }
 });
