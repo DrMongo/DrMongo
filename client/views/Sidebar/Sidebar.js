@@ -1,5 +1,11 @@
 Template.Sidebar.onCreated(function () {
-  this.routeParameters = new ReactiveVar(getRouteParameters());
+  this.routeParameters = new ReactiveVar(null);
+  this.autorun(() => {
+    const connectionSlug = FlowRouter.getParam('connection') || null;
+    const databaseName = FlowRouter.getParam('database') || null;
+    const collectionName = FlowRouter.getParam('collection') || null;
+    this.routeParameters.set(getRouteParameters());
+  });
 });
 
 Template.Sidebar.helpers({
