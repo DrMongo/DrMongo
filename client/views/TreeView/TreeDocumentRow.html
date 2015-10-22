@@ -24,7 +24,7 @@
     {{#if renderChildren}}
       <div class="row children">
         {{#each children}}
-          {{> TreeDocumentRow key=key value=value level=nextLevel}}
+          {{> TreeDocumentRow this}}
         {{/each}}
       </div>
     {{/if}}

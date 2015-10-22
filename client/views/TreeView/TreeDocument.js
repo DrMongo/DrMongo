@@ -1,8 +1,10 @@
-let getRowInfo = (key, value) => {
-  log('> getRowInfo', key, value);
+let getRowInfo = (key, value, level) => {
   let type = typeof value;
 
   let info = {
+    key: key,
+    value: value,
+    level: level,
     formattedValue: typeof value,
     isPruned: false,
     hasChildren: false,
@@ -56,9 +58,8 @@ let getRowInfo = (key, value) => {
     if(id) fields.unshift({key: '_id', value: id});
 
     info.children = [];
-    log('>fields', fields);
     _.each(fields, (v) => {
-      info.children.push(getRowInfo(v.key, v.value));
+      info.children.push(getRowInfo(v.key, v.value, level + 1));
     });
   }
 
@@ -69,17 +70,15 @@ let getRowInfo = (key, value) => {
 Template.TreeDocument.onCreated(function () {
   let key = this.data._id;
   let value = this.data;
-  //let info = getRowInfo(typeof key == 'string' ? key : key._str, value);
-  //log(info);
+  let info = getRowInfo(typeof key == 'string' ? key : key._str, value, 0);
+  //log('> info', info);
+
+  this.info = info;
 });
 
 Template.TreeDocument.helpers({
-  keyData() {
-    return typeof this._id == 'string' ? this._id : this._id._str;
-  },
-
-  valueData() {
-    return this;
+  info() {
+    return Template.instance().info;
   }
 });
 
