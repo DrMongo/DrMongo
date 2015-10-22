@@ -45,7 +45,8 @@
               </a>
               <ul class="dropdown-menu">
                 {{#each databases}}
-                  <li><a href="{{pathForDatabaseDashboard data=this}}">{{name}}</a>
+                  <li><a
+                      href="{{pathForDatabaseDashboard data=this}}">{{name}}</a>
                   </li>
                 {{/each}}
               </ul>
@@ -62,7 +63,8 @@
               </a>
               <ul class="dropdown-menu">
                 {{#each collections}}
-                  <li><a href="{{pathForDocuments data=this}}"><i class="{{icon}}"></i> {{name}}</a></li>
+                  <li><a href="{{pathForDocuments data=this}}"><i
+                      class="{{icon}}"></i> {{name}}</a></li>
                 {{/each}}
               </ul>
             </li>
@@ -74,7 +76,8 @@
             <li>
               <button class="refresh-connection btn btn-default navbar-btn"
                       type="button" data-toggle="tooltip"
-                      data-placement="bottom" title="Fetch databases and collections">
+                      data-placement="bottom"
+                      title="Fetch databases and collections">
                 Refresh
               </button>
             </li>

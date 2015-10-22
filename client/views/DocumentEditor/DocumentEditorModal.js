@@ -45,7 +45,7 @@ Template.DocumentEditorModal.events({
       data = JSON.parse(data);
     }
 
-    catch(error) {
+    catch (error) {
       sAlert.error('Invalid JSON format!');
       return false;
     }

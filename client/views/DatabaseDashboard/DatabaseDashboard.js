@@ -21,7 +21,7 @@ Template.DatabaseDashboard.events({
     e.preventDefault();
     let name = prompt("Collection name:");
 
-    if(name != null) {
+    if (name != null) {
       Meteor.call('createCollection', instance.routeParameters.get().database._id, name);
     }
 

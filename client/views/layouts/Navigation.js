@@ -41,7 +41,7 @@ Template.Navigation.events({
     event.preventDefault();
     const connection = templateInstance.routeParameters.get().connection;
 
-    if(connection) {
+    if (connection) {
       Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
         console.log(error, result)
       });

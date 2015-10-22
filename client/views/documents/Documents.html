@@ -1,19 +1,22 @@
 <template name="Documents">
   {{#if Template.subscriptionsReady}}
-    <a class="pull-right btn btn-default btn-inverted" href="#" id="insert-document"><i class="fa fa-plus"></i> Insert New Document</a>
+    <a class="pull-right btn btn-default btn-inverted" href="#"
+       id="insert-document"><i class="fa fa-plus"></i> Insert New Document</a>
+
     <h1 class="pull-left">{{collection.className}}</h1>
     {{> DocumentsFilter filterData}}
 
     <form class="pagination-form text-center m-b">
       <a class="previous" href=""><i class="fa fa-arrow-left"></i></a>
       <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
-      <input id="limit" class="form-control" type="text" value="{{defaultLimit}}">
+      <input id="limit" class="form-control" type="text"
+             value="{{defaultLimit}}">
       <a class="next" href=""><i class="fa fa-arrow-right"></i></a>
       <input class="hidden" type="submit">
     </form>
 
     {{> Template.dynamic template='Tree' data=viewParameters}}
   {{/if}}
-    {{> DocumentEditorModal}}
-    {{> DocumentInsertModal}}
+  {{> DocumentEditorModal}}
+  {{> DocumentInsertModal}}
 </template>

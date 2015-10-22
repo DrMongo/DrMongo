@@ -30,7 +30,7 @@ Template.JsCode.events({
     editor.focus();
 
     eval("var " + collection.className() + " = externalCollection; " + collection.className());
-    (function() {
+    (function () {
       'use strict';
       var evalData = null;
       try {

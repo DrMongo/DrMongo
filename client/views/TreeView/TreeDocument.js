@@ -46,21 +46,21 @@ let getRowInfo = (key, value, level) => {
 
   info.valueClass = 'value-' + info.valueClass;
 
-  if(level == 0) {
+  if (level == 0) {
     let pinnedColumns = [];
-    if(value.name) pinnedColumns.push(value.name);
-    if(value.title) pinnedColumns.push(value.title);
-    if(pinnedColumns.length) {
+    if (value.name) pinnedColumns.push(value.name);
+    if (value.title) pinnedColumns.push(value.title);
+    if (pinnedColumns.length) {
       info.keyValue += ' ' + info.formattedValue;
       info.formattedValue = pinnedColumns.join('; ');
     }
   }
 
-  if(info.hasChildren) {
+  if (info.hasChildren) {
     let fields = [];
     let id = null;
     _.each(value, (v, k) => {
-      if(k == '_id') {
+      if (k == '_id') {
         id = v;
         return;
       }
@@ -72,7 +72,7 @@ let getRowInfo = (key, value, level) => {
     });
 
     fields = _.sortBy(fields, 'key');
-    if(id) fields.unshift({key: '_id', value: id});
+    if (id) fields.unshift({key: '_id', value: id});
 
     info.children = [];
     _.each(fields, (v) => {
@@ -116,7 +116,7 @@ Template.TreeDocument.events({
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id, function(error, result) {
+    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id, function (error, result) {
       log(error, result)
       if (!error) {
         sAlert.success('Document duplicated with new _ID: ' + result)

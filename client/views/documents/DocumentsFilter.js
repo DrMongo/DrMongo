@@ -9,7 +9,7 @@ let parseJson = (str) => {
   }
 };
 
-Template.DocumentsFilter.onCreated(function() {
+Template.DocumentsFilter.onCreated(function () {
   this.invalidSelector = new ReactiveVar(null);
   this.invalidOptions = new ReactiveVar(null);
 });
@@ -32,9 +32,9 @@ Template.DocumentsFilter.events({
     const options = event.currentTarget.options.value;
 
     let selectorJson = {};
-    if(!!selector) {
+    if (!!selector) {
       selectorJson = parseJson(selector);
-      if(!selectorJson) {
+      if (!selectorJson) {
         templateInstance.invalidSelector.set('Invalid JSON format');
         return false;
       }
@@ -42,9 +42,9 @@ Template.DocumentsFilter.events({
     templateInstance.invalidSelector.set(false);
 
     let optionsJson = {};
-    if(!!options) {
+    if (!!options) {
       optionsJson = parseJson(options);
-      if(!optionsJson) {
+      if (!optionsJson) {
         templateInstance.invalidOptions.set('Invalid json format');
         return false;
       }

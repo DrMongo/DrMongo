@@ -18,7 +18,7 @@ Template.Documents.onCreated(function () {
     let parameters = validateRouteUrl();
     this.routeParameters.set(parameters);
 
-    if(externalCollectionSubscription) {
+    if (externalCollectionSubscription) {
       //log('> stop!!!');
       externalCollectionSubscription.stop();
     }
@@ -38,7 +38,7 @@ Template.Documents.onCreated(function () {
     const limit = parseInt(options.limit) || null;
     const skip = parseInt(options.skip) || null;
 
-    if((!!limit && limit > paginationLimit) || !limit) {
+    if ((!!limit && limit > paginationLimit) || !limit) {
       options.limit = paginationLimit;
     }
 
