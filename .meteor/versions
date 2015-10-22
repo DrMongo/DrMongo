@@ -58,6 +58,7 @@ mizzao:sharejs@0.7.5
 mizzao:sharejs-ace@1.2.0
 mobile-experience@1.0.1
 mobile-status-bar@1.0.6
+momentjs:moment@2.10.6
 mongo@1.1.2
 mongo-id@1.0.1
 mongo-livedata@1.0.9

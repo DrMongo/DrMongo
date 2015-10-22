@@ -39,6 +39,7 @@ percolate:synced-cron
 bojicas:inflections
 underscore
 underscorestring:underscore.string
+momentjs:moment
 
 
 # design
