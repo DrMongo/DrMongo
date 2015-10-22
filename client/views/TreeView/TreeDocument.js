@@ -14,12 +14,15 @@ let getRowInfo = (key, value, level) => {
   if (key == '_id') {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
+    info['copyValue'] = value;
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'number';
+    info['copyValue'] = value;
   } else if (_.isString(value)) {
     info['formattedValue'] = s(value).prune(35).value();
     info['isPruned'] = value.length > 35;
+    info['copyValue'] = value;
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
@@ -28,6 +31,7 @@ let getRowInfo = (key, value, level) => {
   } else if (_.isDate(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'date';
+    info['copyValue'] = moment(value).format(Settings.dateFormat);
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['valueClass'] = 'array';
