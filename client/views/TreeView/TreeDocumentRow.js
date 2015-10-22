@@ -5,11 +5,7 @@ Template.TreeDocumentRow.onCreated(function () {
 
 Template.TreeDocumentRow.helpers({
   renderChildren() {
-    if(this.level == 0) {
-      return Template.instance().renderChildren.get();
-    } else {
-      return this.hasChildren;
-    }
+    return Template.instance().renderChildren.get();
   },
 
   isLevel(level) {

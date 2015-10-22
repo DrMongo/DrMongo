@@ -3,7 +3,7 @@ let getRowInfo = (key, value, level) => {
 
   let info = {
     key: key,
-    value: value,
+    // value: value, // no need for passing value
     level: level,
     formattedValue: typeof value,
     isPruned: false,
@@ -14,6 +14,9 @@ let getRowInfo = (key, value, level) => {
   if (key == '_id') {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
+  } else if (_.isNumber(value)) {
+    info['formattedValue'] = value;
+    info['valueClass'] = 'number';
   } else if (_.isString(value)) {
     info['formattedValue'] = s(value).prune(35).value();
     info['isPruned'] = value.length > 35;
