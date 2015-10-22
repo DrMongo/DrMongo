@@ -5,6 +5,7 @@ let getRowInfo = (key, value, level) => {
     keyValue: key,
     // value: value, // no need for passing value
     formattedValue: typeof value,
+    notPrunedString: false,
     level: level,
     isPruned: false,
     hasChildren: false,
@@ -23,6 +24,7 @@ let getRowInfo = (key, value, level) => {
     info['formattedValue'] = s(value).prune(35).value();
     info['isPruned'] = value.length > 35;
     info['copyValue'] = value;
+    info['notPrunedString'] = value;
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
@@ -136,11 +138,10 @@ Template.TreeDocument.events({
   'click .view-value'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    log('view value event', this);
 
     Session.set('ViewValueModal', {
-      title: this.key,
-      value: this.value
+      title: this.keyValue,
+      value: this.notPrunedString
     });
     $('#ViewValueModal').modal('show');
   }
