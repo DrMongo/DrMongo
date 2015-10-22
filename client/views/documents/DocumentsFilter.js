@@ -33,10 +33,14 @@ Template.DocumentsFilter.events({
 
     let selectorJson = {};
     if (!!selector) {
-      selectorJson = parseJson(selector);
-      if (!selectorJson) {
-        templateInstance.invalidSelector.set('Invalid JSON format');
-        return false;
+      if (resemblesId(selector)) {
+        selectorJson = selector;
+      } else {
+        selectorJson = parseJson(selector);
+        if (!selectorJson) {
+          templateInstance.invalidSelector.set('Invalid JSON format');
+          return false;
+        }
       }
     }
     templateInstance.invalidSelector.set(false);
@@ -45,7 +49,7 @@ Template.DocumentsFilter.events({
     if (!!options) {
       optionsJson = parseJson(options);
       if (!optionsJson) {
-        templateInstance.invalidOptions.set('Invalid json format');
+        templateInstance.invalidOptions.set('Invalid JSON format');
         return false;
       }
     }

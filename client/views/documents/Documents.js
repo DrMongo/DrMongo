@@ -58,8 +58,8 @@ Template.Documents.helpers({
   filterData() {
     let instance = Template.instance();
     return {
-      onSubmit: (selection, options) => {
-        instance.filterSelector.set(selection);
+      onSubmit: (selector, options) => {
+        instance.filterSelector.set(selector);
         instance.filterOptions.set(options);
       },
       collection: instance.routeParameters.get().collection
