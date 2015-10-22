@@ -1,18 +1,27 @@
 Icons = {
   forCollection(name) {
     let mapper = {
-      articles: 'fa fa-newspaper-o',
-
       invoice: 'fa fa-usd',
       invoices: 'fa fa-usd',
       price: 'fa fa-usd',
       prices: 'fa fa-usd',
 
-      house: 'fa fa-home',
       rental: 'fa fa-home',
+      house: 'fa fa-home',
+
+      category: 'fa fa-folder-o',
+      categories: 'fa fa-folder-o',
 
       location: 'fa fa-map-marker',
-      locations: 'fa fa-map-marker'
+      locations: 'fa fa-map-marker',
+
+      region: 'fa fa-map-o',
+      product: 'fa fa-cube',
+      articles: 'fa fa-newspaper-o',
+      customer: 'fa fa-smile-o',
+      employee: 'fa fa-male',
+      shippers: 'fa fa-ship',
+      order: 'fa fa-shopping-cart'
     };
 
     let match = null;
