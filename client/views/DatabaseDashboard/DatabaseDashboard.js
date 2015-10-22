@@ -1,7 +1,13 @@
 Template.DatabaseDashboard.onCreated(function () {
-  this.routeParameters = new ReactiveVar(validateRouteUrl());
-  seo.setTitle(this.routeParameters.get().database.name);
+  this.routeParameters = new ReactiveVar(null);
+  this.autorun(() => {
+    let database = FlowRouter.getParam('database');
+    let parameters = validateRouteUrl();
+    this.routeParameters.set(parameters);
+    seo.setTitle(parameters.database.name);
+  });
 });
+
 
 Template.DatabaseDashboard.helpers({
   currentConnection() {
