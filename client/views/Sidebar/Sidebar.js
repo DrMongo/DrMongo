@@ -6,6 +6,9 @@ Template.Sidebar.helpers({
   collections() {
     return Template.instance().routeParameters.get().database.collections();
   },
+  isActive() {
+    return Template.instance().routeParameters.get().collection._id == this._id ? 'active' : '';
+  },
   database() {
     return Template.instance().routeParameters.get().database;
   }
