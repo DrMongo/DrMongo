@@ -2,10 +2,10 @@ let getRowInfo = (key, value, level) => {
   let type = typeof value;
 
   let info = {
-    key: key,
+    keyValue: key,
     // value: value, // no need for passing value
-    level: level,
     formattedValue: typeof value,
+    level: level,
     isPruned: false,
     hasChildren: false,
     valueClass: type,
@@ -41,6 +41,16 @@ let getRowInfo = (key, value, level) => {
   }
 
   info.valueClass = 'value-' + info.valueClass;
+
+  if(level == 0) {
+    let pinnedColumns = [];
+    if(value.name) pinnedColumns.push(value.name);
+    if(value.title) pinnedColumns.push(value.title);
+    if(pinnedColumns.length) {
+      info.keyValue += ' ' + info.formattedValue;
+      info.formattedValue = pinnedColumns.join('; ');
+    }
+  }
 
   if(info.hasChildren) {
     let fields = [];
