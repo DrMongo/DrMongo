@@ -1,5 +1,6 @@
 Template.ConnectionDashboard.onCreated(function () {
   this.connection = new ReactiveVar(Connections.findOne({slug: FlowRouter.getParam('connection')}));
+  seo.setTitle(this.connection.get().name);
 });
 
 Template.ConnectionDashboard.helpers({

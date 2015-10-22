@@ -1,5 +1,6 @@
 Template.DatabaseDashboard.onCreated(function () {
   this.routeParameters = new ReactiveVar(validateRouteUrl());
+  seo.setTitle(this.routeParameters.get().database.name);
 });
 
 Template.DatabaseDashboard.helpers({

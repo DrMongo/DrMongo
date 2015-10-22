@@ -41,6 +41,8 @@ underscore
 underscorestring:underscore.string
 momentjs:moment
 
+# seo
+kadira:dochead
 
 # design
 nemo64:bootstrap

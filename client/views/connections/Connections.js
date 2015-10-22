@@ -1,4 +1,5 @@
 Template.Connections.onCreated(function () {
+  seo.setTitle('Connections');
 });
 
 Template.Connections.helpers({

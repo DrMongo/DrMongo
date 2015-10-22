@@ -8,6 +8,7 @@ Template.Documents.onCreated(function () {
   this.filterOptions = new ReactiveVar({});
   this.paginationSkip = new ReactiveVar(defaultSkip);
   this.paginationLimit = new ReactiveVar(defaultLimit);
+  seo.setTitle(parameters.collection.name);
 
   this.externalCollection = null;
   let externalCollectionSubscription = null;
@@ -111,9 +112,9 @@ Template.Documents.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     Session.set('DocumentInsertModal', {
-      connectionId: getRouteParameters().connection._id,
-      databaseId: getRouteParameters().database._id,
-      collectionId: getRouteParameters().collection._id
+      connectionId: templateInstance.routeParameters.get().connection._id,
+      databaseId: templateInstance.routeParameters.get().database._id,
+      collectionId: templateInstance.routeParameters.get().collection._id
     });
     $('#DocumentInsertModal').modal('show');
   }
