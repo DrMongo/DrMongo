@@ -23,8 +23,15 @@ Meteor.publish('documents', (collectionId) => {
   }
 });
 
-Meteor.publish('externalCollection', function (collectionName, selector = {}, options = {}) {
-  //log('> externalCollection', collectionName, selector, options);
+Meteor.publish('externalCollection', function (collectionName, selector, options) {
+  if (resemblesId(selector)) {
+    selector = eval('("' + selector + '")');
+  } else {
+    selector = eval('(' + selector + ')');
+  }
+  options = eval('(' + options + ')');
+  log('> externalCollection', collectionName);
+
   let c = Mongo.Collection.get(collectionName);
   return c ? c.find(selector, options) : this.ready();
 });

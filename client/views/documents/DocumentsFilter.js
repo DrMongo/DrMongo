@@ -30,30 +30,29 @@ Template.DocumentsFilter.events({
     const selector = event.currentTarget.selector.value;
     const options = event.currentTarget.options.value;
 
-    let selectorJson = {};
-    if (!!selector) {
-      if (resemblesId(selector)) {
-        selectorJson = selector;
-      } else {
-        selectorJson = parseJson(selector);
-        if (!selectorJson) {
-          templateInstance.invalidSelector.set('Invalid JSON format');
-          return false;
-        }
-      }
-    }
-    templateInstance.invalidSelector.set(false);
-
-    let optionsJson = {};
-    if (!!options) {
-      optionsJson = parseJson(options);
-      if (!optionsJson) {
-        templateInstance.invalidOptions.set('Invalid JSON format');
-        return false;
-      }
-    }
+    //let selectorJson = {};
+    //if (!!selector) {
+    //  if (resemblesId(selector)) {
+    //    selectorJson = selector;
+    //  } else {
+    //    selectorJson = parseJson(selector);
+    //    if (!selectorJson) {
+    //      templateInstance.invalidSelector.set('Invalid JSON format');
+    //      return false;
+    //    }
+    //  }
+    //}
+    //templateInstance.invalidSelector.set(false);
+    //
+    //let optionsJson = {};
+    //if (!!options) {
+    //  optionsJson = parseJson(options);
+    //  if (!optionsJson) {
+    //    templateInstance.invalidOptions.set('Invalid JSON format');
+    //    return false;
+    //  }
+    //}
     templateInstance.invalidOptions.set(false);
-
-    templateInstance.data.onSubmit(selectorJson, optionsJson);
+    templateInstance.data.onSubmit(selector, options);
   }
 });

@@ -4,8 +4,8 @@ let defaultLimit = 20;
 Template.Documents.onCreated(function () {
   this.routeParameters = new ReactiveVar(null);
   let parameters = validateRouteUrl();
-  this.filterSelector = new ReactiveVar({});
-  this.filterOptions = new ReactiveVar({});
+  this.filterSelector = new ReactiveVar('{}');
+  this.filterOptions = new ReactiveVar('{}');
   this.paginationSkip = new ReactiveVar(defaultSkip);
   this.paginationLimit = new ReactiveVar(defaultLimit);
   seo.setTitle(parameters.collection.name);
@@ -30,8 +30,8 @@ Template.Documents.onCreated(function () {
   this.autorun(() => {
     //log('> autorun 2');
     const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
-    let selector = this.filterSelector.get() || {};
-    let options = this.filterOptions.get() || {};
+    let selector = this.filterSelector.get() || '{}';
+    let options = this.filterOptions.get() || '{}';
     options = deepClone(options);
     let paginationSkip = parseInt(this.paginationSkip.get()) || defaultSkip;
     let paginationLimit = parseInt(this.paginationLimit.get()) || defaultLimit;
@@ -43,13 +43,15 @@ Template.Documents.onCreated(function () {
     }
 
     options.skip = skip ? skip + paginationSkip : paginationSkip;
-    //options.fields = {_id: 1};
 
-    //log('> options', selector, options);
+    //selector = EJSON.stringify(eval('(' + selector + ')'));
+    //options = EJSON.stringify(eval('(' + options + ')'));
+
     externalCollectionSubscription = this.subscribe('externalCollection', collectionName, selector, options);
   });
 
   this.cursor = () => {
+    //log(this.externalCollection.findOne({_id: /MY2/}));
     return this.externalCollection ? this.externalCollection.find() : null;
   }
 });
