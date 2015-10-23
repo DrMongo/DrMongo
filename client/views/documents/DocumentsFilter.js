@@ -24,7 +24,6 @@ Template.DocumentsFilter.helpers({
   }
 });
 
-
 Template.DocumentsFilter.events({
   'submit form.documents-filter'(event, templateInstance) {
     event.preventDefault();
