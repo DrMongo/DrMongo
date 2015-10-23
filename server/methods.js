@@ -4,6 +4,11 @@ Meteor.methods({
 
     cm.mountCollectionOnServer(collectionId);
   },
+  mountAllCollections(databaseId) {
+    check(databaseId, String);
+
+    cm.mountAllCollectionsOnServer(databaseId);
+  },
 
   createCollection(databaseId, collectionName) {
     let database = Databases.findOne(databaseId);
@@ -58,5 +63,19 @@ Meteor.methods({
     });
     Databases.remove({connection_id: connectionId, keep: false});
     return true;
-  }
+  },
+  findCollectionForDocumentId(databaseId, documentId) {
+    let database = Databases.findOne(databaseId);
+    let foundCollection = null;
+    Collections.find({database_id: database._id}).forEach((collection) => {
+      if (foundCollection) return false;
+      var c = Mongo.Collection.get(collection.name);
+      if (c) {
+        var document = c.findOne(documentId);
+        if (document) foundCollection = collection.name;
+      }
+    })
+    return foundCollection;
+  },
+
 });

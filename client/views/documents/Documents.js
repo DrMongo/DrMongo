@@ -1,5 +1,6 @@
 let defaultSkip = 0;
 let defaultLimit = 20;
+allCollections = null;
 
 Template.Documents.onCreated(function () {
   this.routeParameters = new ReactiveVar(null);
@@ -22,8 +23,11 @@ Template.Documents.onCreated(function () {
       //log('> stop!!!');
       externalCollectionSubscription.stop();
     }
-
-    this.externalCollection = cm.mountCollection(parameters.collection);
+    if (!allCollections) {
+      log('tu som')
+      allCollections = cm.mountAllCollections(parameters.database);
+    }
+    this.externalCollection = allCollections[parameters.collection._id];
   });
 
 

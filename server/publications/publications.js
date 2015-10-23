@@ -24,14 +24,16 @@ Meteor.publish('documents', (collectionId) => {
 });
 
 Meteor.publish('externalCollection', function (collectionName, selector, options) {
+  log(options)
   if (resemblesId(selector)) {
     selector = eval('("' + selector + '")');
   } else {
     selector = eval('(' + selector + ')');
   }
   options = eval('(' + options + ')');
-  log('> externalCollection', collectionName);
+  //log('> externalCollection', collectionName);
 
+  options = {limit: 50};
   let c = Mongo.Collection.get(collectionName);
   return c ? c.find(selector, options) : this.ready();
 });
