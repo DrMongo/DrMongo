@@ -1,32 +1,31 @@
 <template name="TreeDocumentRow">
   <div class="col-xs-12 parent {{levelClass}}">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
-      <div class="col-xs-4 cell key">{{keyValue}}</div>
-      <div class="col-xs-6 cell value {{valueClass}}">
-        {{formattedValue}}
-        {{#if isPruned}}
-          <a class="view-value" href="#">view</a>
-        {{/if}}
-        {{#if copyValue}}
-          <div class="btn btn-link btn-xs copy-value"
-               data-clipboard-text="{{copyValue}}">
-            <i class="fa fa-clipboard"></i>
-          </div>
-        {{/if}}
-        {{#if isId}}
-          <div class="btn btn-link btn-xs find-id">
-            <i class="fa fa-search"></i>
-          </div>
-        {{/if}}
-      </div>
+      <div class="col-xs-3 cell key">{{{keyValue}}}</div>
+        <div class="col-xs-7 cell value {{valueClass}}">
+            {{{formattedValue}}}
+            {{#if isPruned}}
+                <a class="view-value" href="#">view</a>
+            {{/if}}
+            {{#unless isLevel 0}}
+            {{#if copyValue}}
+                <div class="btn btn-link btn-xs copy-value" data-clipboard-text="{{copyValue}}">
+                    <i class="fa fa-clipboard"></i>
+                </div>
+            {{/if}}
+            {{/unless}}
+            {{#if isId}}
+                <div class="btn btn-link btn-xs find-id">
+                    <i class="fa fa-search"></i>
+                </div>
+            {{/if}}
+        </div>
       <div class="col-xs-2 cell actions text-right">
         {{#if isLevel 0}}
-          <div class="btn btn-primary btn-inverted btn-xs edit-document"
-               data-id="{{key}}"><i class="fa fa-pencil"></i></div>
-          <div class="btn btn-warning btn-inverted btn-xs duplicate-document"
-               data-id="{{key}}"><i class="fa fa-files-o"></i></div>
-          <div class="btn btn-danger btn-inverted btn-xs delete-document"
-               data-id="{{key}}"><i class="fa fa-trash-o"></i></div>
+          <div class="btn btn-primary btn-inverted btn-xs copy-value" data-clipboard-text="{{copyValue}}" id="{{value._id}}"><i class="fa fa-clipboard"></i></div>
+          <div class="btn btn-primary btn-inverted btn-xs edit-document"><i class="fa fa-pencil"></i></div>
+          <div class="btn btn-warning btn-inverted btn-xs duplicate-document"><i class="fa fa-files-o"></i></div>
+          <div class="btn btn-danger btn-inverted btn-xs delete-document"><i class="fa fa-trash-o"></i></div>
         {{/if}}
       </div>
     </div>

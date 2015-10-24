@@ -52,11 +52,24 @@ let getRowInfo = (key, value, level) => {
 
   if (level == 0) {
     let pinnedColumns = [];
-    if (value.name) pinnedColumns.push(value.name);
-    if (value.title) pinnedColumns.push(value.title);
+    if (CurrentSession.collection.pinnedColumns && CurrentSession.collection.pinnedColumns.length > 0) {
+      _.each(CurrentSession.collection.pinnedColumns, (column) => {
+        try {
+          let t = eval('(value.' + column + ')');
+          if (t) pinnedColumns.push('<div class="col-xs-4">'+t+'</div>');
+        }
+        catch (error) {
+          // do nothing
+        }
+
+      })
+    } else {
+      if (value.name) pinnedColumns.push('<div class="col-xs-4">'+value.name+'</div>');
+      if (value.title) pinnedColumns.push('<div class="col-xs-4">'+value.title+'</div>');
+    }
     if (pinnedColumns.length) {
-      info.keyValue += ' ' + info.formattedValue;
-      info.formattedValue = pinnedColumns.join('; ');
+      info.keyValue += ' <small>' + info.formattedValue + '</small>';
+      info.formattedValue = pinnedColumns.join('');
     }
   }
 
@@ -104,6 +117,11 @@ Template.TreeDocument.helpers({
 });
 
 Template.TreeDocument.events({
+  'click .copy-value'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    copyText($(event.currentTarget).attr('data-clipboard-text'));
+  },
   'click .edit-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -121,7 +139,6 @@ Template.TreeDocument.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     Meteor.call('duplicateDocument', CurrentSession.collection._id, this.value._id, function (error, result) {
-      log(error, result)
       if (!error) {
         sAlert.success('Document duplicated with new _ID: ' + result)
       }
