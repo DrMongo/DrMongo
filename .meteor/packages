@@ -24,7 +24,7 @@ ejson
 # router
 kadira:flow-router
 kadira:blaze-layout
-
+tomwasd:flow-router-autoscroll
 
 # collections
 tmeasday:publish-counts

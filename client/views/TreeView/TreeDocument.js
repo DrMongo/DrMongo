@@ -3,19 +3,21 @@ let getRowInfo = (key, value, level) => {
 
   let info = {
     keyValue: key,
-    // value: value, // no need for passing value
+    value: value,
     formattedValue: typeof value,
     notPrunedString: false,
     level: level,
     isPruned: false,
     hasChildren: false,
     valueClass: type,
-    copyValue: false
+    copyValue: false,
+    isId: false
   };
-  if (key == '_id') {
+  if (resemblesId(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
     info['copyValue'] = value;
+    info['isId'] = true;
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'number';
@@ -144,6 +146,24 @@ Template.TreeDocument.events({
       value: this.notPrunedString
     });
     $('#ViewValueModal').modal('show');
+  },
+  'click .find-id'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.value, (error, result) => {
+      let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
+      if (c) {
+        CurrentSession.documentsSelector = this.value;
+        CurrentSession.documentsOptions = {};
+        const data = {
+          collection: c.name,
+          database: c.database().name,
+          connection: c.database().connection().slug
+        };
+
+        goTo(FlowRouter.path('Documents', data));
+      }
+    });
   }
 
 });
