@@ -1,41 +1,15 @@
 let defaultSkip = 0;
 let defaultLimit = 20;
-allCollections = null;
 
 Template.Documents.onCreated(function () {
-  this.routeParameters = new ReactiveVar(null);
-  let parameters = validateRouteUrl();
-  this.filterSelector = new ReactiveVar('{}');
-  this.filterOptions = new ReactiveVar('{}');
   this.paginationSkip = new ReactiveVar(defaultSkip);
   this.paginationLimit = new ReactiveVar(defaultLimit);
-  seo.setTitle(parameters.collection.name);
-
-  this.externalCollection = null;
-  let externalCollectionSubscription = null;
-  this.autorun(() => {
-    //log('> autorun 1');
-    const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
-    let parameters = validateRouteUrl();
-    this.routeParameters.set(parameters);
-
-    if (externalCollectionSubscription) {
-      //log('> stop!!!');
-      externalCollectionSubscription.stop();
-    }
-    if (!allCollections) {
-      log('tu som')
-      allCollections = cm.mountAllCollections(parameters.database);
-    }
-    this.externalCollection = allCollections[parameters.collection._id];
-  });
-
+  seo.setTitle(CurrentSession.collection.name);
 
   this.autorun(() => {
     //log('> autorun 2');
-    const collectionName = FlowRouter.getParam('collection') || null; // fire autorun
-    let selector = this.filterSelector.get() || '{}';
-    let options = this.filterOptions.get() || '{}';
+    let selector = CurrentSession.documentsSelector || '{}';
+    let options = CurrentSession.documentsOptions || {};
     options = deepClone(options);
     let paginationSkip = parseInt(this.paginationSkip.get()) || defaultSkip;
     let paginationLimit = parseInt(this.paginationLimit.get()) || defaultLimit;
@@ -50,35 +24,30 @@ Template.Documents.onCreated(function () {
 
     //selector = EJSON.stringify(eval('(' + selector + ')'));
     //options = EJSON.stringify(eval('(' + options + ')'));
-
-    externalCollectionSubscription = this.subscribe('externalCollection', collectionName, selector, options);
+    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, options);
   });
 
   this.cursor = () => {
-    //log(this.externalCollection.findOne({_id: /MY2/}));
-    return this.externalCollection ? this.externalCollection.find() : null;
+    return CurrentSession.mongoCollection ? CurrentSession.mongoCollection.find() : null;
   }
 });
 
 Template.Documents.helpers({
   filterData() {
-    let instance = Template.instance();
     return {
-      onSubmit: (selector, options) => {
-        instance.filterSelector.set(selector);
-        instance.filterOptions.set(options);
-      },
-      collection: instance.routeParameters.get().collection
+      collection: CurrentSession.collection,
+      selector: CurrentSession.documentsSelector,
+      options: CurrentSession.documentsOptions
     }
   },
 
   viewParameters() {
-    if (!Template.instance().subscriptionsReady()) return false;
+    if (!ConnectionStructureSubscription.ready()) return false;
     return {documents: Template.instance().cursor() || false};
   },
 
   collection() {
-    return Template.instance().routeParameters.get().collection;
+    return CurrentSession.collection;
   },
 
   defaultSkip() {
@@ -118,9 +87,9 @@ Template.Documents.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     Session.set('DocumentInsertModal', {
-      connectionId: templateInstance.routeParameters.get().connection._id,
-      databaseId: templateInstance.routeParameters.get().database._id,
-      collectionId: templateInstance.routeParameters.get().collection._id
+      connectionId: CurrentSession.connection._id,
+      databaseId: CurrentSession.database._id,
+      collectionId: CurrentSession.collection._id
     });
     $('#DocumentInsertModal').modal('show');
   }

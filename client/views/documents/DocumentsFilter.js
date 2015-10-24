@@ -21,6 +21,13 @@ Template.DocumentsFilter.helpers({
 
   invalidOptions() {
     return Template.instance().invalidOptions.get();
+  },
+  selector() {
+    return Template.instance().data.selector;
+  },
+  options() {
+    var options = JSON.stringify(Template.instance().data.options);
+    return options;
   }
 });
 
@@ -42,17 +49,18 @@ Template.DocumentsFilter.events({
     //    }
     //  }
     //}
-    //templateInstance.invalidSelector.set(false);
+    templateInstance.invalidSelector.set(false);
     //
-    //let optionsJson = {};
-    //if (!!options) {
-    //  optionsJson = parseJson(options);
-    //  if (!optionsJson) {
-    //    templateInstance.invalidOptions.set('Invalid JSON format');
-    //    return false;
-    //  }
-    //}
+    let optionsJson = {};
+    if (!!options) {
+      optionsJson = parseJson(options);
+      if (!optionsJson) {
+        templateInstance.invalidOptions.set('Invalid JSON format');
+        return false;
+      }
+    }
     templateInstance.invalidOptions.set(false);
-    templateInstance.data.onSubmit(selector, options);
+    CurrentSession.documentsSelector = selector;
+    CurrentSession.documentsOptions = optionsJson;
   }
 });

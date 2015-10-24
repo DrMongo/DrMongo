@@ -30,11 +30,11 @@ class CollectionManager {
   mountAllCollections(database) {
     var mountedCollections = {};
     Collections.find({database_id: database._id}).forEach((collection) => {
-      mountedCollections[collection._id] = new Mongo.Collection(collection.name);
+      MountedCollections[collection._id] = new Mongo.Collection(collection.name);
     })
     Meteor.call('mountAllCollections', database._id);
-    this.collections = mountedCollections
-    return mountedCollections;
+    this.collections = MountedCollections
+    return MountedCollections;
   }
 
   mountAllCollectionsOnServer(databaseId) {

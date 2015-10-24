@@ -1,23 +1,17 @@
 Template.DatabaseDashboard.onCreated(function () {
-  this.routeParameters = new ReactiveVar(null);
-  this.autorun(() => {
-    let database = FlowRouter.getParam('database');
-    let parameters = validateRouteUrl();
-    this.routeParameters.set(parameters);
-    seo.setTitle(parameters.database.name);
-  });
+  if (CurrentSession.database) seo.setTitle(CurrentSession.database.name);
 });
 
 
 Template.DatabaseDashboard.helpers({
   currentConnection() {
-    return Template.instance().routeParameters.get().connection;
+    return CurrentSession.connection;
   },
   database() {
-    return Template.instance().routeParameters.get().database;
+    return CurrentSession.database;
   },
   collections() {
-    return Template.instance().routeParameters.get().database.collections();
+    return CurrentSession.database.collections();
   }
 });
 
@@ -28,7 +22,7 @@ Template.DatabaseDashboard.events({
     let name = prompt("Collection name:");
 
     if (name != null) {
-      Meteor.call('createCollection', instance.routeParameters.get().database._id, name);
+      Meteor.call('createCollection', CurrentSession.database._id, name);
     }
 
   }

@@ -107,9 +107,9 @@ Template.TreeDocument.events({
     event.stopImmediatePropagation();
 
     Session.set('DocumentEditorModal', {
-      connectionId: getRouteParameters().connection._id,
-      databaseId: getRouteParameters().database._id,
-      collectionId: getRouteParameters().collection._id,
+      connectionId: CurrentSession.connection._id,
+      databaseId: CurrentSession.database._id,
+      collectionId: CurrentSession.collection._id,
       documentId: this.value._id,
       document: this.value
     });
@@ -118,7 +118,7 @@ Template.TreeDocument.events({
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    Meteor.call('duplicateDocument', getRouteParameters().collection._id, this.value._id, function (error, result) {
+    Meteor.call('duplicateDocument', CurrentSession.collection._id, this.value._id, function (error, result) {
       log(error, result)
       if (!error) {
         sAlert.success('Document duplicated with new _ID: ' + result)
@@ -133,7 +133,7 @@ Template.TreeDocument.events({
     event.preventDefault();
     event.stopImmediatePropagation();
 
-    Meteor.call('removeDocument', getRouteParameters().collection._id, this.value._id)
+    Meteor.call('removeDocument', CurrentSession.collection._id, this.value._id)
   },
   'click .view-value'(event, templateInstance) {
     event.preventDefault();

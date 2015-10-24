@@ -1,5 +1,4 @@
 Template.Tree.onCreated(function () {
-  log('> tree created...');
 });
 
 var clipboard = null;
