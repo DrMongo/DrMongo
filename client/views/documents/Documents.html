@@ -1,5 +1,4 @@
 <template name="Documents">
-  {{#if Template.subscriptionsReady}}
     <a class="pull-right btn btn-default btn-inverted" href="#"
        id="insert-document"><i class="fa fa-plus"></i> Insert new document</a>
 
@@ -14,9 +13,20 @@
       <a class="next" href=""><i class="fa fa-arrow-right"></i></a>
       <input class="hidden" type="submit">
     </form>
-
-    {{> Template.dynamic template='Tree' data=viewParameters}}
-  {{/if}}
+    {{#if documentsReady}}
+        {{> Template.dynamic template='Tree' data=viewParameters}}
+    {{else}}
+        {{> DocumentsLoader}}
+    {{/if}}
   {{> DocumentEditorModal}}
   {{> DocumentInsertModal}}
+</template>
+
+<template name="DocumentsLoader">
+    <div class="panel panel-default">
+        <div class="panel-body text-center h1">
+            <i class="fa fa-spin fa-spinner"></i>
+        </div>
+    </div>
+
 </template>

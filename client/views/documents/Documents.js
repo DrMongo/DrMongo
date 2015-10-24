@@ -35,6 +35,9 @@ Template.Documents.onCreated(function () {
 });
 
 Template.Documents.helpers({
+  documentsReady() {
+    return CurrentSession.mongoCollectionSubscription.ready();
+  },
   filterData() {
     return {
       collection: CurrentSession.collection,
