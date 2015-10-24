@@ -71,18 +71,26 @@
           {{/if}}
         </ul>
 
-        <ul class="nav navbar-nav navbar-right">
-          {{#if currentConnection}}
-            <li>
-              <button class="refresh-connection btn btn-default navbar-btn"
-                      type="button" data-toggle="tooltip"
-                      data-placement="bottom"
-                      title="Fetch databases and collections">
-                Refresh
-              </button>
-            </li>
-          {{/if}}
-        </ul>
+          <ul class="nav navbar-nav navbar-right">
+              {{#if currentConnection}}
+                  <li>
+                      <button class="refresh-connection btn btn-default navbar-btn"
+                              type="button" data-toggle="tooltip"
+                              data-placement="bottom"
+                              title="Fetch databases and collections">
+                          Refresh
+                      </button>
+                  </li>
+              {{/if}}
+          </ul>
+
+        <form class="navbar-form navbar-right" role="search" id="quick-search">
+          <div class="form-group">
+              <input type="text" class="form-control" placeholder="Search by _id">
+          </div>
+          <button type="submit" class="btn btn-default hidden">Submit</button>
+        </form>
+
 
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->
