@@ -64,8 +64,11 @@ let getRowInfo = (key, value, level) => {
 
       })
     } else {
-      if (value.name) pinnedColumns.push('<div class="col-xs-4">'+value.name+'</div>');
-      if (value.title) pinnedColumns.push('<div class="col-xs-4">'+value.title+'</div>');
+      if (value.name) {
+        pinnedColumns.push('<div class="col-xs-12">'+value.name+'</div>');
+      } else if (value.title) {
+        pinnedColumns.push('<div class="col-xs-12">' + value.title + '</div>');
+      }
     }
     if (pinnedColumns.length) {
       info.keyValue += ' <small>' + info.formattedValue + '</small>';
