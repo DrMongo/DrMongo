@@ -1,5 +1,4 @@
 Template.DatabaseDashboard.onCreated(function () {
-  if (CurrentSession.database) seo.setTitle(CurrentSession.database.name);
 });
 
 

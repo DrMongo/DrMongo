@@ -4,10 +4,12 @@ let defaultLimit = 20;
 Template.Documents.onCreated(function () {
   this.paginationSkip = new ReactiveVar(defaultSkip);
   this.paginationLimit = new ReactiveVar(defaultLimit);
-  seo.setTitle(CurrentSession.collection.name);
+
 
   this.autorun(() => {
     //log('> autorun 2');
+    if (!CurrentSession.collection) return false;
+
     let selector = CurrentSession.documentsSelector || '{}';
     let options = CurrentSession.documentsOptions || {};
     options = deepClone(options);

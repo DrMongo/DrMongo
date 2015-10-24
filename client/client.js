@@ -1,6 +1,4 @@
-ConnectionStructureSubscription = Meteor.subscribe('connectionStructure', function() {
-  log('subscribed')
-});
+ConnectionStructureSubscription = Meteor.subscribe('connectionStructure');
 
 MountedCollections = {};
 
@@ -36,11 +34,10 @@ Meteor.startup(function() {
 //});
 
 Tracker.autorun(function () {
-  log('in autorun')
   FlowRouter.watchPathChange();
   var currentContext = FlowRouter.current();
   var routeParams = currentContext.params;
-  log(ConnectionStructureSubscription.ready())
+
   if (!ConnectionStructureSubscription.ready()) return false;
 
   CurrentSession.connection = null;
@@ -50,37 +47,43 @@ Tracker.autorun(function () {
 
   let Location = {};
   if (routeParams.connection) {
-    log('1')
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
     if (CurrentSession.connection && !MountedCollections[CurrentSession.connection._id]) {
       MountedCollections[CurrentSession.connection._id] = {};
     }
-    log('2')
 
     if (CurrentSession.connection && routeParams.database) {
       CurrentSession.database = Databases.findOne({
         name: routeParams.database,
         connection_id: CurrentSession.connection._id
       });
-      log('3')
 
       if (CurrentSession.database && !MountedCollections[CurrentSession.connection._id][CurrentSession.database._id]) {
         MountedCollections[CurrentSession.connection._id][CurrentSession.database._id] = cm.mountAllCollections(CurrentSession.database);
       }
-      log('4')
 
       if (CurrentSession.database && routeParams.collection) {
         CurrentSession.collection = Collections.findOne({
           name: routeParams.collection,
           database_id: CurrentSession.database._id
         });
-        log('5')
 
         if (CurrentSession.collection) {
-          log('6')
           CurrentSession.mongoCollection = MountedCollections[CurrentSession.connection._id][CurrentSession.database._id][CurrentSession.collection._id];
         }
       }
     }
+  }
+});
+
+Tracker.autorun(function () {
+  if (CurrentSession.collection) {
+    seo.setTitle(CurrentSession.collection.name);
+  } else if (CurrentSession.database) {
+    seo.setTitle(CurrentSession.database.name);
+  } else if (CurrentSession.connection) {
+    seo.setTitle(CurrentSession.connection.name);
+  } else {
+    seo.setTitle(null);
   }
 });

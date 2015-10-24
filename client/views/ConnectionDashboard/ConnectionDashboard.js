@@ -1,14 +1,11 @@
 Template.ConnectionDashboard.onCreated(function () {
-  this.connection = new ReactiveVar(Connections.findOne({slug: FlowRouter.getParam('connection')}));
-  seo.setTitle(this.connection.get().name);
 });
 
 Template.ConnectionDashboard.helpers({
   connection() {
-    return Template.instance().connection.get();
+    return CurrentSession.connection;
   },
   databases() {
-    let connection = Template.instance().connection.get();
-    return connection.databases();
+    return CurrentSession.connection.databases();
   }
 });

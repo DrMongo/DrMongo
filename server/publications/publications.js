@@ -24,7 +24,7 @@ Meteor.publish('documents', (collectionId) => {
 });
 
 Meteor.publish('externalCollection', function (collectionName, selector, options) {
-  log(collectionName, typeof selector, options, typeof options)
+  //log(collectionName, typeof selector, options, typeof options)
   if (resemblesId(selector)) {
     selector = eval('("' + selector + '")');
   } else {
