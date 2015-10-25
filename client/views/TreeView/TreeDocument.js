@@ -103,6 +103,19 @@ let getRowInfo = (key, value, level) => {
   return info;
 };
 
+let deleteHintTimeout = null;
+let showDeleteHint = (show = true) => {
+  log(deleteHintTimeout);
+  // first stop previous timeout if exists
+  if(deleteHintTimeout) Meteor.clearTimeout(deleteHintTimeout);
+
+  if(show) {
+    deleteHintTimeout = Meteor.setTimeout(() => {
+      sAlert.info('Psst!! Hey you! Try double click...');
+    }, 300);
+  }
+};
+
 
 Template.TreeDocument.onCreated(function () {
   let key = this.data._id;
@@ -147,15 +160,18 @@ Template.TreeDocument.events({
       }
     });
   },
-  'click .delete-document'(event, templateInstance) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-  },
   'dblclick .delete-document'(event, templateInstance) {
+    log('> dbl');
     event.preventDefault();
     event.stopImmediatePropagation();
-
+    showDeleteHint(false);
     Meteor.call('removeDocument', CurrentSession.collection._id, this.value._id)
+  },
+  'click .delete-document'(event, templateInstance) {
+    log('> click');
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    showDeleteHint();
   },
   'click .view-value'(event, templateInstance) {
     event.preventDefault();
