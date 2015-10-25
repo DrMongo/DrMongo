@@ -105,7 +105,6 @@ let getRowInfo = (key, value, level) => {
 
 let deleteHintTimeout = null;
 let showDeleteHint = (show = true) => {
-  log(deleteHintTimeout);
   // first stop previous timeout if exists
   if(deleteHintTimeout) Meteor.clearTimeout(deleteHintTimeout);
 
@@ -161,14 +160,12 @@ Template.TreeDocument.events({
     });
   },
   'dblclick .delete-document'(event, templateInstance) {
-    log('> dbl');
     event.preventDefault();
     event.stopImmediatePropagation();
     showDeleteHint(false);
     Meteor.call('removeDocument', CurrentSession.collection._id, this.value._id)
   },
   'click .delete-document'(event, templateInstance) {
-    log('> click');
     event.preventDefault();
     event.stopImmediatePropagation();
     showDeleteHint();
