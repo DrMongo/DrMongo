@@ -1,7 +1,3 @@
-Template.Navigation.onCreated(function () {
-});
-
-
 Template.Navigation.onRendered(function () {
   $('[data-toggle="tooltip"]').tooltip()
 });
@@ -40,6 +36,25 @@ Template.Navigation.events({
       });
     }
   },
+
+  'click .add-collection'(e, i) {
+    e.preventDefault();
+    let name = prompt("Collection name:");
+
+    if (name != null) {
+      Meteor.call('createCollection', CurrentSession.database._id, name, (error, result) => {
+        if(error) {
+          log(error);
+          sAlert.warning('error');
+        } else {
+          sAlert.success('Database added');
+          // todo: redirect to new database
+        }
+      });
+    }
+
+  },
+
   'submit #quick-search': function (event, templateInstance) {
     event.preventDefault();
     let searchString = $('#quick-search input').val();

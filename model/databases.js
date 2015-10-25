@@ -7,6 +7,10 @@ Databases.helpers({
 
   collections() {
     return Collections.find({database_id: this._id}, {sort: {name: 1}});
+  },
+
+  mainCollection() {
+    return Collections.findOne({database_id: this._id}, {sort: {name: 1}});
   }
 
 });
