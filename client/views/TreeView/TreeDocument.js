@@ -35,9 +35,9 @@ let getRowInfo = (key, value, level) => {
   } else if (_.isBoolean(value)) {
     info['formattedValue'] = value ? 'true' : 'false';
   } else if (_.isDate(value)) {
-    info['formattedValue'] = value;
+    info['formattedValue'] = moment(value).format(Settings.dateFormat);
     info['valueClass'] = 'date';
-    info['copyValue'] = moment(value).format(Settings.dateFormat);
+    info['copyValue'] = info['formattedValue'];
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['valueClass'] = 'array';

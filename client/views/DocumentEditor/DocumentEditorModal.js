@@ -23,7 +23,7 @@ Template.DocumentEditorModal.helpers({
   config() {
     var ModalParams = Session.get('DocumentEditorModal');
     if (!ModalParams) return false;
-    var jsonData = JSON.stringify(ModalParams.document, null, '\t');
+    var jsonData = EJSON.stringify(ModalParams.document, {indent: '\t'});
 
     return function (editor) {
       // Set some reasonable options on the editor
@@ -42,13 +42,15 @@ Template.DocumentEditorModal.events({
     e.preventDefault();
     var data = ace.edit("editor").getValue();
     try {
-      data = JSON.parse(data);
+      data = EJSON.parse(data);
     }
-
     catch (error) {
       sAlert.error('Invalid JSON format!');
       return false;
     }
+    log(data)
+
+
     var ModalParams = Session.get('DocumentEditorModal');
     Meteor.call('updateDocument', ModalParams.collectionId, ModalParams.documentId, data)
     $('#DocumentEditorModal').modal('hide');
