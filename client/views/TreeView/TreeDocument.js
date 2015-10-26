@@ -11,13 +11,15 @@ let getRowInfo = (key, value, level) => {
     hasChildren: false,
     valueClass: type,
     copyValue: false,
-    isId: false
+    isId: false,
+    idValue: null
   };
-  if (resemblesId(value)) {
+  if (resemblesId(value) || key == '_id') {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
     info['copyValue'] = value;
     info['isId'] = true;
+    info['idValue'] = value;
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'number';
@@ -183,10 +185,11 @@ Template.TreeDocument.events({
   'click .find-id'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.value, (error, result) => {
+
+    Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.idValue, (error, result) => {
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {
-        CurrentSession.documentsSelector = this.value;
+        CurrentSession.documentsSelector = this.idValue;
         CurrentSession.documentsOptions = {};
         const data = {
           collection: c.name,
