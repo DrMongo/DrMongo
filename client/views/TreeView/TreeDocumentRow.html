@@ -3,7 +3,7 @@
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="col-xs-3 cell key">{{{keyValue}}}</div>
         <div class="col-xs-7 cell value {{valueClass}}">
-            {{{formattedValue}}}
+            {{formattedValue}}
             {{#if isPruned}}
                 <a class="view-value" href="#">view</a>
             {{/if}}

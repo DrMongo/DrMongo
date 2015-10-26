@@ -57,8 +57,9 @@ let getRowInfo = (key, value, level) => {
     if (CurrentSession.collection.pinnedColumns && CurrentSession.collection.pinnedColumns.length > 0) {
       _.each(CurrentSession.collection.pinnedColumns, (column) => {
         try {
+          // todo remove eval
           let t = eval('(value.' + column + ')');
-          if (t) pinnedColumns.push('<div class="col-xs-4">'+t+'</div>');
+          if (t) pinnedColumns.push(t);
         }
         catch (error) {
           // do nothing
@@ -67,14 +68,14 @@ let getRowInfo = (key, value, level) => {
       })
     } else {
       if (value.name) {
-        pinnedColumns.push('<div class="col-xs-12">'+value.name+'</div>');
+        pinnedColumns.push(value.name);
       } else if (value.title) {
-        pinnedColumns.push('<div class="col-xs-12">' + value.title + '</div>');
+        pinnedColumns.push(value.title);
       }
     }
     if (pinnedColumns.length) {
       info.keyValue += ' <small>' + info.formattedValue + '</small>';
-      info.formattedValue = pinnedColumns.join('');
+      info.formattedValue = pinnedColumns.join('; ');
     }
   }
 
