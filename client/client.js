@@ -50,6 +50,7 @@ Tracker.autorun(function () {
   let Location = {};
   if (routeParams.connection) {
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
+    if (!CurrentSession.connection) FlowRouter.go('/');
     if (CurrentSession.connection && !MountedCollections[CurrentSession.connection._id]) {
       MountedCollections[CurrentSession.connection._id] = {};
     }
@@ -59,6 +60,7 @@ Tracker.autorun(function () {
         name: routeParams.database,
         connection_id: CurrentSession.connection._id
       });
+      if (!CurrentSession.database) FlowRouter.go('/');
 
       if (CurrentSession.database && !MountedCollections[CurrentSession.connection._id][CurrentSession.database._id]) {
         MountedCollections[CurrentSession.connection._id][CurrentSession.database._id] = cm.mountAllCollections(CurrentSession.database);
@@ -69,6 +71,7 @@ Tracker.autorun(function () {
           name: routeParams.collection,
           database_id: CurrentSession.database._id
         });
+        if (!CurrentSession.collection) FlowRouter.go('/');
 
         if (CurrentSession.collection) {
           CurrentSession.mongoCollection = MountedCollections[CurrentSession.connection._id][CurrentSession.database._id][CurrentSession.collection._id];
