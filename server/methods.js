@@ -28,7 +28,7 @@ Meteor.methods({
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
 
-    Databases.update({connection_id: connectionId}, {$set: {keep: false}})
+    Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true})
     _.each(databases, (databaseName) => {
       Databases.upsert(
         {connection_id: connectionId, name: databaseName},
@@ -45,7 +45,7 @@ Meteor.methods({
         name: databaseName
       });
 
-      Collections.update({database_id: database._id}, {$set: {keep: false}});
+      Collections.update({database_id: database._id}, {$set: {keep: false}}, {multi: true});
       let collections = MongoHelpers.getCollections(connection, databaseName);
       _.each(collections, (collectionName) => {
         Collections.upsert(

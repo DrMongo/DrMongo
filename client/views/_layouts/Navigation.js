@@ -31,8 +31,13 @@ Template.Navigation.events({
     const connection = CurrentSession.connection;
 
     if (connection) {
+      $('.refresh-connection i').addClass('fa-spin');
       Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
-        console.log(error, result)
+        if (CurrentSession.database) {
+          Meteor.setTimeout(function() {
+            location.reload();
+          }, 1000);
+        }
       });
     }
   },

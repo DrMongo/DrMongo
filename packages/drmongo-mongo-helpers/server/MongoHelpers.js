@@ -69,7 +69,6 @@ MongoHelpers = {
 
     let response = createCollectionWrapper();
 
-    log(response);
     return response;
   }
 

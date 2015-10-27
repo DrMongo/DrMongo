@@ -25,7 +25,7 @@ class CollectionManager {
       if (!connection || !database) return false;
 
       //this._unmountCollections(Meteor.server, database.collections());
-      log('>', Meteor.server);
+      //log('>', Meteor.server);
 
       let driver = new MongoInternals.RemoteCollectionDriver('mongodb://' + connection.host + ':' + connection.port + '/' + database.name);
 

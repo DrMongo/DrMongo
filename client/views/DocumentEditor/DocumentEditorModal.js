@@ -48,7 +48,6 @@ Template.DocumentEditorModal.events({
       sAlert.error('Invalid JSON format!');
       return false;
     }
-    log(data)
 
 
     var ModalParams = Session.get('DocumentEditorModal');
