@@ -1,16 +1,21 @@
 class CollectionManager {
+
   constructor() {
-    this.collections = {}
+    this.collectionsNames = [];
   }
 
   mountAllCollections(database) {
     var mountedCollections = {};
+
+    this._unmountCollections();
+
     Collections.find({database_id: database._id}).forEach((collection) => {
-      MountedCollections[collection._id] = new Mongo.Collection(collection.name);
-    })
+      mountedCollections[collection._id] = new Mongo.Collection(collection.name);
+      this.collectionsNames.push(collection.name);
+    });
+
     Meteor.call('mountAllCollections', database._id);
-    this.collections = MountedCollections
-    return MountedCollections;
+    return mountedCollections;
   }
 
   mountAllCollectionsOnServer(databaseId) {
@@ -18,6 +23,9 @@ class CollectionManager {
       let database = Databases.findOne(databaseId);
       let connection = database.connection();
       if (!connection || !database) return false;
+
+      //this._unmountCollections(Meteor.server, database.collections());
+      log('>', Meteor.server);
 
       let driver = new MongoInternals.RemoteCollectionDriver('mongodb://' + connection.host + ':' + connection.port + '/' + database.name);
 
@@ -27,6 +35,16 @@ class CollectionManager {
         }
       })
     }
+  }
+
+  _unmountCollections() {
+    _.each(this.collectionsNames, (value) => {
+      delete Meteor.connection._stores[value];
+      delete Meteor.connection._methodHandlers['/'+value+'/insert'];
+      delete Meteor.connection._methodHandlers['/'+value+'/remove'];
+      delete Meteor.connection._methodHandlers['/'+value+'/update'];
+    });
+    this.collectionsNames = [];
   }
 
 }

@@ -1,4 +1,4 @@
-Connections = new Mongo.Collection('connections');
+Connections = new Mongo.Collection(dr.collectionNamePrefix + 'connections');
 
 Connections.friendlySlugs(
   {

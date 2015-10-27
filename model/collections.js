@@ -1,4 +1,4 @@
-Collections = new Mongo.Collection('collections');
+Collections = new Mongo.Collection(dr.collectionNamePrefix + 'collections');
 
 Collections.helpers({
   icon() {

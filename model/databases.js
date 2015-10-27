@@ -1,4 +1,4 @@
-Databases = new Mongo.Collection('databases');
+Databases = new Mongo.Collection(dr.collectionNamePrefix + 'databases');
 
 Databases.helpers({
   connection() {
