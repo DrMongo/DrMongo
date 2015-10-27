@@ -43,6 +43,8 @@ Tracker.autorun(function () {
   CurrentSession.connection = null;
   CurrentSession.database = null;
   CurrentSession.collection = null;
+  CurrentSession.documentsSelector = '{}';
+  CurrentSession.documentsOptions = {};
   //if (CurrentSession.mongoCollectionSubscription) CurrentSession.mongoCollectionSubscription.stop();
 
   let Location = {};
