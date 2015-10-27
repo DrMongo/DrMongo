@@ -14,6 +14,7 @@ let getRowInfo = (key, value, level) => {
     isId: false,
     idValue: null
   };
+
   if (resemblesId(value) || key == '_id') {
     info['formattedValue'] = value;
     info['valueClass'] = 'id';
