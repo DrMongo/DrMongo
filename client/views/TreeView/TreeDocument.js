@@ -26,10 +26,18 @@ let getRowInfo = (key, value, level) => {
     info['valueClass'] = 'number';
     info['copyValue'] = value;
   } else if (_.isString(value)) {
-    info['formattedValue'] = s(value).prune(35).value();
-    info['isPruned'] = value.length > 35;
-    info['copyValue'] = value;
-    info['notPrunedString'] = value;
+    if (value.length == 0) {
+      info['formattedValue'] = "\"\" empty string";
+      info['isPruned'] = value.length > 35;
+      info['copyValue'] = value;
+      info['notPrunedString'] = value;
+      info['valueClass'] = 'null';
+    } else {
+      info['formattedValue'] = s(value).prune(35).value();
+      info['isPruned'] = value.length > 35;
+      info['copyValue'] = value;
+      info['notPrunedString'] = value;
+    }
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
