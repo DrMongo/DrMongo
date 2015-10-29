@@ -6,6 +6,7 @@
     {{> DocumentsFilter filterData}}
 
     <form class="pagination-form text-right m-b">
+        <button class="btn btn-default pull-left" id="refresh-documents"><i class="fa fa-refresh"></i></button>
       <a class="previous" href=""><i class="fa fa-arrow-left"></i></a>
       <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
       <input id="limit" class="form-control" type="text"
@@ -28,5 +29,4 @@
             <i class="fa fa-spin fa-spinner"></i>
         </div>
     </div>
-
 </template>

@@ -26,7 +26,7 @@ Template.Documents.onCreated(function () {
 
     //selector = EJSON.stringify(eval('(' + selector + ')'));
     //options = EJSON.stringify(eval('(' + options + ')'));
-    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, options);
+    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, options, CurrentSession.documentsRandomSeed);
   });
 
   this.cursor = () => {
@@ -65,6 +65,9 @@ Template.Documents.helpers({
 });
 
 Template.Documents.events({
+  'click #refresh-documents'(event, templateInstance) {
+    CurrentSession.documentsRandomSeed = Random.id();
+  },
   'submit form.pagination-form'(event, templateInstance) {
     event.preventDefault();
     let form = event.currentTarget;

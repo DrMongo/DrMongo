@@ -9,7 +9,8 @@ CurrentSession = new ReactiveObjects({
   mongoCollection: null,
   mongoCollectionSubscription: null,
   documentsSelector: '{}',
-  documentsOptions: {}
+  documentsOptions: {},
+  documentsRandomSeed: 0
 });
 
 

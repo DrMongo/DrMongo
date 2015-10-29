@@ -23,7 +23,8 @@ Meteor.publish('documents', (collectionId) => {
   }
 });
 
-Meteor.publish('externalCollection', function (collectionName, selector, options) {
+Meteor.publish('externalCollection', function (collectionName, selector, options, randomSeed) {
+  log(randomSeed)
   //log(collectionName, typeof selector, options, typeof options)
   if (resemblesId(selector)) {
     selector = eval('("' + selector + '")');
