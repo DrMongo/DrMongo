@@ -60,3 +60,7 @@ Template.registerHelper('pathForJsCode', function (params) {
 
   return FlowRouter.path('JsCode', data);
 });
+
+Template.registerHelper('showLoader', function () {
+  return Session.get('showLoader');
+});

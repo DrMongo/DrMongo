@@ -94,6 +94,12 @@
           <button type="submit" class="btn btn-default hidden">Submit</button>
         </form>
 
+          <div class="nav navbar-nav navbar-right">
+              {{#if showLoader}}
+                  <i class="fa fa-spinner fa-spin" id="background-loader"></i>
+              {{/if}}
+          </div>
+
 
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->

@@ -67,18 +67,20 @@ Template.Navigation.events({
       sAlert.warning('Not an ID.');
       return false;
     }
+    Session.set('showLoader', true);
     Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, searchString, (error, result) => {
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {
-        CurrentSession.documentsSelector = searchString;
-        CurrentSession.documentsOptions = {};
         const data = {
           collection: c.name,
           database: c.database().name,
           connection: c.database().connection().slug
         };
-
         goTo(FlowRouter.path('Documents', data));
+
+        CurrentSession.documentsSelector = searchString;
+        CurrentSession.documentsOptions = {};
+        Session.set('showLoader', false);
       }
     });
   }

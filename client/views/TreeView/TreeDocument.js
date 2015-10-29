@@ -187,12 +187,11 @@ Template.TreeDocument.events({
   'click .find-id'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
+    Session.set('showLoader', true);
 
     Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.idValue, (error, result) => {
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {
-        CurrentSession.documentsSelector = this.idValue;
-        CurrentSession.documentsOptions = {};
         const data = {
           collection: c.name,
           database: c.database().name,
@@ -200,7 +199,12 @@ Template.TreeDocument.events({
         };
 
         goTo(FlowRouter.path('Documents', data));
+
+        CurrentSession.documentsSelector = this.idValue;
+        CurrentSession.documentsOptions = {};
+
       }
+      Session.set('showLoader', false);
     });
   }
 
