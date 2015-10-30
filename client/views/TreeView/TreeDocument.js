@@ -86,6 +86,9 @@ let getRowInfo = (key, value, level) => {
       info.keyValue += ' <small>' + info.formattedValue + '</small>';
       info.formattedValue = pinnedColumns.join('; ');
     }
+
+    info.drMongoIndex = value.drMongoIndex;
+    delete value.drMongoIndex;
   }
 
   if (info.hasChildren) {

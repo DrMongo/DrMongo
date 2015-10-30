@@ -10,29 +10,14 @@ CurrentSession = new ReactiveObjects({
   mongoCollectionSubscription: null,
   documentsSelector: '{}',
   documentsOptions: {},
-  documentsRandomSeed: 0
+  documentsRandomSeed: 0,
+  documentsPaginationSkip: 0,
+  documentsPaginationLimit: 20
 });
 
 
 Meteor.startup(function() {
-
 });
-
-//Tracker.autorun(function () {
-//  log('Changed connection', CurrentSession.connection);
-//});
-//Tracker.autorun(function () {
-//  log('Changed database', CurrentSession.database);
-//});
-//Tracker.autorun(function () {
-//  log('Changed collection', CurrentSession.collection);
-//});
-//Tracker.autorun(function () {
-//  log('Changed mongoCollection', CurrentSession.mongoCollection);
-//});
-//Tracker.autorun(function () {
-//  log('Changed mongoCollectionSubscription', CurrentSession.mongoCollectionSubscription);
-//});
 
 Tracker.autorun(function () {
   FlowRouter.watchPathChange();
@@ -46,6 +31,7 @@ Tracker.autorun(function () {
   CurrentSession.collection = null;
   CurrentSession.documentsSelector = '{}';
   CurrentSession.documentsOptions = {};
+  CurrentSession.documentPaginationSkip = 0;
   //if (CurrentSession.mongoCollectionSubscription) CurrentSession.mongoCollectionSubscription.stop();
 
   let Location = {};

@@ -1,11 +1,4 @@
-let defaultSkip = 0;
-let defaultLimit = 20;
-
 Template.Documents.onCreated(function () {
-  this.paginationSkip = new ReactiveVar(defaultSkip);
-  this.paginationLimit = new ReactiveVar(defaultLimit);
-
-
   this.autorun(() => {
     //log('> autorun 2');
     if (!CurrentSession.collection) return false;
@@ -13,8 +6,8 @@ Template.Documents.onCreated(function () {
     let selector = CurrentSession.documentsSelector || '{}';
     let options = CurrentSession.documentsOptions || {};
     options = deepClone(options);
-    let paginationSkip = parseInt(this.paginationSkip.get()) || defaultSkip;
-    let paginationLimit = parseInt(this.paginationLimit.get()) || defaultLimit;
+    let paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
+    let paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
     const limit = parseInt(options.limit) || null;
     const skip = parseInt(options.skip) || null;
 
@@ -48,7 +41,14 @@ Template.Documents.helpers({
 
   viewParameters() {
     if (!ConnectionStructureSubscription.ready()) return false;
-    return {documents: Template.instance().cursor() || false};
+    let documents = Template.instance().cursor().fetch();
+    if (!documents) return false;
+
+    let index = CurrentSession.documentsPaginationSkip + 1;
+    _.each(documents, function(doc) {
+      doc.drMongoIndex = index++ + '.';
+    });
+    return {documents: documents};
   },
 
   collection() {
@@ -56,11 +56,11 @@ Template.Documents.helpers({
   },
 
   defaultSkip() {
-    return Template.instance().paginationSkip.get();
+    return CurrentSession.documentsPaginationSkip;
   },
 
   defaultLimit() {
-    return Template.instance().paginationLimit.get();
+    return CurrentSession.documentsPaginationLimit;
   }
 });
 
@@ -72,24 +72,24 @@ Template.Documents.events({
     event.preventDefault();
     let form = event.currentTarget;
 
-    templateInstance.paginationSkip.set(parseInt(form.skip.value));
-    templateInstance.paginationLimit.set(parseInt(form.limit.value));
+    CurrentSession.documentsPaginationSkip = parseInt(form.skip.value);
+    CurrentSession.documentsPaginationLimit = parseInt(form.limit.value);
   },
 
   'click .pagination-form .previous'(event, templateInstance) {
     event.preventDefault();
-    const paginationSkip = parseInt(templateInstance.paginationSkip.get());
-    const paginationLimit = parseInt(templateInstance.paginationLimit.get());
+    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
+    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
     const skip = paginationSkip - paginationLimit;
-    templateInstance.paginationSkip.set(skip >= 0 ? skip : 0);
+    CurrentSession.documentsPaginationSkip = (skip >= 0 ? skip : 0);
   },
 
   'click .pagination-form .next'(event, templateInstance) {
     event.preventDefault();
-    const paginationSkip = parseInt(templateInstance.paginationSkip.get());
-    const paginationLimit = parseInt(templateInstance.paginationLimit.get());
+    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
+    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
     const skip = paginationSkip + paginationLimit;
-    templateInstance.paginationSkip.set(skip);
+    CurrentSession.documentsPaginationSkip = skip;
   },
   'click #insert-document'(event, templateInstance) {
     event.preventDefault();
