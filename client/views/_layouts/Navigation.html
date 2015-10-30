@@ -73,6 +73,20 @@
           {{/if}}
         </ul>
 
+          <div class="btn-group">
+              <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: {{databaseColor}}">
+                  Database Color <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" id="database-color">
+                  <li><a href="#" data-color="#fff">Default</a></li>
+                  <li><a href="#" data-color="#337ab7">Blue</a></li>
+                  <li><a href="#" data-color="#5cb85c">Green</a></li>
+                  <li><a href="#" data-color="#5bc0de">Light Blue</a></li>
+                  <li><a href="#" data-color="#f0ad4e">Orange</a></li>
+                  <li><a href="#" data-color="#d9534f">Red</a></li>
+              </ul>
+          </div>
+
           <ul class="nav navbar-nav navbar-right">
               {{#if currentConnection}}
                   <li>
