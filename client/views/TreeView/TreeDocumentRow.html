@@ -1,7 +1,7 @@
 <template name="TreeDocumentRow">
   <div class="col-xs-12 parent {{levelClass}}">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
-      <div class="col-xs-3 cell key">1. {{{keyValue}}}</div>
+      <div class="col-xs-3 cell key">{{{keyValue}}}</div>
         <div class="col-xs-7 cell value {{valueClass}}">
             {{formattedValue}}
             {{#if isPruned}}
