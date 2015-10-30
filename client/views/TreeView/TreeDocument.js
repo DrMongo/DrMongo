@@ -165,6 +165,19 @@ Template.TreeDocument.events({
     });
     $('#DocumentEditorModal').modal('show');
   },
+  'click .view-document'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    Session.set('DocumentViewerModal', {
+      connectionId: CurrentSession.connection._id,
+      databaseId: CurrentSession.database._id,
+      collectionId: CurrentSession.collection._id,
+      documentId: this.value._id,
+      document: this.value
+    });
+    $('#DocumentViewerModal').modal('show');
+  },
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();

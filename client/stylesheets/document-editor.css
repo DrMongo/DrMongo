@@ -1,4 +1,4 @@
-#DocumentEditorModal #editor {
+#DocumentEditorModal #editor, #DocumentViewerModal #viewer {
   width: 100%;
   height: 500px;
 }
