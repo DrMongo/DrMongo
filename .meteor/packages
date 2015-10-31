@@ -31,6 +31,7 @@ tmeasday:publish-counts
 dburles:mongo-collection-instances
 dburles:collection-helpers
 todda00:friendly-slugs
+matb33:collection-hooks
 
 # lib
 reactive-var

@@ -72,7 +72,7 @@
             </li>
           {{/if}}
         </ul>
-
+{{#if currentDatabase}}
           <div class="btn-group">
               <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: {{databaseColor}}">
                   Database Color <span class="caret"></span>
@@ -86,7 +86,7 @@
                   <li><a href="#" data-color="#d9534f">Red</a></li>
               </ul>
           </div>
-
+            {{/if}}
           <ul class="nav navbar-nav navbar-right">
               {{#if currentConnection}}
                   <li>
