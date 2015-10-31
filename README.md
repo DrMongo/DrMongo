@@ -12,7 +12,6 @@ _More info about installing meteor: https://www.meteor.com/install_
 
 Then clone and run Dr. Mongo:
 ```
-$ cd /meteor
 $ git clone https://github.com/DrMongo/DrMongo.git
 $ cd DrMongo
 $ meteor --port 3040
