@@ -17,9 +17,7 @@ Template.Documents.onCreated(function () {
 
     options.skip = skip ? skip + paginationSkip : paginationSkip;
 
-    //selector = EJSON.stringify(eval('(' + selector + ')'));
-    //options = EJSON.stringify(eval('(' + options + ')'));
-    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, options, CurrentSession.documentsRandomSeed);
+    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, CurrentSession.documentsOptions, options, CurrentSession.documentsRandomSeed);
   });
 
   this.cursor = () => {
@@ -61,6 +59,9 @@ Template.Documents.helpers({
 
   defaultLimit() {
     return CurrentSession.documentsPaginationLimit;
+  },
+  totalCount() {
+    return Counts.get('documents');
   }
 });
 

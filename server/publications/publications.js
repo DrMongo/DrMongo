@@ -23,9 +23,8 @@ Meteor.publish('documents', (collectionId) => {
   }
 });
 
-Meteor.publish('externalCollection', function (collectionName, selector, options, randomSeed) {
-  log(randomSeed)
-  //log(collectionName, typeof selector, options, typeof options)
+Meteor.publish('externalCollection', function (collectionName, selector, options, optionsPaging, randomSeed) {
+  log(collectionName, selector, options, optionsPaging)
   if (resemblesId(selector)) {
     selector = eval('("' + selector + '")');
   } else {
@@ -33,5 +32,10 @@ Meteor.publish('externalCollection', function (collectionName, selector, options
   }
 
   let c = Mongo.Collection.get(collectionName);
-  return c ? c.find(selector, options) : this.ready();
+  if (c) {
+    Counts.publish(this, 'documents', c.find(selector, options), {nonReactive: true});
+    return c.find(selector, optionsPaging);
+  } else {
+    this.ready();
+  }
 });
