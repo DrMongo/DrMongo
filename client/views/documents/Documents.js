@@ -69,6 +69,12 @@ Template.Documents.events({
   'click #refresh-documents'(event, templateInstance) {
     CurrentSession.documentsRandomSeed = Random.id();
   },
+  'click #reset-filter'(event, templateInstance) {
+    CurrentSession.documentsSelector = '{}';
+    CurrentSession.documentsOptions = {};
+    CurrentSession.documentsPaginationSkip = 0;
+    CurrentSession.documentsPaginationLimit = 20;
+  },
   'submit form.pagination-form'(event, templateInstance) {
     event.preventDefault();
     let form = event.currentTarget;
