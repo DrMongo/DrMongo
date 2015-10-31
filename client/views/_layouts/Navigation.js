@@ -69,7 +69,6 @@ Template.Navigation.events({
     }
 
   },
-
   'submit #quick-search': function (event, templateInstance) {
     event.preventDefault();
     let searchString = $('#quick-search input').val();
