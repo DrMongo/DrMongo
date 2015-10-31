@@ -7,7 +7,11 @@
           {{> Template.dynamic template=sidebar}}
         </div>
         <div class="col-md-10 bg-box p-y">
-          {{> Template.dynamic template=template}}
+            {{#if showReloadingAlert}}
+                <div class="alert alert-danger" role="alert">Please wait while a load the database...</div>
+            {{else}}
+                {{> Template.dynamic template=template}}
+            {{/if}}
         </div>
       </div>
     </div>

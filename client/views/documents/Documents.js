@@ -29,7 +29,7 @@ Template.Documents.onCreated(function () {
 
 Template.Documents.helpers({
   documentsReady() {
-    return CurrentSession.mongoCollectionSubscription.ready();
+    return CurrentSession.mongoCollectionSubscription && CurrentSession.mongoCollectionSubscription.ready();
   },
   filterData() {
     return {
@@ -41,7 +41,7 @@ Template.Documents.helpers({
 
   viewParameters() {
     if (!ConnectionStructureSubscription.ready()) return false;
-    let documents = Template.instance().cursor().fetch();
+    let documents = Template.instance().cursor() ? Template.instance().cursor().fetch() : false;
     if (!documents) return false;
 
     let index = CurrentSession.documentsPaginationSkip + 1;

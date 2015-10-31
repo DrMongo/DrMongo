@@ -1,15 +1,4 @@
 Meteor.methods({
-  mountCollection(collectionId) {
-    check(collectionId, String);
-
-    cm.mountCollectionOnServer(collectionId);
-  },
-  mountAllCollections(databaseId) {
-    check(databaseId, String);
-
-    cm.mountAllCollectionsOnServer(databaseId);
-  },
-
   createCollection(databaseId, collectionName) {
     let database = Databases.findOne(databaseId);
     MongoHelpers.createCollection(database, collectionName);

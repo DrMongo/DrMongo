@@ -1,6 +1,7 @@
 ConnectionStructureSubscription = Meteor.subscribe('connectionStructure');
 
-MountedCollections = {};
+Session.set('showReloadingAlert', false);
+CurrentDatabaseId = false;
 
 CurrentSession = new ReactiveObjects({
   connection: null,
@@ -8,6 +9,7 @@ CurrentSession = new ReactiveObjects({
   collection: null,
   mongoCollection: null,
   mongoCollectionSubscription: null,
+  mountedCollections: null,
   documentsSelector: '{}',
   documentsOptions: {},
   documentsRandomSeed: 0,
@@ -38,9 +40,6 @@ Tracker.autorun(function () {
   if (routeParams.connection) {
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
     if (!CurrentSession.connection) FlowRouter.go('/');
-    if (CurrentSession.connection && !MountedCollections[CurrentSession.connection._id]) {
-      MountedCollections[CurrentSession.connection._id] = {};
-    }
 
     if (CurrentSession.connection && routeParams.database) {
       CurrentSession.database = Databases.findOne({
@@ -51,8 +50,20 @@ Tracker.autorun(function () {
 
       if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 1) FlowRouter.go('/');
 
-      if (CurrentSession.database && !MountedCollections[CurrentSession.connection._id][CurrentSession.database._id]) {
-        MountedCollections[CurrentSession.connection._id][CurrentSession.database._id] = cm.mountAllCollections(CurrentSession.database);
+      if (CurrentSession.database && !CurrentSession.mountedCollections) {
+         Meteor.call('mountCollections', CurrentSession.database._id, function(error, result) {
+           if (error) FlowRouter.go('/');
+           MountedCollections = result;
+        });
+        CurrentSession.mountedCollections = mountCollections(CurrentSession.database._id);
+        CollectionsAreMounted = true;
+      }
+
+      if (CurrentSession.database._id != CurrentDatabaseId && CurrentDatabaseId != false) {
+        Session.set('showReloadingAlert', true)
+        Meteor.call('changeDatabase');
+      } else {
+        CurrentDatabaseId = CurrentSession.database._id;
       }
 
       if (CurrentSession.database && routeParams.collection) {
@@ -63,7 +74,7 @@ Tracker.autorun(function () {
         if (!CurrentSession.collection) FlowRouter.go('/');
 
         if (CurrentSession.collection) {
-          CurrentSession.mongoCollection = MountedCollections[CurrentSession.connection._id][CurrentSession.database._id][CurrentSession.collection._id];
+          CurrentSession.mongoCollection = CurrentSession.mountedCollections[CurrentSession.collection._id];
         }
       }
     }
@@ -81,3 +92,14 @@ Tracker.autorun(function () {
     seo.setTitle(null);
   }
 });
+
+mountCollections = function(databaseId) {
+  var mountedCollections = {};
+
+  Collections.find({database_id: databaseId}).forEach((collection) => {
+    mountedCollections[collection._id] = new Mongo.Collection(collection.name);
+  });
+
+  return mountedCollections;
+
+}
