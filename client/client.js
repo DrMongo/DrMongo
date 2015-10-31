@@ -34,7 +34,6 @@ Tracker.autorun(function () {
   CurrentSession.documentsSelector = '{}';
   CurrentSession.documentsOptions = {};
   CurrentSession.documentPaginationSkip = 0;
-  //if (CurrentSession.mongoCollectionSubscription) CurrentSession.mongoCollectionSubscription.stop();
 
   let Location = {};
   if (routeParams.connection) {
@@ -75,6 +74,17 @@ Tracker.autorun(function () {
 
         if (CurrentSession.collection) {
           CurrentSession.mongoCollection = CurrentSession.mountedCollections[CurrentSession.collection._id];
+
+          if (routeParams.filter) {
+            let filter = FilterHistory.findOne(routeParams.filter);
+
+            if (filter) {
+              CurrentSession.documentsSelector = filter.selector;
+              CurrentSession.documentsOptions = filter.options;
+              CurrentSession.documentPaginationSkip = filter.skip;
+              CurrentSession.documentsPaginationLimit = filter.limit;
+            }
+          }
         }
       }
     }

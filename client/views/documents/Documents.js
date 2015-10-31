@@ -62,6 +62,9 @@ Template.Documents.helpers({
   },
   totalCount() {
     return Counts.get('documents');
+  },
+  savedFilters() {
+    return FilterHistory.find({name: {$ne: null}});
   }
 });
 
@@ -74,6 +77,18 @@ Template.Documents.events({
     CurrentSession.documentsOptions = {};
     CurrentSession.documentsPaginationSkip = 0;
     CurrentSession.documentsPaginationLimit = 20;
+    FlowRouter.go(getFilterRoute())
+  },
+  'click #save-filter'(event, templateInstance) {
+    let filterId = FlowRouter.getParam('filter');
+    if (filterId) {
+      let name = prompt('Give filter a name to save it:');
+      FilterHistory.update(filterId, {$set: {name: name}});
+    }
+  },
+  'click #saved-filters li a'(event, templateInstance) {
+    event.preventDefault();
+    FlowRouter.go(getFilterRoute(this._id));
   },
   'submit form.pagination-form'(event, templateInstance) {
     event.preventDefault();

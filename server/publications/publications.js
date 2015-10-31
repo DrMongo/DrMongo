@@ -12,7 +12,8 @@ Meteor.publish('connectionStructure', () => {
   return [
     Connections.find({}),
     Databases.find({}),
-    Collections.find({})
+    Collections.find({}),
+    FilterHistory.find({})
   ];
 });
 

@@ -2,11 +2,24 @@
     <a class="pull-right btn btn-default btn-inverted" href="#"
        id="insert-document"><i class="fa fa-plus"></i> Insert new document</a>
 
+
+    <div class="btn-group pull-right">
+        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Saved Filters <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" id="saved-filters">
+            {{#each savedFilters}}
+            <li><a href="#">{{name}}</a></li>
+            {{/each}}
+        </ul>
+    </div>
+
     <h1 class="page-header">{{collection.name}}</h1>
     {{> DocumentsFilter filterData}}
 
     <form class="pagination-form text-right m-b">
         <button class="btn btn-default pull-left" id="refresh-documents"><i class="fa fa-refresh"></i></button>
+        <button class="btn btn-default pull-left" id="save-filter"><i class="fa fa-floppy-o"></i></button>
         <button class="btn btn-default pull-left" id="reset-filter">Reset Filter</button>
         <button class="btn btn-default pull-left">Documents count: {{totalCount}}</button>
       <a class="previous" href=""><i class="fa fa-arrow-left"></i></a>

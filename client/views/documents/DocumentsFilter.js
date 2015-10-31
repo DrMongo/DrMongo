@@ -50,5 +50,16 @@ Template.DocumentsFilter.events({
     templateInstance.invalidOptions.set(false);
     CurrentSession.documentsSelector = selector;
     CurrentSession.documentsOptions = optionsJson;
+
+    let newId = FilterHistory.insert({
+      createdAt: new Date(),
+      name: null,
+      selector: selector,
+      options: optionsJson,
+      skip: CurrentSession.documentsPaginationSkip,
+      limit: CurrentSession.documentsPaginationLimit
+    });
+
+    FlowRouter.go(getFilterRoute(newId));
   }
 });
