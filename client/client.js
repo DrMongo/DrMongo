@@ -49,7 +49,7 @@ Tracker.autorun(function () {
       });
       if (!CurrentSession.database) FlowRouter.go('/');
 
-      if (isDemo() && CurrentSession.database.name.indexOf('dummy') !== 1) FlowRouter.go('/');
+      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 1) FlowRouter.go('/');
 
       if (CurrentSession.database && !MountedCollections[CurrentSession.connection._id][CurrentSession.database._id]) {
         MountedCollections[CurrentSession.connection._id][CurrentSession.database._id] = cm.mountAllCollections(CurrentSession.database);
