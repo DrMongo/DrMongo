@@ -1,6 +1,7 @@
 ConnectionStructureSubscription = Meteor.subscribe('connectionStructure');
 
 Session.set('showReloadingAlert', false);
+CurrentConnectionId = false;
 CurrentDatabaseId = false;
 
 CurrentSession = new ReactiveObjects({
@@ -39,6 +40,13 @@ Tracker.autorun(function () {
   if (routeParams.connection) {
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
     if (!CurrentSession.connection) FlowRouter.go('/');
+
+    if (CurrentSession.connection._id != CurrentConnectionId && CurrentConnectionId != false) {
+      Session.set('showReloadingAlert', true)
+      Meteor.call('changeDatabase');
+    } else {
+      CurrentConnectionId = CurrentSession.connection._id;
+    }
 
     if (CurrentSession.connection && routeParams.database) {
       CurrentSession.database = Databases.findOne({
