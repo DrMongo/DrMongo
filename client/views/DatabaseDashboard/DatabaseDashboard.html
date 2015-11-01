@@ -2,11 +2,11 @@
   <div class="pull-right database-colors">
     {{#each themes}}
       <a href="#" data-theme="{{this}}">
-        <i class="fa fa-database db-theme-{{this}}"></i>
+        <i class="fa fa-database db-theme-inverted-{{this}}"></i>
       </a>
     {{/each}}
   </div>
-  <h1 class="page-header db-theme-{{currentDatabase.theme}}"><i class="fa fa-database"></i> {{currentDatabase.name}}</h1>
+  <h1 class="page-header db-theme-inverted-{{currentDatabase.theme}}"><i class="fa fa-database"></i> {{currentDatabase.name}}</h1>
   <div class="row">
     {{#each collections}}
       <div class="col-sm-3">

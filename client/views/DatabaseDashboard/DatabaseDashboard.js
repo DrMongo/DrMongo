@@ -17,7 +17,8 @@ Template.DatabaseDashboard.helpers({
       'light-blue',
       'green',
       'orange',
-      'red'
+      'red',
+      'purple'
     ]
   }
 });

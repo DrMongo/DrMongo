@@ -1,13 +1,36 @@
-.db-theme(@color) {
-  color: @color !important;
+.db-theme(@theme, @bg-color, @color) {
+
+  .db-theme-@{theme} {
+    background-color: @bg-color !important;
+    color: @color !important;
+  }
+
+  .db-theme-inverted-@{theme} {
+    color: @bg-color !important;
+    background-color: inherit;
+  }
+
 }
 
-.db-theme-default {.db-theme(#777777);}
-.db-theme-blue {.db-theme(#337ab7);}
-.db-theme-light-blue {.db-theme(#5bc0de);}
-.db-theme-green {.db-theme(#5cb85c);}
-.db-theme-orange {.db-theme(#f0ad4e);}
-.db-theme-red {.db-theme(#d9534f);}
+.db-theme(default, #f8f8f8, #000);
+.db-theme-default {
+  background-color: inherit;
+  color: #000 !important;
+}
+
+.db-theme-inverted-default {
+  color: #000 !important;
+  background-color: inherit;
+}
+
+
+.db-theme(blue, #337ab7, lighten(#337ab7, 30));
+.db-theme(light-blue, #5bc0de, darken(#5bc0de, 30));
+.db-theme(green, #5cb85c, lighten(#5cb85c, 30));
+.db-theme(orange, #f0ad4e, lighten(#f0ad4e, 30));
+.db-theme(red, #d9534f, lighten(#d9534f, 30));
+.db-theme(purple, purple, lighten(purple, 60));
+
 
 .database-colors {
   a, a:hover, a:focus {
