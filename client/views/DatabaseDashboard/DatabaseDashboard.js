@@ -1,3 +1,33 @@
 Template.DatabaseDashboard.onCreated(function () {
-  redirectToMainCollection();
+  //redirectToMainCollection();
+});
+
+
+Template.DatabaseDashboard.helpers({
+  currentDatabase() {
+    return CurrentSession.database;
+  },
+  collections() {
+    return CurrentSession.database.collections()
+  },
+  themes() {
+    return [
+      'default',
+      'blue',
+      'light-blue',
+      'green',
+      'orange',
+      'red'
+    ]
+  }
+});
+
+Template.DatabaseDashboard.events({
+  'click .database-colors a': function (event, templateInstance) {
+    event.preventDefault();
+    let theme = $(event.currentTarget).attr('data-theme');
+    log(theme);
+
+    Databases.update(CurrentSession.database._id, {$set: {theme: theme}});
+  }
 });

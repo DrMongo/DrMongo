@@ -36,9 +36,7 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"
-                 role="button"
-                 aria-haspopup="true" aria-expanded="false">
+              <a href="#" class="dropdown-toggle db-theme-{{currentDatabase.theme}}" data-toggle="dropdown" role="button">
                 <i class="fa fa-database"></i>
                 {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}}
                 <span class="caret"></span>
@@ -67,52 +65,42 @@
                       class="{{icon}}"></i> {{name}}</a></li>
                 {{/each}}
                 <li class="divider"></li>
-                <li><a class="add-collection" href="#"><i class="fa fa-plus"></i> add collection</a></li>
+                <li><a class="add-collection" href="#"><i
+                    class="fa fa-plus"></i> add collection</a></li>
               </ul>
             </li>
           {{/if}}
         </ul>
-{{#if currentDatabase}}
-          <div class="btn-group">
-              <button type="button" class="btn btn-default dropdown-toggle navbar-btn" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background-color: {{databaseColor}}">
-                  Database Color <span class="caret"></span>
+        <ul class="nav navbar-nav navbar-right">
+          {{#if currentConnection}}
+            <li>
+              <button class="refresh-connection btn btn-default navbar-btn"
+                      type="button" data-toggle="tooltip"
+                      data-placement="bottom"
+                      title="Fetch databases and collections">
+                <i class="fa fa-refresh"></i>
+                Refresh
               </button>
-              <ul class="dropdown-menu" id="database-color">
-                  <li><a href="#" data-color="#fff">Default</a></li>
-                  <li><a href="#" data-color="#337ab7">Blue</a></li>
-                  <li><a href="#" data-color="#5cb85c">Green</a></li>
-                  <li><a href="#" data-color="#5bc0de">Light Blue</a></li>
-                  <li><a href="#" data-color="#f0ad4e">Orange</a></li>
-                  <li><a href="#" data-color="#d9534f">Red</a></li>
-              </ul>
-          </div>
-            {{/if}}
-          <ul class="nav navbar-nav navbar-right">
-              {{#if currentConnection}}
-                  <li>
-                      <button class="refresh-connection btn btn-default navbar-btn"
-                              type="button" data-toggle="tooltip"
-                              data-placement="bottom"
-                              title="Fetch databases and collections">
-                          <i class="fa fa-refresh"></i>
-                          Refresh
-                      </button>
-                  </li>
-              {{/if}}
-          </ul>
+            </li>
+          {{/if}}
+        </ul>
 
         <form class="navbar-form navbar-right" role="search" id="quick-search">
           <div class="form-group">
+<<<<<<< HEAD
               <input type="text" class="form-control" placeholder="Search by _id" onfocus="this.select();" onmouseup="return false;">
+=======
+            <input type="text" class="form-control" placeholder="Search by _id">
+>>>>>>> DatabaseDashboard is back, database color setting moved to DatabaseDashboard
           </div>
           <button type="submit" class="btn btn-default hidden">Submit</button>
         </form>
 
-          <div class="nav navbar-nav navbar-right">
-              {{#if showLoader}}
-                  <i class="fa fa-spinner fa-spin" id="background-loader"></i>
-              {{/if}}
-          </div>
+        <div class="nav navbar-nav navbar-right">
+          {{#if showLoader}}
+            <i class="fa fa-spinner fa-spin" id="background-loader"></i>
+          {{/if}}
+        </div>
 
 
       </div><!-- /.navbar-collapse -->

@@ -22,20 +22,10 @@ Template.Navigation.helpers({
   collections() {
     var database = CurrentSession.database;
     return Collections.find({database_id: database._id}, {sort: {name: 1}});
-  },
-  databaseColor() {
-    return CurrentSession.database.color || '#fff';
   }
 });
 
 Template.Navigation.events({
-  'click #database-color a': function (event, templateInstance) {
-    event.preventDefault();
-    let color = $(event.currentTarget).attr('data-color');
-    log(color)
-    Databases.update(CurrentSession.database._id, {$set: {color: color}});
-  },
-
   'click .refresh-connection': function (event, templateInstance) {
     event.preventDefault();
     const connection = CurrentSession.connection;
