@@ -55,16 +55,63 @@ Meteor.methods({
   },
   findCollectionForDocumentId(databaseId, documentId) {
     let database = Databases.findOne(databaseId);
+    let connection = database.connection();
+
     let foundCollection = null;
-    Collections.find({database_id: database._id}).forEach((collection) => {
+
+    var selector = {_id: documentId};
+
+    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
+
+    var db = wrappedConnect(connectionUrl);
+
+    let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
+      db.listCollections().toArray((error, response) => {
+        cb(error, response);
+      })
+    });
+    let collections = collectionNamesWrapper();
+
+    var c;
+    let collectionFindWrapper = Meteor.wrapAsync((cb) => {
+      c.find(selector).toArray((error, response) => {
+        cb(error, response);
+      })
+    });
+
+    _.each(collections, function(collection) {
       if (foundCollection) return false;
-      var c = Mongo.Collection.get(collection.name);
-      if (c) {
-        var document = c.findOne(documentId);
-        if (document) foundCollection = collection.name;
-      }
-    })
+
+      c = db.collection(collection.name);
+
+      let result = collectionFindWrapper();
+      if (result.length == 1) foundCollection = collection.name;
+    });
+
     return foundCollection;
   },
+  getDocuments(databaseId, collectionName, selector, options, optionsPaging) {
+    let database = Databases.findOne(databaseId);
+    let connection = database.connection();
 
+    if (resemblesId(selector)) {
+      selector = {_id: selector};
+    } else {
+      selector = eval('(' + selector + ')');
+    }
+
+    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
+
+    var db = wrappedConnect(connectionUrl);
+
+    var collection = db.collection(collectionName);
+    let docs = collection
+      .find(selector, options.fields || {})
+      .sort(options.sort || {})
+      .skip(optionsPaging.skip || 0)
+      .limit(optionsPaging.limit || 0)
+      .toArray();
+
+    return docs;
+  }
 });

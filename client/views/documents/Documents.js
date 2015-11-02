@@ -17,17 +17,17 @@ Template.Documents.onCreated(function () {
 
     options.skip = skip ? skip + paginationSkip : paginationSkip;
 
-    CurrentSession.mongoCollectionSubscription = this.subscribe('externalCollection', CurrentSession.collection.name, selector, CurrentSession.documentsOptions, options, CurrentSession.documentsRandomSeed);
+    CurrentSession.documentsReady = false;
+    Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, selector, CurrentSession.documentsOptions, options, CurrentSession.documentsRandomSeed, function(error, result) {
+      CurrentSession.documentsReady = true;
+      CurrentSession.documents = result;
+    });
   });
-
-  this.cursor = () => {
-    return CurrentSession.mongoCollection ? CurrentSession.mongoCollection.find() : null;
-  }
 });
 
 Template.Documents.helpers({
   documentsReady() {
-    return CurrentSession.mongoCollectionSubscription && CurrentSession.mongoCollectionSubscription.ready();
+    return CurrentSession.documentsReady;
   },
   filterData() {
     return {
@@ -39,7 +39,7 @@ Template.Documents.helpers({
 
   viewParameters() {
     if (!ConnectionStructureSubscription.ready()) return false;
-    let documents = Template.instance().cursor() ? Template.instance().cursor().fetch() : false;
+    let documents = CurrentSession.documents || false;
     if (!documents) return false;
 
     let index = CurrentSession.documentsPaginationSkip + 1;

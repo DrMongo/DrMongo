@@ -6,7 +6,7 @@ SyncedCron.config({
   //logger: null,
 
   // Name of collection to use for synchronisation and logging
-  collectionName: 'cronHistory',
+  collectionName: 'drmongo.cronHistory',
 
   // Default to using localTime
   utc: false,

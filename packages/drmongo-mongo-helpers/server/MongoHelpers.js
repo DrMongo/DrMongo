@@ -33,6 +33,7 @@ MongoHelpers = {
       if (value.name == 'local' || value.name == 'admin') return false;
       databaseNames.push(value.name)
     });
+
     return databaseNames;
   },
 

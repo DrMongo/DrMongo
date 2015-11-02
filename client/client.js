@@ -9,7 +9,8 @@ CurrentSession = new ReactiveObjects({
   database: null,
   collection: null,
   mongoCollection: null,
-  mongoCollectionSubscription: null,
+  documentsReady: false,
+  documents: null,
   mountedCollections: null,
   documentsSelector: '{}',
   documentsOptions: {},
@@ -39,7 +40,10 @@ Tracker.autorun(function () {
   let Location = {};
   if (routeParams.connection) {
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
-    if (!CurrentSession.connection) FlowRouter.go('/');
+    if (!CurrentSession.connection) {
+      FlowRouter.go('/');
+      return false;
+    }
 
     if (CurrentSession.connection._id != CurrentConnectionId && CurrentConnectionId != false) {
       Session.set('showReloadingAlert', true)
@@ -53,15 +57,17 @@ Tracker.autorun(function () {
         name: routeParams.database,
         connection_id: CurrentSession.connection._id
       });
-      if (!CurrentSession.database) FlowRouter.go('/');
+      if (!CurrentSession.database) {
+        FlowRouter.go('/');
+        return false;
+      }
 
-      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 1) FlowRouter.go('/');
+      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 1) {
+        FlowRouter.go('/');
+        return false;
+      }
 
       if (CurrentSession.database && !CurrentSession.mountedCollections) {
-         Meteor.call('mountCollections', CurrentSession.database._id, function(error, result) {
-           if (error) FlowRouter.go('/');
-           MountedCollections = result;
-        });
         CurrentSession.mountedCollections = mountCollections(CurrentSession.database._id);
         CollectionsAreMounted = true;
       }
@@ -78,7 +84,10 @@ Tracker.autorun(function () {
           name: routeParams.collection,
           database_id: CurrentSession.database._id
         });
-        if (!CurrentSession.collection) FlowRouter.go('/');
+        if (!CurrentSession.collection) {
+          FlowRouter.go('/');
+          return false;
+        }
 
         if (CurrentSession.collection) {
           CurrentSession.mongoCollection = CurrentSession.mountedCollections[CurrentSession.collection._id];
