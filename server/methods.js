@@ -105,6 +105,18 @@ Meteor.methods({
     var db = wrappedConnect(connectionUrl);
 
     var collection = db.collection(collectionName);
+
+    let collectionCountWrapper = Meteor.wrapAsync((cb) => {
+      collection.find(selector, options.fields || {}).count((error, response) => {
+        cb(error, response);
+      })
+    });
+
+    let docsCount = collectionCountWrapper();
+    log(docsCount)
+    //Counts.publish(this, 'documents', docsCount, {nonReactive: true});
+
+
     let docs = collection
       .find(selector, options.fields || {})
       .sort(options.sort || {})
