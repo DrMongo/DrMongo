@@ -1,5 +1,5 @@
 <template name="Navigation">
-  <nav class="navbar navbar-default">
+  <nav class="navbar navbar-default db-navbar-theme-{{currentDatabase.theme}}">
     <div class="container">
       <!-- Brand and toggle get grouped for better mobile display -->
       <div class="navbar-header">
@@ -36,7 +36,7 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle db-theme-{{currentDatabase.theme}}" data-toggle="dropdown" role="button">
+              <a href="#" class="dropdown-toggle db-theme-inverted-{{currentDatabase.theme}}" data-toggle="dropdown" role="button">
                 <i class="fa fa-database"></i>
                 {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}}
                 <span class="caret"></span>
