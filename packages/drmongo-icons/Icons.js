@@ -1,27 +1,40 @@
 Icons = {
   forCollection(name) {
     let mapper = {
-      invoice: 'fa fa-usd',
-      invoices: 'fa fa-usd',
-      price: 'fa fa-usd',
-      prices: 'fa fa-usd',
+      invoice:        'fa fa-usd',
+      price:          'fa fa-usd',
+      demand:         'fa fa-usd',
 
-      rental: 'fa fa-home',
-      house: 'fa fa-home',
+      rental:         'fa fa-home',
+      house:          'fa fa-home',
 
-      category: 'fa fa-folder-o',
-      categories: 'fa fa-folder-o',
+      article:        'fa fa-font',
+      blog:           'fa fa-font',
 
-      location: 'fa fa-map-marker',
-      locations: 'fa fa-map-marker',
+      category:       'fa fa-folder-o',
+      categories:     'fa fa-folder-o',
 
-      region: 'fa fa-map-o',
-      product: 'fa fa-cube',
-      articles: 'fa fa-newspaper-o',
-      customer: 'fa fa-smile-o',
-      employee: 'fa fa-male',
-      shippers: 'fa fa-ship',
-      order: 'fa fa-shopping-cart'
+      company:        'fa fa-building-o',
+      companies:      'fa fa-building-o',
+
+      website:        'fa fa-chrome',
+      domain:         'fa fa-chrome',
+      webpage:        'fa fa-chrome',
+
+      location:       'fa fa-map-marker',
+      testimonial:    'fa fa-comment',
+      review:         'fa fa-star-half-o',
+      travel:         'fa fa-suitcase',
+      html:           'fa fa-html5',
+      region:         'fa fa-map-o',
+      product:        'fa fa-cube',
+      articles:       'fa fa-newspaper-o',
+      customer:       'fa fa-smile-o',
+      employee:       'fa fa-male',
+      shippers:       'fa fa-ship',
+      settings:       'fa fa-cogs',
+      dictionary:     'fa fa-language',
+      order:          'fa fa-shopping-cart'
     };
 
     let match = null;
