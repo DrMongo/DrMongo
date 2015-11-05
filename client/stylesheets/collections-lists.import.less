@@ -1,0 +1,74 @@
+.collection-dropdown {
+  li {
+    position: relative;
+
+    i {
+      position: absolute;
+      z-index: 1;
+      right: 5px;
+      top: 9px;
+      color: #ccc;
+      text-align: center;
+      width: 20px;
+    }
+
+  }
+}
+
+
+.collections-list-navigation {
+  .list-group-item {
+    padding: 6px 10px;
+
+    i {
+      position: absolute;
+      z-index: 1;
+      right: 5px;
+      top: 9px;
+      color: #ccc;
+      text-align: center;
+      width: 20px;
+    }
+
+    .text {
+      position: relative;
+      z-index: 4;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+}
+
+
+.collection-card {
+  display: block;
+  position: relative;
+  overflow: hidden;
+  background-color: #4C6283;
+  padding: 20px;
+  border-radius: 3px;
+  color: lighten(#4C6283, 45);
+  margin-bottom: 15px;
+
+  &:hover {
+    color: lighten(#4C6283, 35);
+  }
+
+  .icon {
+    position: absolute;
+    z-index: 1;
+    right: -3px;
+    top: -3px;
+    font-size: 4rem;
+    color: darken(#4C6283, 10);
+  }
+
+  .text {
+    position: relative;
+    z-index: 4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}

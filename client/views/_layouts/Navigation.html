@@ -59,10 +59,14 @@
                 {{#if currentCollection}}{{currentCollection.name}}{{else}}Select collection{{/if}}
                 <span class="caret"></span>
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu collection-dropdown">
                 {{#each collections}}
-                  <li><a href="{{pathForDocuments data=this}}"><i
-                      class="{{icon}}"></i> {{name}}</a></li>
+                  <li>
+                    <a href="{{pathForDocuments data=this}}">
+                      <i class="{{icon}}"></i>
+                      <div class="relative text-nowrap z1">{{name}}</div>
+                    </a>
+                  </li>
                 {{/each}}
                 <li class="divider"></li>
                 <li><a class="add-collection" href="#"><i

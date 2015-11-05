@@ -9,12 +9,12 @@
   <!--</div>-->
 
 
-
-    <div class="list-group">
-        {{#each collections}}
-            <a class="list-group-item {{isActive}}" href="{{pathForDocuments data=this}}">
-                {{name}}
-            </a>
-        {{/each}}
+  <div class="list-group collections-list-navigation">
+    {{#each collections}}
+      <a class="list-group-item {{isActive}}" href="{{pathForDocuments data=this}}">
+        <i class="{{icon}}"></i>
+        <div class="text">{{name}}</div>
+      </a>
+    {{/each}}
   </div>
 </template>
