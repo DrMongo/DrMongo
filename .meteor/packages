@@ -33,7 +33,7 @@ dburles:collection-helpers
 todda00:friendly-slugs
 matb33:collection-hooks
 
-# lib
+# library
 reactive-var
 meteorhacks:npm
 percolate:synced-cron

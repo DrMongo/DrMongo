@@ -1,4 +1,13 @@
 Meteor.methods({
+  connectDatabase(databaseId) {
+    let database = Databases.findOne(databaseId);
+    let connection = database.connection();
+
+    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
+
+    return wrappedConnect(connectionUrl);
+  },
+
   createCollection(databaseId, collectionName) {
     let database = Databases.findOne(databaseId);
     MongoHelpers.createCollection(database, collectionName);
@@ -91,20 +100,15 @@ Meteor.methods({
     return foundCollection;
   },
   getDocuments(databaseId, collectionName, selector, options, optionsPaging) {
-    let database = Databases.findOne(databaseId);
-    let connection = database.connection();
+    var db = Meteor.call('connectDatabase', databaseId);
+    
+    var collection = db.collection(collectionName);
 
     if (resemblesId(selector)) {
       selector = {_id: selector};
     } else {
       selector = eval('(' + selector + ')');
     }
-
-    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
-
-    var db = wrappedConnect(connectionUrl);
-
-    var collection = db.collection(collectionName);
 
     let collectionCountWrapper = Meteor.wrapAsync((cb) => {
       collection.find(selector, options.fields || {}).count((error, response) => {
@@ -113,17 +117,24 @@ Meteor.methods({
     });
 
     let docsCount = collectionCountWrapper();
-    log(docsCount)
-    //Counts.publish(this, 'documents', docsCount, {nonReactive: true});
-
 
     let docs = collection
       .find(selector, options.fields || {})
       .sort(options.sort || {})
       .skip(optionsPaging.skip || 0)
-      .limit(optionsPaging.limit || 0)
-      .toArray();
+      .limit(optionsPaging.limit || 0);
 
-    return docs;
+    let collectionToArrayWrapper = Meteor.wrapAsync((cb) => {
+      docs.toArray((error, response) => {
+        cb(error, response);
+      })
+    });
+
+    docs = collectionToArrayWrapper();
+
+    return {
+      docs: docs,
+      count: docsCount
+    }
   }
 });

@@ -19,8 +19,10 @@ Template.Documents.onCreated(function () {
 
     CurrentSession.documentsReady = false;
     Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, selector, CurrentSession.documentsOptions, options, CurrentSession.documentsRandomSeed, function(error, result) {
+      CurrentSession.documents = result.docs;
+      CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;
-      CurrentSession.documents = result;
+
     });
   });
 });

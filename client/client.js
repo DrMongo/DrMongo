@@ -11,6 +11,7 @@ CurrentSession = new ReactiveObjects({
   mongoCollection: null,
   documents: null,
   documentsReady: false,
+  documentsCount: null,
   mountedCollections: null,
   documentsSelector: '{}',
   documentsOptions: {},
