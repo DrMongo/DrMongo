@@ -63,7 +63,7 @@ Template.Documents.helpers({
     return CurrentSession.documentsPaginationLimit;
   },
   totalCount() {
-    return Counts.get('documents');
+    return CurrentSession.documentsCount;
   },
   savedFilters() {
     return FilterHistory.find({name: {$ne: null}});
