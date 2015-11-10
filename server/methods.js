@@ -1,13 +1,4 @@
 Meteor.methods({
-  connectDatabase(databaseId) {
-    let database = Databases.findOne(databaseId);
-    let connection = database.connection();
-
-    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
-
-    return wrappedConnect(connectionUrl);
-  },
-
   createCollection(databaseId, collectionName) {
     let database = Databases.findOne(databaseId);
     MongoHelpers.createCollection(database, collectionName);
@@ -63,16 +54,11 @@ Meteor.methods({
     return true;
   },
   findCollectionForDocumentId(databaseId, documentId) {
-    let database = Databases.findOne(databaseId);
-    let connection = database.connection();
+    var db = connectDatabase(databaseId);
 
     let foundCollection = null;
 
     var selector = {_id: documentId};
-
-    var connectionUrl = 'mongodb://' + connection.host + ':' + connection.port + '/' + database.name;
-
-    var db = wrappedConnect(connectionUrl);
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
       db.listCollections().toArray((error, response) => {
@@ -100,8 +86,8 @@ Meteor.methods({
     return foundCollection;
   },
   getDocuments(databaseId, collectionName, selector, options, optionsPaging) {
-    var db = Meteor.call('connectDatabase', databaseId);
-    
+    var db = connectDatabase(databaseId);
+
     var collection = db.collection(collectionName);
 
     if (resemblesId(selector)) {
@@ -136,5 +122,83 @@ Meteor.methods({
       docs: docs,
       count: docsCount
     }
-  }
+  },
+  insertDocument(collectionId, data) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+    let connection = database.connection();
+    if (!connection || !database || !collection) return false;
+
+    return Mongo.Collection.get(collection.name).insert(data);
+
+  },
+  updateDocument(collectionId, documentId, data) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    delete data._id;
+
+    let updateWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.updateOne({_id: documentId}, data, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let updatedCount = updateWrapper();
+    return updatedCount;
+  },
+  duplicateDocument(collectionId, documentId) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    let findWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.findOne({_id: documentId}, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let sourceDocument = findWrapper();
+    if (!sourceDocument) return false;
+
+    delete sourceDocument._id;
+
+    let insertWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.insertOne(sourceDocument, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let insertResult = insertWrapper();
+    return insertResult;
+  },
+  removeDocument(collectionId, documentId) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    let deleteWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.findOneAndDelete({_id: documentId}, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let result = deleteWrapper();
+    return result;
+  },
+  changeDatabase() {
+    if (Meteor.isServer) {
+      //log('exiting')
+      //process.exit();
+    } else {
+      location.reload();
+    }
+  },
 });

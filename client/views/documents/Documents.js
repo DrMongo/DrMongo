@@ -72,7 +72,7 @@ Template.Documents.helpers({
 
 Template.Documents.events({
   'click #refresh-documents'(event, templateInstance) {
-    CurrentSession.documentsRandomSeed = Random.id();
+    refreshDocuments();
   },
   'click #reset-filter'(event, templateInstance) {
     CurrentSession.documentsSelector = '{}';

@@ -191,7 +191,9 @@ Template.TreeDocument.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     showDeleteHint(false);
-    Meteor.call('removeDocument', CurrentSession.collection._id, this.value._id)
+    Meteor.call('removeDocument', CurrentSession.collection._id, this.value._id, function(error, result) {
+      refreshDocuments();
+    })
   },
   'click .delete-document'(event, templateInstance) {
     event.preventDefault();
