@@ -1,4 +1,4 @@
-let getRowInfo = (key, value, level) => {
+let getRowInfo = (key, value, level, fullPath) => {
   let type = typeof value;
 
   let info = {
@@ -12,7 +12,8 @@ let getRowInfo = (key, value, level) => {
     valueClass: type,
     copyValue: false,
     isId: false,
-    idValue: null
+    idValue: null,
+    fullPath: fullPath
   };
 
   if (resemblesId(value) || key == '_id') {
@@ -84,7 +85,11 @@ let getRowInfo = (key, value, level) => {
     }
     if (pinnedColumns.length) {
       info.keyValue += ' <small>' + info.formattedValue + '</small>';
-      info.formattedValue = pinnedColumns.join('; ');
+
+      _.each(pinnedColumns, function(col, i) {
+        pinnedColumns[i] = '<div class="col-xs-4 pinned-column">' + col + '</div>';
+      })
+      info.formattedValue = pinnedColumns.join('');
     }
 
     info.drMongoIndex = value.drMongoIndex;
@@ -111,10 +116,9 @@ let getRowInfo = (key, value, level) => {
 
     info.children = [];
     _.each(fields, (v) => {
-      info.children.push(getRowInfo(v.key, v.value, level + 1));
+      info.children.push(getRowInfo(v.key, v.value, level + 1, fullPath + '.' + v.key));
     });
   }
-
   return info;
 };
 
@@ -134,7 +138,7 @@ let showDeleteHint = (show = true) => {
 Template.TreeDocument.onCreated(function () {
   let key = this.data._id;
   let value = this.data;
-  let info = getRowInfo(typeof key == 'string' ? key : key._str, value, 0);
+  let info = getRowInfo(typeof key == 'string' ? key : key._str, value, 0, '');
   //log('> info', info);
 
   this.info = info;
@@ -151,6 +155,21 @@ Template.TreeDocument.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     copyText($(event.currentTarget).attr('data-clipboard-text'));
+  },
+  'click .pin-column'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    var path = $(event.currentTarget).attr('data-full-path');
+    path = path.replace(/^\./, '');
+    path = path.replace(/\.([0-9]+)$/g, '[$1]');
+    path = path.replace(/\.([0-9]+)\./g, '[$1].');
+
+    var c = Collections.findOne(CurrentSession.collection._id);
+    if (c && c.pinnedColumns && _.contains(c.pinnedColumns, path)) {
+      Collections.update(CurrentSession.collection._id, {$pull: {pinnedColumns: path}});
+    } else {
+      Collections.update(CurrentSession.collection._id, {$addToSet: {pinnedColumns: path}});
+    }
   },
   'click .edit-document'(event, templateInstance) {
     event.preventDefault();

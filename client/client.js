@@ -1,6 +1,5 @@
 ConnectionStructureSubscription = Meteor.subscribe('connectionStructure');
 
-Session.set('showReloadingAlert', false);
 CurrentConnectionId = false;
 CurrentDatabaseId = false;
 
@@ -47,7 +46,6 @@ Tracker.autorun(function () {
     }
 
     if (CurrentSession.connection._id != CurrentConnectionId && CurrentConnectionId != false) {
-      Session.set('showReloadingAlert', true)
       Meteor.call('changeDatabase');
     } else {
       CurrentConnectionId = CurrentSession.connection._id;
@@ -74,7 +72,6 @@ Tracker.autorun(function () {
       }
 
       if (CurrentSession.database._id != CurrentDatabaseId && CurrentDatabaseId != false) {
-        Session.set('showReloadingAlert', true)
         Meteor.call('changeDatabase');
       } else {
         CurrentDatabaseId = CurrentSession.database._id;

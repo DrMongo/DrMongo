@@ -52,7 +52,6 @@ Template.DocumentEditorModal.events({
 
     var ModalParams = Session.get('DocumentEditorModal');
     Meteor.call('updateDocument', ModalParams.collectionId, ModalParams.documentId, data, function(error, result) {
-      log(error, result);
       $('#DocumentEditorModal').modal('hide');
       refreshDocuments();      
     });

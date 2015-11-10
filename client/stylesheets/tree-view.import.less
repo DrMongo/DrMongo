@@ -34,11 +34,8 @@
     }
   }
 
-  .parent > .head > .value > .copy-value { color: #ccc}
-  .parent:hover > .head > .value > .copy-value { color: #337ab7 }
-
-  .parent > .head > .value > .find-id { color: #ccc}
-  .parent:hover > .head > .value > .find-id { color: #337ab7 }
+  .parent > .head .control-icon { color: #ccc; display: none;}
+  .parent:hover > .head .control-icon { color: #337ab7; display: inline-block; }
 
   // L A Y O U T  +  D E S I G N
   margin: 0;
@@ -89,5 +86,15 @@
 
   .value-array, .value-object {
     color: #aaa;
+  }
+
+  .pinned-column {
+    overflow: hidden;
+  }
+
+  .pinned-column:hover {
+    // overflow: visible;
+    // background: #fff;
+    // box-shadow: 0px 0px 3px gray;
   }
 }
