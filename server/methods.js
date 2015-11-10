@@ -83,6 +83,7 @@ Meteor.methods({
       if (result.length == 1) foundCollection = collection.name;
     });
 
+    db.close();
     return foundCollection;
   },
   getDocuments(databaseId, collectionName, selector, options, optionsPaging) {
@@ -118,6 +119,7 @@ Meteor.methods({
 
     docs = collectionToArrayWrapper();
 
+    db.close();
     return {
       docs: docs,
       count: docsCount
@@ -126,11 +128,20 @@ Meteor.methods({
   insertDocument(collectionId, data) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
-    let connection = database.connection();
-    if (!connection || !database || !collection) return false;
 
-    return Mongo.Collection.get(collection.name).insert(data);
+    var db = connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
 
+    let insertWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.insertOne(data, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let insertResult = insertWrapper();
+    db.close();
+
+    return insertResult;
   },
   updateDocument(collectionId, documentId, data) {
     let collection = Collections.findOne(collectionId);
@@ -148,6 +159,8 @@ Meteor.methods({
     });
 
     let updatedCount = updateWrapper();
+    db.close();
+
     return updatedCount;
   },
   duplicateDocument(collectionId, documentId) {
@@ -175,6 +188,8 @@ Meteor.methods({
     });
 
     let insertResult = insertWrapper();
+    db.close();
+
     return insertResult;
   },
   removeDocument(collectionId, documentId) {
@@ -191,6 +206,8 @@ Meteor.methods({
     });
 
     let result = deleteWrapper();
+    db.close();
+
     return result;
   },
   changeDatabase() {
