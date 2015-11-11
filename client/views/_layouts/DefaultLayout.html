@@ -1,15 +1,6 @@
 <template name="DefaultLayout">
   {{#if ready}}
     {{> Navigation}}
-    <div class="container">
-      <div class="row">
-        <div class="col-md-2">
-          {{> Template.dynamic template=sidebar}}
-        </div>
-        <div class="col-md-10 bg-box p-y">
-            {{> Template.dynamic template=template}}
-        </div>
-      </div>
-    </div>
+    {{> Template.dynamic template=template}}
   {{/if}}
 </template>

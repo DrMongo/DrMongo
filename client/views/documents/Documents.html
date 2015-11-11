@@ -1,48 +1,66 @@
 <template name="Documents">
-    <a class="pull-right btn btn-default btn-inverted" href="#"
-       id="insert-document"><i class="fa fa-plus"></i> Insert new document</a>
 
-
-    <div class="btn-group pull-right">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+  <div class="db-head-theme-{{currentDatabaseTheme}}">
+    <div class="container">
+      <div class="pull-right">
+        <a id="insert-document" class="theme-color btn btn-inverted btn-sm" href="#">
+          <i class="fa fa-plus"></i> New document
+        </a>
+        <span class="dropdown">
+          <button type="button" class="theme-color btn btn-inverted btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Saved Filters <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" id="saved-filters">
+          </button>
+          <ul class="dropdown-menu" id="saved-filters">
             {{#each savedFilters}}
-            <li><a href="#">{{name}}</a></li>
+              <li><a href="#">{{name}}</a></li>
             {{/each}}
-        </ul>
+          </ul>
+        </span>
+      </div>
+      <h1 class="m-b">
+        {{collection.name}}
+      </h1>
+
+      {{> DocumentsFilter filterData}}
+
+      <div class="clearfix m-b">
+        <button class="theme-color btn btn-inverted pull-right" id="reset-filter"><i class="fa fa-ban"></i></button>
+        <button class="theme-color btn btn-inverted pull-right" id="save-filter"><i class="fa fa-floppy-o"></i></button>
+        <button class="theme-color btn btn-inverted pull-right" id="refresh-documents"><i class="fa fa-refresh"></i></button>
+
+        <form class="pagination-form">
+          <span>Total results: {{totalCount}}, show: </span>
+          <input id="limit" class="form-control" type="text" value="{{defaultLimit}}">
+          <span>skip: </span>
+          <a class="previous theme-color btn btn-inverted" href=""><i class="fa fa-arrow-left"></i></a>
+          <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
+          <a class="next theme-color btn btn-inverted" href=""><i class="fa fa-arrow-right"></i></a>
+          <input class="hidden" type="submit">
+        </form>
+      </div>
     </div>
+  </div>
 
-    <h1 class="page-header">{{collection.name}}</h1>
-    {{> DocumentsFilter filterData}}
+  <div class="container">
+    <div class="bg-box m-t">
 
-    <form class="pagination-form text-right m-b">
-        <button class="btn btn-default pull-left" id="refresh-documents"><i class="fa fa-refresh"></i></button>
-        <button class="btn btn-default pull-left" id="save-filter"><i class="fa fa-floppy-o"></i></button>
-        <button class="btn btn-default pull-left" id="reset-filter">Reset Filter</button>
-        <button class="btn btn-default pull-left">Documents count: {{totalCount}}</button>
-      <a class="previous" href=""><i class="fa fa-arrow-left"></i></a>
-      <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
-      <input id="limit" class="form-control" type="text"
-             value="{{defaultLimit}}">
-      <a class="next" href=""><i class="fa fa-arrow-right"></i></a>
-      <input class="hidden" type="submit">
-    </form>
-    {{#if documentsReady}}
+      {{#if documentsReady}}
         {{> Template.dynamic template='Tree' data=viewParameters}}
-    {{else}}
+      {{else}}
         {{> DocumentsLoader}}
-    {{/if}}
+      {{/if}}
+    </div>
+  </div>
+
   {{> DocumentEditorModal}}
   {{> DocumentViewerModal}}
   {{> DocumentInsertModal}}
 </template>
 
 <template name="DocumentsLoader">
-    <div class="panel panel-default">
-        <div class="panel-body text-center h1">
-            <i class="fa fa-spin fa-spinner"></i>
-        </div>
+  <div class="panel panel-default">
+    <div class="panel-body text-center h1">
+      <i class="fa fa-spin fa-spinner"></i>
     </div>
+  </div>
 </template>

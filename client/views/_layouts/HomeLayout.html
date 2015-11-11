@@ -1,12 +1,6 @@
 <template name="HomeLayout">
   {{#if ready}}
     {{> Navigation}}
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12 bg-box p-y">
-          {{> Template.dynamic template=template}}
-        </div>
-      </div>
-    </div>
+    {{> Template.dynamic template=template}}
   {{/if}}
 </template>

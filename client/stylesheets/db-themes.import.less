@@ -1,4 +1,4 @@
-.db-theme(@theme, @bg-color, @color) {
+.db-theme(@theme, @bg-color, @color, @color1, @color2) {
 
   .db-theme-@{theme} {
     background-color: @bg-color !important;
@@ -10,13 +10,67 @@
     background-color: inherit;
   }
 
-  .db-navbar-theme-@{theme} {
-    border-top: 4px solid @bg-color;
+  .db-head-theme-@{theme} {
     border-radius: 0;
+    border: none;
+    background-color: @bg-color !important;
+    color: @color !important;
+
+    a.dropdown-toggle, a.navbar-brand {
+      color: @color !important;
+    }
+
+    &.navbar-default .navbar-nav > .open > a {
+      background-color: @color1;
+    }
+
+    form {
+      input {
+        border: none;
+        color: @color;
+        background-color: @color2;
+
+        /* do not group these rules */
+        &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
+          color: @color;
+          opacity: 0.65;
+        }
+        &:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
+          color: @color;
+          opacity: 0.65;
+        }
+        &::-moz-placeholder { /* Mozilla Firefox 19+ */
+          color: @color;
+          opacity: 0.65;
+        }
+        &:-ms-input-placeholder { /* Internet Explorer 10-11 */
+          color: @color;
+          opacity: 0.65;
+        }
+      }
+
+      .input-group-addon {
+        border: none;
+        color: @color;
+        background-color: @color1;
+      }
+    }
+
+    .theme-color {
+      color: @color !important;
+    }
+
+    .btn.btn-inverted {
+      &:hover, &:focus {
+        background-color: @color1;
+      }
+    }
+
   }
+
 }
 
-.db-theme(default, #f8f8f8, #000);
+.db-theme(default, #f8f8f8, #000, #eee, #ddd);
 .db-theme-default {
   background-color: inherit;
   color: #000 !important;
@@ -28,12 +82,13 @@
 }
 
 
-.db-theme(blue, #337ab7, lighten(#337ab7, 30));
-.db-theme(light-blue, #5bc0de, darken(#5bc0de, 30));
-.db-theme(green, #5cb85c, lighten(#5cb85c, 30));
-.db-theme(orange, #f0ad4e, lighten(#f0ad4e, 30));
-.db-theme(red, #d9534f, lighten(#d9534f, 30));
-.db-theme(purple, purple, lighten(purple, 60));
+.db-theme(dark-blue, #2c3e50, lighten(#2c3e50, 58), lighten(#2c3e50, 15), lighten(#2c3e50, 30));
+.db-theme(blue, #2185D0, lighten(#2185D0, 55), lighten(#2185D0, 15), lighten(#2185D0, 30));
+.db-theme(light-blue, #5bc0de, lighten(#5bc0de, 50), darken(#5bc0de, 20), lighten(#5bc0de, 10));
+.db-theme(green, #27ae60, lighten(#27ae60, 58), darken(#27ae60, 15), darken(#27ae60, 8));
+.db-theme(orange, #d35400, lighten(#d35400, 55), darken(#d35400, 15), darken(#d35400, 8));
+.db-theme(red, #c0392b, lighten(#c0392b, 55), lighten(#c0392b, 10), lighten(#c0392b, 25));
+.db-theme(purple, #6435C9, lighten(#6435C9, 55), lighten(#6435C9, 15), lighten(#6435C9, 30));
 
 
 .database-colors {

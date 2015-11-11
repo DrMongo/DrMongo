@@ -13,6 +13,7 @@ Template.DatabaseDashboard.helpers({
   themes() {
     return [
       'default',
+      'dark-blue',
       'blue',
       'light-blue',
       'green',
