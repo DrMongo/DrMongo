@@ -23,6 +23,8 @@ Template.TreeDocumentRow.helpers({
 
 Template.TreeDocumentRow.events({
   'click .toggle-children'(event, templateInstance) {
+    if ($(event.target).parent().is('.control-icon')) return true;
+
     event.preventDefault();
     event.stopImmediatePropagation();
     Template.instance().renderChildren.set(true);

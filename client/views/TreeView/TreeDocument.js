@@ -17,10 +17,9 @@ let getRowInfo = (key, value, level, fullPath) => {
   };
 
   if (resemblesId(value) || key == '_id') {
-    info['formattedValue'] = value;
+    info['formattedValue'] = '<a href="#" class="find-id">' + value + '</a>';
     info['valueClass'] = 'id';
     info['copyValue'] = value;
-    info['isId'] = true;
     info['idValue'] = value;
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
@@ -229,11 +228,12 @@ Template.TreeDocument.events({
     });
     $('#ViewValueModal').modal('show');
   },
-  'click .find-id'(event, templateInstance) {
+  'click a.find-id'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
     Session.set('showLoader', true);
 
+    log(this.idValue)
     Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.idValue, (error, result) => {
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {

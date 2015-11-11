@@ -8,23 +8,18 @@
               <i class="fa fa-thumb-tack"></i>
           </div>
         {{/unless}}
+        {{#unless isLevel 0}}
+        {{#if copyValue}}
+        <div class="btn btn-link btn-xs copy-value control-icon pull-right" data-clipboard-text="{{copyValue}}">
+          <i class="fa fa-clipboard"></i>
+        </div>
+        {{/if}}
+        {{/unless}}
       </div>
       <div class="col-xs-7 cell value {{valueClass}}">
           {{{formattedValue}}}
           {{#if isPruned}}
               <a class="view-value" href="#">view</a>
-          {{/if}}
-          {{#unless isLevel 0}}
-          {{#if copyValue}}
-              <div class="btn btn-link btn-xs copy-value control-icon" data-clipboard-text="{{copyValue}}">
-                  <i class="fa fa-clipboard"></i>
-              </div>
-          {{/if}}
-          {{/unless}}
-          {{#if isId}}
-              <div class="btn btn-link btn-xs find-id control-icon">
-                  <i class="fa fa-search"></i>
-              </div>
           {{/if}}
       </div>
       <div class="col-xs-2 cell actions text-right">

@@ -33,9 +33,9 @@
       height: auto;
     }
   }
-
-  .parent > .head .control-icon { color: #ccc; display: none;}
-  .parent:hover > .head .control-icon { color: #337ab7; display: inline-block; }
+  .parent > .head .control-icon { color: #fff; width: 25px;}
+  .parent:hover > .head .control-icon { color: #337ab7;}
+  .parent:hover > .head .control-icon:hover { background: #ddd;}
 
   // L A Y O U T  +  D E S I G N
   margin: 0;
@@ -72,6 +72,12 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+    }
+    &.key {
+      padding-right: 0px;
+    }
+    &.value {
+      padding-left: 0px;
     }
   }
 
