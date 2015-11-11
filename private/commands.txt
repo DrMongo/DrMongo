@@ -1,3 +1,5 @@
+// DEMO 
+
 cd /var/www/drmongo-demo
 forever stop drmongo-demo
 rm -rf bundle-copy-old
@@ -24,3 +26,5 @@ PORT=3011 ENVIRONMENTTYPE=demo ROOT_URL=http://demo.drmongo.com MONGO_URL=mongod
 
 
 tail -f -n 200 /var/www/.forever/drmongo-demo.log
+
+
