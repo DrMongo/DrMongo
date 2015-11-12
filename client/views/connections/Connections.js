@@ -25,12 +25,13 @@ Template.Connections.events({
       name: 'New Connection',
       host: 'localhost',
       port: '27017'
-    })
+    });
     Session.set('EditConnectionModal', {
       connectionId: newId
     });
     $('#EditConnectionModal').modal('show');
   },
+
   'click .edit-connection': function (event, templateInstance) {
     event.preventDefault();
     Session.set('EditConnectionModal', {
@@ -38,6 +39,19 @@ Template.Connections.events({
     });
     $('#EditConnectionModal').modal('show');
   },
+
+  'click .refresh-connection': function (event, templateInstance) {
+    event.preventDefault();
+    const connection = this;
+
+    if (connection) {
+      $('.refresh-connection i').addClass('fa-spin');
+      Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
+        $('.refresh-connection i').removeClass('fa-spin');
+      });
+    }
+  },
+
   'click .remove-connection': function (event, templateInstance) {
     event.preventDefault();
     Connections.remove(this._id)

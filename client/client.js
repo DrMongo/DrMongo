@@ -38,7 +38,7 @@ Tracker.autorun(function () {
   CurrentSession.documentPaginationSkip = 0;
 
   let Location = {};
-  if (routeParams.connection) {
+  if (routeParams && routeParams.connection) {
     CurrentSession.connection = Connections.findOne({slug: routeParams.connection});
     if (!CurrentSession.connection) {
       FlowRouter.go('/');

@@ -8,7 +8,7 @@ Template.DatabaseDashboard.helpers({
     return CurrentSession.database;
   },
   collections() {
-    return CurrentSession.database.collections()
+    return CurrentSession.database ? CurrentSession.database.collections() : [];
   },
   themes() {
     return [

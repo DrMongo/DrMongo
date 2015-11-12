@@ -13,7 +13,7 @@ Template.registerHelper('printIf', function (condition, trueValue, falseValue) {
 
 Template.registerHelper('currentDatabaseTheme', function (condition, trueValue, falseValue) {
   const db = CurrentSession.database;
-  return db ? db.theme : 'default';
+  return db && db.theme ? db.theme : 'default';
 });
 
 Template.registerHelper('pathForConnectionDashboard', function (params) {
