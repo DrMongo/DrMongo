@@ -12,7 +12,6 @@ Template.DatabaseDashboard.helpers({
   },
   themes() {
     return [
-      'default',
       'dark-blue',
       'dark-teal',
       'blue',

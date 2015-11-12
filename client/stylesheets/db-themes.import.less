@@ -4,8 +4,9 @@
     background-color: @bg-color !important;
     color: @color !important;
 
-    &.collection-card {
+    &.collection-card, &.connection-card {
       i { color: @color3; }
+      a i {color: @color; }
     }
   }
 
@@ -78,7 +79,8 @@
 
 }
 
-.db-theme(default, #000, #f8f8f8, #888888, #575757, #282828);
+//.db-theme(default, #000, #f8f8f8, #888888, #575757, #282828);
+.db-theme(default, #2185D0, lighten(#2185D0, 55), lighten(#2185D0, 15), lighten(#2185D0, 30), lighten(#2185D0, 5));
 
 .db-theme(dark-blue, #2c3e50, lighten(#2c3e50, 58), lighten(#2c3e50, 15), lighten(#2c3e50, 30), lighten(#2c3e50, 5));
 .db-theme(dark-teal, #27637a, #E0E7E0, #518f8e, #86a7a0, #2E748E);
