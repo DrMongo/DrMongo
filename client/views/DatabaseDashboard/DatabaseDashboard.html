@@ -15,9 +15,9 @@
     <div class="row">
       {{#each collections}}
         <div class="col-sm-3">
-          <a class="collection-card" href="{{pathForDocuments data=this}}">
+          <a class="collection-card db-theme-{{currentDatabase.theme}}" href="{{pathForDocuments data=this}}">
             <i class="icon {{icon}}"></i>
-            <div class="text">{{name}}</div>
+            <div class="text theme-color">{{name}}</div>
           </a>
         </div>
       {{/each}}
