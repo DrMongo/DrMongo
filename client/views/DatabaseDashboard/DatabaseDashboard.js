@@ -14,9 +14,11 @@ Template.DatabaseDashboard.helpers({
     return [
       'default',
       'dark-blue',
+      'dark-teal',
       'blue',
       'light-blue',
       'green',
+      'brown',
       'orange',
       'red',
       'purple'

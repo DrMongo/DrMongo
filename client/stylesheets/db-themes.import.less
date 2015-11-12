@@ -34,6 +34,10 @@
         color: @color;
         background-color: @color2;
 
+        &:focus, &:active {
+          color: @color;
+        }
+
         /* do not group these rules */
         &::-webkit-input-placeholder { /* WebKit, Blink, Edge */
           color: @color;
@@ -77,9 +81,11 @@
 .db-theme(default, #000, #f8f8f8, #888888, #575757, #282828);
 
 .db-theme(dark-blue, #2c3e50, lighten(#2c3e50, 58), lighten(#2c3e50, 15), lighten(#2c3e50, 30), lighten(#2c3e50, 5));
+.db-theme(dark-teal, #27637a, #E0E7E0, #518f8e, #86a7a0, #2E748E);
 .db-theme(blue, #2185D0, lighten(#2185D0, 55), lighten(#2185D0, 15), lighten(#2185D0, 30), lighten(#2185D0, 5));
 .db-theme(light-blue, #5bc0de, lighten(#5bc0de, 50), darken(#5bc0de, 20), lighten(#5bc0de, 10), lighten(#5bc0de, 5));
 .db-theme(green, #27ae60, lighten(#27ae60, 58), darken(#27ae60, 15), darken(#27ae60, 8), lighten(#27ae60, 5));
+.db-theme(brown, #5F4130, lighten(#5F4130, 55), darken(#5F4130, 15), darken(#5F4130, 8), darken(#5F4130, 3));
 .db-theme(orange, #d35400, lighten(#d35400, 55), darken(#d35400, 15), darken(#d35400, 8), darken(#d35400, 3));
 .db-theme(red, #c0392b, lighten(#c0392b, 55), lighten(#c0392b, 10), lighten(#c0392b, 25), lighten(#c0392b, 3));
 .db-theme(purple, #6435C9, lighten(#6435C9, 55), lighten(#6435C9, 15), lighten(#6435C9, 30), lighten(#6435C9, 4));
