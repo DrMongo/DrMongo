@@ -1,0 +1,27 @@
+<template name="Pagination">
+  <div class="input-group-addon" style="border-left: 1px solid #000;">{{totalCount}}</div>
+  <a class="pagination-first theme-color input-group-addon" href="#">
+    <i class="fa fa-angle-double-left"></i>
+  </a>
+  <a class="pagination-previous theme-color input-group-addon" href="#">
+    <i class="fa fa-angle-left"></i>
+  </a>
+  <div class="input-group-addon" href="#">
+    <div class="dropdown">
+      <a class="theme-color dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+        {{currentPage}}<span class="caret"></span>
+      </a>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+        {{#each pages}}
+          <li><a class="pagination-page" data-page="{{label}}" href="#">{{label}}</a></li>
+        {{/each}}
+      </ul>
+    </div>
+  </div>
+  <a class="pagination-next theme-color input-group-addon" href="#">
+    <i class="fa fa-angle-right"></i>
+  </a>
+  <a class="pagination-last theme-color input-group-addon" href="#">
+    <i class="fa fa-angle-double-right"></i>
+  </a>
+</template>

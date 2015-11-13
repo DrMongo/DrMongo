@@ -16,8 +16,7 @@
           </ul>
         </span>
         <button class="theme-color btn btn-sm btn-inverted pull-right" id="reset-filter"><i class="fa fa-ban"></i></button>
-<!--         <button class="theme-color btn btn-sm btn-inverted pull-right" id="save-filter"><i class="fa fa-floppy-o"></i></button>
- -->        <button class="theme-color btn btn-sm btn-inverted pull-right" id="refresh-documents"><i class="fa fa-refresh"></i></button>
+        <button class="theme-color btn btn-sm btn-inverted pull-right" id="refresh-documents"><i class="fa fa-refresh"></i></button>
 
       </div>
       <h1 class="m-b pull-left">
@@ -31,18 +30,6 @@
         <button class="theme-color btn btn-sm btn-inverted pull-right" id="settings"><i class="fa fa-cog"></i></button>
       </div>
       {{> DocumentsFilter filterData}}
-
-      <div class="clearfix m-b hide">
-        <form class="pagination-form">
-          <span>Total results: {{totalCount}}, show: </span>
-          <input id="limit" class="form-control" type="text" value="{{defaultLimit}}">
-          <span>skip: </span>
-          <a class="previous theme-color btn btn-inverted" href=""><i class="fa fa-arrow-left"></i></a>
-          <input id="skip" class="form-control" type="text" value="{{defaultSkip}}">
-          <a class="next theme-color btn btn-inverted" href=""><i class="fa fa-arrow-right"></i></a>
-          <input class="hidden" type="submit">
-        </form>
-      </div>
     </div>
   </div>
 

@@ -1,7 +1,7 @@
 shortcuts.register('Documents list', ['r', 'R'], ['R'], 'Refresh list', function() { $('#refresh-documents').click() });
 shortcuts.register('Documents list', ['c', 'C'], ['C'], 'Clear filter', function() { $('#reset-filter').click() });
-shortcuts.register('Documents list', ['n', 'N'], ['N'], 'Previous page', function() { $('.pagination-form .previous').click() });
-shortcuts.register('Documents list', ['m', 'M'], ['M'], 'Next page', function() { $('.pagination-form .next').click() });
+shortcuts.register('Documents list', ['n', 'N'], ['N'], 'Previous page', function() { $('.pagination-previous').click() });
+shortcuts.register('Documents list', ['m', 'M'], ['M'], 'Next page', function() { $('.pagination-next').click() });
 
 
 
@@ -69,9 +69,6 @@ Template.Documents.helpers({
   defaultLimit() {
     return CurrentSession.documentsPaginationLimit;
   },
-  totalCount() {
-    return CurrentSession.documentsCount;
-  },
   savedFilters() {
     return FilterHistory.find({name: {$ne: null}});
   }
@@ -81,6 +78,7 @@ Template.Documents.events({
   'click #refresh-documents'(event, templateInstance) {
     refreshDocuments();
   },
+
   'click #reset-filter'(event, templateInstance) {
     CurrentSession.documentsSelector = '{}';
     CurrentSession.documentsOptions = {};
@@ -88,6 +86,7 @@ Template.Documents.events({
     CurrentSession.documentsPaginationLimit = 20;
     FlowRouter.go(getFilterRoute())
   },
+
   'click #save-filter'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -98,10 +97,12 @@ Template.Documents.events({
       FilterHistory.update(filterId, {$set: {name: name}});
     }
   },
+
   'click #saved-filters li a:not(#save-filter)'(event, templateInstance) {
     event.preventDefault();
     FlowRouter.go(getFilterRoute(this._id));
   },
+
   'submit form.pagination-form'(event, templateInstance) {
     event.preventDefault();
     let form = event.currentTarget;
@@ -110,21 +111,6 @@ Template.Documents.events({
     CurrentSession.documentsPaginationLimit = parseInt(form.limit.value);
   },
 
-  'click .pagination-form .previous'(event, templateInstance) {
-    event.preventDefault();
-    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
-    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    const skip = paginationSkip - paginationLimit;
-    CurrentSession.documentsPaginationSkip = (skip >= 0 ? skip : 0);
-  },
-
-  'click .pagination-form .next'(event, templateInstance) {
-    event.preventDefault();
-    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
-    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    const skip = paginationSkip + paginationLimit;
-    CurrentSession.documentsPaginationSkip = skip;
-  },
   'click #insert-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
