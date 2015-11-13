@@ -89,13 +89,16 @@ Template.Documents.events({
     FlowRouter.go(getFilterRoute())
   },
   'click #save-filter'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
     let filterId = FlowRouter.getParam('filter');
     if (filterId) {
       let name = prompt('Give filter a name to save it:');
       FilterHistory.update(filterId, {$set: {name: name}});
     }
   },
-  'click #saved-filters li a'(event, templateInstance) {
+  'click #saved-filters li a:not(#save-filter)'(event, templateInstance) {
     event.preventDefault();
     FlowRouter.go(getFilterRoute(this._id));
   },
