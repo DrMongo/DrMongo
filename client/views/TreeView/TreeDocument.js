@@ -4,6 +4,7 @@ let getRowInfo = (key, value, level, fullPath) => {
   let info = {
     keyValue: key,
     value: value,
+    pinnedColumns: null,
     formattedValue: typeof value,
     notPrunedString: false,
     level: level,
@@ -13,7 +14,8 @@ let getRowInfo = (key, value, level, fullPath) => {
     copyValue: false,
     isId: false,
     idValue: null,
-    fullPath: fullPath
+    fullPath: fullPath,
+    colspan: 2
   };
 
   if (resemblesId(value) || key == '_id') {
@@ -68,7 +70,7 @@ let getRowInfo = (key, value, level, fullPath) => {
         try {
           // todo remove eval
           let t = eval('(value.' + column + ')');
-          if (t) pinnedColumns.push(t);
+          pinnedColumns.push(t);
         }
         catch (error) {
           // do nothing
@@ -83,12 +85,8 @@ let getRowInfo = (key, value, level, fullPath) => {
       }
     }
     if (pinnedColumns.length) {
-      info.keyValue += ' <small>' + info.formattedValue + '</small>';
-
-      _.each(pinnedColumns, function(col, i) {
-        pinnedColumns[i] = '<div class="col-xs-4 pinned-column">' + col + '</div>';
-      })
-      info.formattedValue = pinnedColumns.join('');
+      info.pinnedColumns = pinnedColumns;
+      info.colspan += pinnedColumns.length;
     }
 
     info.drMongoIndex = value.drMongoIndex;
@@ -135,6 +133,8 @@ let showDeleteHint = (show = true) => {
 
 
 Template.TreeDocument.onCreated(function () {
+  this.renderChildren = new ReactiveVar(false);
+
   let key = this.data._id;
   let value = this.data;
   let info = getRowInfo(typeof key == 'string' ? key : key._str, value, 0, '');
@@ -146,15 +146,28 @@ Template.TreeDocument.onCreated(function () {
 Template.TreeDocument.helpers({
   info() {
     return Template.instance().info;
+  },
+
+  renderChildren() {
+    return Template.instance().renderChildren.get();
   }
 });
 
 Template.TreeDocument.events({
+  'click .toggle-children'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Template.instance().renderChildren.set(true);
+
+    $(event.currentTarget).next('.children').toggleClass('hidden');
+  },
+
   'click .copy-value'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
     copyText($(event.currentTarget).attr('data-clipboard-text'));
   },
+
   'click .pin-column'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -170,6 +183,7 @@ Template.TreeDocument.events({
       Collections.update(CurrentSession.collection._id, {$addToSet: {pinnedColumns: path}});
     }
   },
+
   'click .edit-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -183,6 +197,7 @@ Template.TreeDocument.events({
     });
     $('#DocumentEditorModal').modal('show');
   },
+
   'click .view-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -196,6 +211,7 @@ Template.TreeDocument.events({
     });
     $('#DocumentViewerModal').modal('show');
   },
+
   'click .duplicate-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -205,6 +221,7 @@ Template.TreeDocument.events({
       }
     });
   },
+
   'dblclick .delete-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -213,11 +230,13 @@ Template.TreeDocument.events({
       refreshDocuments();
     })
   },
+
   'click .delete-document'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
     showDeleteHint();
   },
+
   'click .view-value'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
@@ -228,6 +247,7 @@ Template.TreeDocument.events({
     });
     $('#ViewValueModal').modal('show');
   },
+
   'click a.find-id'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();

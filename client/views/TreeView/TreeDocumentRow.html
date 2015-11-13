@@ -1,5 +1,5 @@
 <template name="TreeDocumentRow">
-  <div class="col-xs-12 parent {{levelClass}}">
+  <div class="col-xs-12 parent">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="col-xs-3 cell key">
         {{drMongoIndex}} {{{keyValue}}}
@@ -8,36 +8,23 @@
               <i class="fa fa-thumb-tack"></i>
           </div>
         {{/unless}}
-        {{#unless isLevel 0}}
         {{#if copyValue}}
         <div class="btn btn-link btn-xs copy-value control-icon pull-right" data-clipboard-text="{{copyValue}}">
           <i class="fa fa-clipboard"></i>
         </div>
         {{/if}}
-        {{/unless}}
       </div>
       <div class="col-xs-7 cell value {{valueClass}}">
-          {{{formattedValue}}}
-          {{#if isPruned}}
-              <a class="view-value" href="#">view</a>
-          {{/if}}
-      </div>
-      <div class="col-xs-2 cell actions text-right">
-        {{#if isLevel 0}}
-          <div class="btn btn-default btn-inverted btn-xs copy-value" data-clipboard-text="{{copyValue}}" id="{{value._id}}"><i class="fa fa-clipboard"></i></div>
-          <div class="btn btn-primary btn-inverted btn-xs edit-document"><i class="fa fa-pencil"></i></div>
-          <div class="btn btn-primary btn-inverted btn-xs view-document"><i class="fa fa-eye"></i></div>
-          <div class="btn btn-warning btn-inverted btn-xs duplicate-document"><i class="fa fa-files-o"></i></div>
-          <div class="btn btn-danger btn-inverted btn-xs delete-document"><i class="fa fa-trash-o"></i></div>
+        {{{formattedValue}}}
+        {{#if isPruned}}
+            <a class="view-value" href="#">view</a>
         {{/if}}
       </div>
     </div>
-    {{#if renderChildren}}
-      <div class="row children">
-        {{#each children}}
-          {{> TreeDocumentRow this}}
-        {{/each}}
-      </div>
-    {{/if}}
+    <div class="row children">
+      {{#each children}}
+        {{> TreeDocumentRow this}}
+      {{/each}}
+    </div>
   </div>
 </template>

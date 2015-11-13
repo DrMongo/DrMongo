@@ -1,10 +1,10 @@
 <template name="Tree">
   {{> ViewValueModal}}
   <div class="">
-    <div class="row tree-view">
+    <table class="table tree-view">
       {{#each documents}}
         {{> TreeDocument}}
       {{/each}}
-    </div>
+    </table>
   </div>
 </template>
