@@ -1,3 +1,10 @@
+shortcuts.register('Documents list', ['r', 'R'], ['R'], 'Refresh list', function() { $('#refresh-documents').click() });
+shortcuts.register('Documents list', ['c', 'C'], ['C'], 'Clear filter', function() { $('#reset-filter').click() });
+shortcuts.register('Documents list', ['n', 'N'], ['N'], 'Previous page', function() { $('.pagination-form .previous').click() });
+shortcuts.register('Documents list', ['m', 'M'], ['M'], 'Next page', function() { $('.pagination-form .next').click() });
+
+
+
 Template.Documents.onCreated(function () {
   this.autorun(() => {
     //log('> autorun 2');

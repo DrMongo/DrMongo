@@ -42,6 +42,11 @@ underscore
 underscorestring:underscore.string
 momentjs:moment
 kestanous:reactive-objects
+npm-container
+
+# plugins
+mousetrap:mousetrap
+juliancwirko:s-alert
 
 # seo
 kadira:dochead
@@ -51,12 +56,8 @@ nemo64:bootstrap
 flemay:less-autoprefixer
 fortawesome:fontawesome
 
-
 # debug
 # meteortoys:allthings
-
-npm-container
-juliancwirko:s-alert
 
 # Dr Mongo
 drmongo:mongo-helpers

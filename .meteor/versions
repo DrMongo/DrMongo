@@ -64,6 +64,7 @@ momentjs:moment@2.10.6
 mongo@1.1.3
 mongo-id@1.0.1
 mongo-livedata@1.0.9
+mousetrap:mousetrap@1.4.6_1
 nemo64:bootstrap@3.3.5_2
 nemo64:bootstrap-data@3.3.5
 npm-container@1.2.0
