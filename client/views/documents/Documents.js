@@ -10,22 +10,14 @@ Template.Documents.onCreated(function () {
     //log('> autorun 2');
     if (!CurrentSession.collection) return false;
 
-    let selector = CurrentSession.documentsSelector || '{}';
-    let options = CurrentSession.documentsOptions || {};
-    options = deepClone(options);
-    let paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
-    let paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    const limit = parseInt(options.limit) || null;
-    const skip = parseInt(options.skip) || null;
-
-    if ((!!limit && limit > paginationLimit) || !limit) {
-      options.limit = paginationLimit;
-    }
-
-    options.skip = skip ? skip + paginationSkip : paginationSkip;
+    let filter = CurrentSession.documentsFilter || '{}';
 
     CurrentSession.documentsReady = false;
-    Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, selector, CurrentSession.documentsOptions, options, CurrentSession.documentsRandomSeed, function(error, result) {
+    Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, filter, CurrentSession.documentsPagination, CurrentSession.documentsRandomSeed, function(error, result) {
+      if (result == false) {
+        alert('Filter incorrect...');
+        return false;
+      }
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;
@@ -41,8 +33,7 @@ Template.Documents.helpers({
   filterData() {
     return {
       collection: CurrentSession.collection,
-      selector: CurrentSession.documentsSelector,
-      options: CurrentSession.documentsOptions
+      filter: CurrentSession.documentsFilter
     }
   },
 
@@ -51,7 +42,7 @@ Template.Documents.helpers({
     let documents = CurrentSession.documents || false;
     if (!documents) return false;
 
-    let index = CurrentSession.documentsPaginationSkip + 1;
+    let index = (CurrentSession.documentsPagination * CurrentSession.documentsPaginationLimit) + 1;
     _.each(documents, function(doc) {
       doc.drMongoIndex = index++ + '.';
     });
@@ -62,13 +53,6 @@ Template.Documents.helpers({
     return CurrentSession.collection;
   },
 
-  defaultSkip() {
-    return CurrentSession.documentsPaginationSkip;
-  },
-
-  defaultLimit() {
-    return CurrentSession.documentsPaginationLimit;
-  },
   savedFilters() {
     return FilterHistory.find({name: {$ne: null}});
   }
@@ -80,11 +64,9 @@ Template.Documents.events({
   },
 
   'click #reset-filter'(event, templateInstance) {
-    CurrentSession.documentsSelector = '{}';
-    CurrentSession.documentsOptions = {};
-    CurrentSession.documentsPaginationSkip = 0;
-    CurrentSession.documentsPaginationLimit = 20;
-    FlowRouter.go(getFilterRoute())
+    CurrentSession.documentsFilter = '{}';
+    log('tu som')
+    FlowRouter.go(getFilterRoute());
   },
 
   'click #save-filter'(event, templateInstance) {
@@ -101,14 +83,6 @@ Template.Documents.events({
   'click #saved-filters li a:not(#save-filter)'(event, templateInstance) {
     event.preventDefault();
     FlowRouter.go(getFilterRoute(this._id));
-  },
-
-  'submit form.pagination-form'(event, templateInstance) {
-    event.preventDefault();
-    let form = event.currentTarget;
-
-    CurrentSession.documentsPaginationSkip = parseInt(form.skip.value);
-    CurrentSession.documentsPaginationLimit = parseInt(form.limit.value);
   },
 
   'click #insert-document'(event, templateInstance) {

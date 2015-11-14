@@ -86,30 +86,54 @@ Meteor.methods({
     db.close();
     return foundCollection;
   },
-  getDocuments(databaseId, collectionName, selector, options, optionsPaging) {
-    var db = connectDatabase(databaseId);
+  getDocuments(databaseId, collectionName, filter, pagination) {
+    pagination = pagination || 0;
 
+    var db = connectDatabase(databaseId);
     var collection = db.collection(collectionName);
 
-    if (resemblesId(selector)) {
-      selector = {_id: selector};
+    var collectionInfo = Collections.findOne({database_id: databaseId, name: collectionName});
+    collectionInfo.paginationLimit = collectionInfo.paginationLimit || 20;
+
+    if (!collectionInfo) return false;
+
+    if (resemblesId(filter)) {
+      var selector = {_id: filter};
+      var options = {};
     } else {
-      selector = eval('(' + selector + ')');
+      log(filter)
+      try {
+        filter = eval('([' + filter + '])');
+      }
+
+      catch(error) {
+        return false;
+      }
+
+      var selector = filter[0] || {};
+      var options = filter[1] || {};
     }
 
     let collectionCountWrapper = Meteor.wrapAsync((cb) => {
-      collection.find(selector, options.fields || {}).count((error, response) => {
+      collection.find(selector, options).count((error, response) => {
         cb(error, response);
       })
     });
 
     let docsCount = collectionCountWrapper();
 
+    if (!options.skip) {
+      options.skip = pagination * collectionInfo.paginationLimit;
+    }
+    if (!options.limit) {
+      options.limit = collectionInfo.paginationLimit;
+    }
+
     let docs = collection
       .find(selector, options.fields || {})
       .sort(options.sort || {})
-      .skip(optionsPaging.skip || 0)
-      .limit(optionsPaging.limit || 0);
+      .skip(options.skip || 0)
+      .limit(options.limit || 0);
 
     let collectionToArrayWrapper = Meteor.wrapAsync((cb) => {
       docs.toArray((error, response) => {

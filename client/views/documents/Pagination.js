@@ -1,17 +1,18 @@
 Template.Pagination.helpers({
   pages() {
-    const count = Math.floor(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit) + 1;
+    const count = Math.ceil(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit);
     let pages = [];
-    for (var i = 1; i <= count; i++) {
+    for (var i = 0; i < count; i++) {
       pages.push({
-        label: i
+        index: i,
+        label: (i+1) + '. page'
       });
     }
     return pages;
   },
 
   currentPage() {
-    return (CurrentSession.documentsPaginationSkip / CurrentSession.documentsPaginationLimit) + 1
+    return CurrentSession.documentsPagination + 1;
   },
 
   totalCount() {
@@ -24,33 +25,34 @@ Template.Pagination.events({
   'click .pagination-page'(event, templateInstance) {
     event.preventDefault();
     const page = event.currentTarget.dataset.page;
-    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    CurrentSession.documentsPaginationSkip = paginationLimit * (page - 1);
+    CurrentSession.documentsPagination = parseInt(page) || 0;
+    FlowRouter.go(getFilterRoute(null, CurrentSession.documentsPagination))
   },
 
   'click .pagination-first'(event, templateInstance) {
     event.preventDefault();
-    CurrentSession.documentsPaginationSkip = 0;
+    CurrentSession.documentsPagination = 0;
+    FlowRouter.go(getFilterRoute(null, CurrentSession.documentsPagination))
   },
 
   'click .pagination-last'(event, templateInstance) {
     event.preventDefault();
-    const last = Math.floor(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit);
-    CurrentSession.documentsPaginationSkip = last * CurrentSession.documentsPaginationLimit;
+    CurrentSession.documentsPagination = Math.ceil(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit) - 1;
+    FlowRouter.go(getFilterRoute(null, CurrentSession.documentsPagination))
   },
 
   'click .pagination-previous'(event, templateInstance) {
     event.preventDefault();
-    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
-    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    const skip = paginationSkip - paginationLimit;
-    CurrentSession.documentsPaginationSkip = (skip >= 0 ? skip : 0);
+    var page = CurrentSession.documentsPagination - 1;
+    CurrentSession.documentsPagination = (page >= 0 ? page : 0);
+    FlowRouter.go(getFilterRoute(null, CurrentSession.documentsPagination))
   },
 
   'click .pagination-next'(event, templateInstance) {
     event.preventDefault();
-    const paginationSkip = parseInt(CurrentSession.documentsPaginationSkip);
-    const paginationLimit = parseInt(CurrentSession.documentsPaginationLimit);
-    CurrentSession.documentsPaginationSkip = paginationSkip + paginationLimit;
+    var page = CurrentSession.documentsPagination + 1;
+    var totalPages = Math.ceil(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit)
+    CurrentSession.documentsPagination = (page < totalPages ? page : totalPages - 1);
+    FlowRouter.go(getFilterRoute(null, CurrentSession.documentsPagination))
   }
 });

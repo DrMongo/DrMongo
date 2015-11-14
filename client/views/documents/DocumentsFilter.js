@@ -10,54 +10,32 @@ let parseJson = (str) => {
 };
 
 Template.DocumentsFilter.onCreated(function () {
-  this.invalidSelector = new ReactiveVar(null);
-  this.invalidOptions = new ReactiveVar(null);
+  this.invalidFilter = new ReactiveVar(null);
 });
 
 Template.DocumentsFilter.helpers({
-  invalidSelector() {
-    return Template.instance().invalidSelector.get();
+  invalidFilter() {
+    return Template.instance().invalidFilter.get();
   },
 
-  invalidOptions() {
-    return Template.instance().invalidOptions.get();
-  },
-  selector() {
-    return Template.instance().data.selector;
-  },
-  options() {
-    var options = JSON.stringify(Template.instance().data.options);
-    return options;
+  filter() {
+    return Template.instance().data.filter;
   }
 });
 
 Template.DocumentsFilter.events({
   'submit form.documents-filter'(event, templateInstance) {
     event.preventDefault();
-    const selector = event.currentTarget.selector.value;
-    const options = event.currentTarget.options.value;
+    const filter = event.currentTarget.filter.value;
 
-    templateInstance.invalidSelector.set(false);
-    //
-    let optionsJson = {};
-    if (!!options) {
-      optionsJson = parseJson(options);
-      if (!optionsJson) {
-        templateInstance.invalidOptions.set('Invalid JSON format');
-        return false;
-      }
-    }
-    templateInstance.invalidOptions.set(false);
-    CurrentSession.documentsSelector = selector;
-    CurrentSession.documentsOptions = optionsJson;
+    templateInstance.invalidFilter.set(false);
+
+    CurrentSession.documentsFilter = filter;
 
     let newId = FilterHistory.insert({
       createdAt: new Date(),
       name: null,
-      selector: selector,
-      options: optionsJson,
-      skip: CurrentSession.documentsPaginationSkip,
-      limit: CurrentSession.documentsPaginationLimit
+      filter: filter
     });
 
     FlowRouter.go(getFilterRoute(newId));

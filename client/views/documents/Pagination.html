@@ -1,5 +1,5 @@
 <template name="Pagination">
-  <div class="input-group-addon" style="border-left: 1px solid #000;">{{totalCount}}</div>
+  <div class="input-group-addon" style="border-left: 1px solid #000;">{{totalCount}} docs</div>
   <a class="pagination-first theme-color input-group-addon" href="#">
     <i class="fa fa-angle-double-left"></i>
   </a>
@@ -13,7 +13,7 @@
       </a>
       <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
         {{#each pages}}
-          <li><a class="pagination-page" data-page="{{label}}" href="#">{{label}}</a></li>
+          <li><a class="pagination-page" data-page="{{index}}" href="#">{{label}}</a></li>
         {{/each}}
       </ul>
     </div>

@@ -12,10 +12,9 @@ CurrentSession = new ReactiveObjects({
   documentsReady: false,
   documentsCount: null,
   mountedCollections: null,
-  documentsSelector: '{}',
-  documentsOptions: {},
+  documentsFilter: '{}',
   documentsRandomSeed: 0,
-  documentsPaginationSkip: 0,
+  documentsPagination: 0,
   documentsPaginationLimit: 20
 });
 
@@ -33,9 +32,9 @@ Tracker.autorun(function () {
   CurrentSession.connection = null;
   CurrentSession.database = null;
   CurrentSession.collection = null;
-  CurrentSession.documentsSelector = '{}';
-  CurrentSession.documentsOptions = {};
-  CurrentSession.documentPaginationSkip = 0;
+  CurrentSession.documentsFilter = '{}';
+  CurrentSession.documentsPagination = 0;
+  CurrentSession.documentsPaginationLimit = 20;
 
   let Location = {};
   if (routeParams && routeParams.connection) {
@@ -82,7 +81,9 @@ Tracker.autorun(function () {
           name: routeParams.collection,
           database_id: CurrentSession.database._id
         });
-        if (!CurrentSession.collection) {
+        if (CurrentSession.collection) {
+          if (CurrentSession.collection.paginationLimit) CurrentSession.documentsPaginationLimit = CurrentSession.collection.paginationLimit;
+        } else {
           FlowRouter.go('/');
           return false;
         }
@@ -90,15 +91,15 @@ Tracker.autorun(function () {
         if (CurrentSession.collection) {
           CurrentSession.mongoCollection = CurrentSession.mountedCollections[CurrentSession.collection._id];
 
-          if (routeParams.filter) {
+          if (routeParams.filter && routeParams.filter != '-') {
             let filter = FilterHistory.findOne(routeParams.filter);
 
             if (filter) {
-              CurrentSession.documentsSelector = filter.selector;
-              CurrentSession.documentsOptions = filter.options;
-              CurrentSession.documentPaginationSkip = filter.skip;
-              CurrentSession.documentsPaginationLimit = filter.limit;
+              CurrentSession.documentsFilter = filter.filter;
             }
+          }
+          if (routeParams.pagination) {
+            CurrentSession.documentsPagination = parseInt(routeParams.pagination) || 0;
           }
         }
       }
