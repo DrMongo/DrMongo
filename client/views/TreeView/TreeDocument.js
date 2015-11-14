@@ -265,8 +265,17 @@ Template.TreeDocument.events({
 
         goTo(FlowRouter.path('Documents', data));
 
-        CurrentSession.documentsSelector = this.idValue;
-        CurrentSession.documentsOptions = {};
+        CurrentSession.documentsFilter = this.idValue;
+        CurrentSession.documentsPagination = 0;
+
+        let newId = FilterHistory.insert({
+          createdAt: new Date(),
+          collection_id: CurrentSession.collection._id,
+          name: null,
+          filter: this.idValue
+        });
+
+        FlowRouter.go(getFilterRoute(newId));
 
       }
       Session.set('showLoader', false);
