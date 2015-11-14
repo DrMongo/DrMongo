@@ -34,6 +34,7 @@ Template.DocumentsFilter.events({
 
     let newId = FilterHistory.insert({
       createdAt: new Date(),
+      collection_id: CurrentSession.collection._id,
       name: null,
       filter: filter
     });

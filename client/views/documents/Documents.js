@@ -54,7 +54,7 @@ Template.Documents.helpers({
   },
 
   savedFilters() {
-    return FilterHistory.find({name: {$ne: null}});
+    return FilterHistory.find({name: {$ne: null}, collection_id: CurrentSession.collection._id});
   }
 });
 
@@ -64,8 +64,6 @@ Template.Documents.events({
   },
 
   'click #reset-filter'(event, templateInstance) {
-    CurrentSession.documentsFilter = '{}';
-    log('tu som')
     FlowRouter.go(getFilterRoute());
   },
 
