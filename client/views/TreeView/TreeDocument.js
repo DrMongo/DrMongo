@@ -61,12 +61,17 @@ let getRowInfo = (key, value, level, fullPath) => {
     info['copyValue'] = JSON.stringify(value);
   }
 
+  if (!info['hasChildren']) {
+    // log(CurrentSession.collection.pinnedColumnsFormatted, fullPath, _.contains(CurrentSession.collection.pinnedColumnsFormatted, fullPath))
+    info['isPinned'] = _.contains(CurrentSession.collection.pinnedColumns, fullPath)
+  }
+
   info.valueClass = 'value-' + info.valueClass;
 
   if (level == 0) {
     let pinnedColumns = [];
-    if (CurrentSession.collection.pinnedColumns && CurrentSession.collection.pinnedColumns.length > 0) {
-      _.each(CurrentSession.collection.pinnedColumns, (column) => {
+    if (CurrentSession.collection.pinnedColumnsFormatted && CurrentSession.collection.pinnedColumnsFormatted.length > 0) {
+      _.each(CurrentSession.collection.pinnedColumnsFormatted, (column) => {
         try {
           // todo remove eval
           let t = eval('(value.' + column + ')');
@@ -172,15 +177,16 @@ Template.TreeDocument.events({
     event.preventDefault();
     event.stopImmediatePropagation();
     var path = $(event.currentTarget).attr('data-full-path');
-    path = path.replace(/^\./, '');
-    path = path.replace(/\.([0-9]+)$/g, '[$1]');
-    path = path.replace(/\.([0-9]+)\./g, '[$1].');
+
+    var pathFormatted = path.replace(/^\./, '');
+    pathFormatted = pathFormatted.replace(/\.([0-9]+)$/g, '[$1]');
+    pathFormatted = pathFormatted.replace(/\.([0-9]+)\./g, '[$1].');
 
     var c = Collections.findOne(CurrentSession.collection._id);
     if (c && c.pinnedColumns && _.contains(c.pinnedColumns, path)) {
-      Collections.update(CurrentSession.collection._id, {$pull: {pinnedColumns: path}});
+      Collections.update(CurrentSession.collection._id, {$pull: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     } else {
-      Collections.update(CurrentSession.collection._id, {$addToSet: {pinnedColumns: path}});
+      Collections.update(CurrentSession.collection._id, {$addToSet: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     }
   },
 

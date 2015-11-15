@@ -5,7 +5,11 @@
         {{drMongoIndex}} {{{keyValue}}}
         {{#unless hasChildren}}
           <div class="btn btn-link btn-xs control-icon pin-column" data-full-path="{{fullPath}}">
+            {{#if isPinned}}
+              <i class="fa fa-thumb-tack text-danger"></i>
+           {{else}}
               <i class="fa fa-thumb-tack"></i>
+            {{/if}}
           </div>
         {{/unless}}
         {{#if copyValue}}
