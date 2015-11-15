@@ -138,6 +138,7 @@ let showDeleteHint = (show = true) => {
 
 
 Template.TreeDocument.onCreated(function () {
+  if (!CurrentSession.collection) return false;
   this.renderChildren = new ReactiveVar(false);
 
   let key = this.data._id;

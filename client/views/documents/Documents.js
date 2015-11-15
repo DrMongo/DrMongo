@@ -54,6 +54,7 @@ Template.Documents.helpers({
   },
 
   savedFilters() {
+    if (!CurrentSession.collection) return false;
     return FilterHistory.find({name: {$ne: null}, collection_id: CurrentSession.collection._id});
   }
 });
