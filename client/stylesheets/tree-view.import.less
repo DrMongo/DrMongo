@@ -10,8 +10,9 @@
         position: absolute;
         content: "\f105";
         top: 7px;
-        left: 5px;
+        left: 7px;
         z-index: 10;
+        color: red;
       }
     }
 
@@ -25,7 +26,7 @@
     & > .toggle-children {
       &::before {
         content: "\f107";
-        left: 2px;
+        left: 4px;
       }
     }
 
@@ -75,12 +76,20 @@
     }
     &.key {
       padding-right: 0px;
+      padding-left: 10px;
     }
     &.value {
       padding-left: 0px;
     }
+    &.actions {
+      padding-right: 10px;
+      padding-left: 0px;
+    }
   }
 
+  .children .cell.key {
+    padding-left: 15px;
+  }
   .value-null {
     color: #aaa;
     font-style: italic;
