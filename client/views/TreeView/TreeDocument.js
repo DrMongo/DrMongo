@@ -19,7 +19,7 @@ let getRowInfo = (key, value, level, fullPath) => {
   };
 
   if (resemblesId(value) || key == '_id') {
-    info['formattedValue'] = '<a href="#" class="find-id">' + value + '</a>';
+    info['formattedValue'] = new Handlebars.SafeString('<a href="#" class="find-id">' + value + '</a>');
     info['valueClass'] = 'id';
     info['copyValue'] = value;
     info['idValue'] = value;
