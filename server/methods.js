@@ -17,7 +17,9 @@ Meteor.methods({
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
 
-    Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true})
+    Connections.clearAllRelations(connection);
+
+    Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true});
     _.each(databases, (databaseName) => {
       Databases.upsert(
         {connection_id: connectionId, name: databaseName},
