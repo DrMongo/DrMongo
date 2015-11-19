@@ -101,7 +101,6 @@ Meteor.methods({
       var selector = {_id: filter};
       var options = {};
     } else {
-      log(filter)
       try {
         filter = eval('([' + filter + '])');
       }

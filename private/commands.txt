@@ -28,3 +28,8 @@ PORT=3011 ENVIRONMENTTYPE=demo ROOT_URL=http://demo.drmongo.com MONGO_URL=mongod
 tail -f -n 200 /var/www/.forever/drmongo-demo.log
 
 
+// Export localhost meteor mongo
+mongodump -h 127.0.0.1:3041 -d meteor -o meteor
+
+// Import on server
+mongorestore --host 192.168.4.62:27017 --db dummy-data --drop dummy-data

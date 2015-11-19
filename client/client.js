@@ -60,7 +60,7 @@ Tracker.autorun(function () {
         return false;
       }
 
-      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 1) {
+      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 0) {
         FlowRouter.go('/');
         return false;
       }

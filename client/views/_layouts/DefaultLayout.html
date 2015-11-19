@@ -1,4 +1,9 @@
 <template name="DefaultLayout">
+  {{#if isDemo}}
+  <div class="top-alert">
+    <div class="text">This is a demo version with restricted functionality for security reasons.</div>
+  </div>
+  {{/if}}
   {{#if ready}}
     {{> Navigation}}
     {{> Template.dynamic template=template}}
