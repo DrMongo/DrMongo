@@ -2,6 +2,7 @@
   .toggle-children {
     cursor: pointer;
   }
+  & > .parent:hover {background: #ddd}
 
   .parent {
     & > .toggle-children {
@@ -9,7 +10,7 @@
         font: normal normal normal 14px/1 FontAwesome;
         position: absolute;
         content: "\f105";
-        top: 7px;
+        top: 6px;
         left: 10px;
         z-index: 10;
         color: red;
@@ -41,11 +42,14 @@
   // L A Y O U T  +  D E S I G N
   margin: 0;
 
-  border: 1px solid #ccc;
+  border: none;
   border-radius: 3px;
 
   .document {
-    border-bottom: 1px solid #ccc;
+    border-top: 1px solid #ccc;
+  }
+  .document:first-child {
+    border-top: none;
   }
 
   .parent {
@@ -55,7 +59,7 @@
   }
 
   .parent.collapsed > .head > .cell {
-    background-color: #F8F8F8;
+    // background-color: #F8F8F8;
   }
 
   .head {
@@ -90,6 +94,14 @@
   .children .cell.key {
     padding-left: 20px;
   }
+  .children {
+    font-size: 13px;
+  }
+
+  .children td {
+    border-top: 1px solid #ccc;
+  }
+
   .value-null {
     color: #aaa;
     font-style: italic;
