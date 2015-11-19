@@ -87,6 +87,8 @@ let getRowInfo = (key, value, level, fullPath) => {
         pinnedColumns.push(value.name);
       } else if (value.title) {
         pinnedColumns.push(value.title);
+      } else {
+        pinnedColumns.push("");
       }
     }
     if (pinnedColumns.length) {
