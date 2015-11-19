@@ -7,10 +7,6 @@ Template.registerHelper('pathFor', function (params) {
   return FlowRouter.path(params.route, params.data);
 });
 
-Template.registerHelper('isDemo', function () {
-  return dr.isDemo;
-});
-
 Template.registerHelper('printIf', function (condition, trueValue, falseValue) {
   return condition ? trueValue : falseValue;
 });

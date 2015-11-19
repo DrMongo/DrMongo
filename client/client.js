@@ -60,11 +60,6 @@ Tracker.autorun(function () {
         return false;
       }
 
-      if (dr.isDemo && CurrentSession.database.name.indexOf('dummy') !== 0) {
-        FlowRouter.go('/');
-        return false;
-      }
-
       if (CurrentSession.database && !CurrentSession.mountedCollections) {
         CurrentSession.mountedCollections = mountCollections(CurrentSession.database._id);
         CollectionsAreMounted = true;

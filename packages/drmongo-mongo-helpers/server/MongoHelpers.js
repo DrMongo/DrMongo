@@ -31,7 +31,6 @@ MongoHelpers = {
     let databaseNames = [];
     _.each(databases.databases, (value) => {
       if (value.name == 'local' || value.name == 'admin') return false;
-      if (dr.isDemo == true && value.name.indexOf('dummy') !== 0) return false;
       databaseNames.push(value.name)
     });
 

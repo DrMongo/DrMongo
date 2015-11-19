@@ -1,25 +1,3 @@
-// DEMO 
-
-cd /var/www/drmongo-demo
-forever stop drmongo-demo
-rm -rf bundle-copy-old
-mv bundle-copy bundle-copy-old
-cp -r bundle bundle-copy
-rm -rf bundle
-tar xfz drmongo-demo.tar.gz -C /var/www/drmongo-demo
-mkdir bundle/programs/server/node_modules
-rm -rf bundle/programs/server/npm/npm-bcrypt
-npm install bcrypt
-pushd bundle/programs/server/node_modules
-rm -rf fibers
-npm install fibers
-npm install underscore
-npm install source-map-support
-npm install semver
-popd
-PORT=3011 ROOT_URL=http://demo.drmongo.com MONGO_URL=mongodb://192.168.4.62:27017/drmongo-demo MONGO_OPLOG_URL=mongodb://192.168.4.62:27017/local LC_ALL="en_GB.UTF-8" forever -a --uid "drmongo-demo" start bundle/main.js
-
-
 // Homepage
 
 cd /var/www/drmongo-homepage
