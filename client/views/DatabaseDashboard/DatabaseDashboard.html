@@ -9,13 +9,13 @@
         </a>
       {{/each}}
     </div>
-    <h1 class="page-header db-theme-inverted-{{currentDatabase.theme}}"><i class="fa fa-database"></i> {{currentDatabase.name}}</h1>
+    <h1 class="page-header db-theme-inverted-{{currentDatabaseTheme}}"><i class="fa fa-database"></i> {{currentDatabase.name}}</h1>
 
 
     <div class="row">
       {{#each collections}}
         <div class="col-sm-3">
-          <a class="collection-card db-theme-{{currentDatabase.theme}}" href="{{pathForDocuments data=this}}">
+          <a class="collection-card db-theme-{{currentDatabaseTheme}}" href="{{pathForDocuments data=this}}">
             <i class="icon {{icon}}"></i>
             <div class="text theme-color">{{name}}</div>
           </a>

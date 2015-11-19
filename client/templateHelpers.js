@@ -15,7 +15,7 @@ Template.registerHelper('printIf', function (condition, trueValue, falseValue) {
   return condition ? trueValue : falseValue;
 });
 
-Template.registerHelper('currentDatabaseTheme', function (condition, trueValue, falseValue) {
+Template.registerHelper('currentDatabaseTheme', function () {
   const db = CurrentSession.database;
   return db && db.theme ? db.theme : 'default';
 });
