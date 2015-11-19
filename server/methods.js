@@ -204,7 +204,7 @@ Meteor.methods({
     let sourceDocument = findWrapper();
     if (!sourceDocument) return false;
 
-    delete sourceDocument._id;
+    sourceDocument._id = Random.id();
 
     let insertWrapper = Meteor.wrapAsync((cb) => {
       dbCollection.insertOne(sourceDocument, (error, response) => {
@@ -212,10 +212,10 @@ Meteor.methods({
       });
     });
 
-    let insertResult = insertWrapper();
+    insertWrapper();
     db.close();
 
-    return insertResult;
+    return;
   },
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);

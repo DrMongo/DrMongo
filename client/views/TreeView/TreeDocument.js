@@ -226,7 +226,10 @@ Template.TreeDocument.events({
     event.stopImmediatePropagation();
     Meteor.call('duplicateDocument', CurrentSession.collection._id, this.value._id, function (error, result) {
       if (!error) {
-        sAlert.success('Document duplicated with new _ID: ' + result)
+        sAlert.success('Document duplicated.')
+        refreshDocuments();      
+      } else {
+        sAlert.error('Could NOT duplicate document. Probably due to unique index.')
       }
     });
   },
