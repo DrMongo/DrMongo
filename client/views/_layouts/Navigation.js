@@ -36,8 +36,8 @@ Template.Navigation.events({
           log(error);
           sAlert.warning('error');
         } else {
-          sAlert.success('Database added');
-          // todo: redirect to new database
+          CurrentSession.mountedCollections[result] = new Mongo.Collection(name);
+          sAlert.success('Collection created');
         }
       });
     }

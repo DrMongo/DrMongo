@@ -4,7 +4,7 @@ Meteor.methods({
     MongoHelpers.createCollection(database, collectionName);
 
     // update DR cache
-    Collections.insert({
+    return Collections.insert({
       database_id: databaseId,
       name: collectionName,
       updatedAt: new Date,
