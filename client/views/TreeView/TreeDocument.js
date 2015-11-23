@@ -43,7 +43,7 @@ let getRowInfo = (key, value, level, fullPath) => {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
     info['labelType'] = 'default';
-    info['labelText'] = '\0';
+    info['labelText'] = '\\0';
   } else if (_.isBoolean(value)) {
     info['formattedValue'] = value ? 'true' : 'false';
     info['labelType'] = 'default';
