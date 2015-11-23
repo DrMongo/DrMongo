@@ -23,42 +23,51 @@ let getRowInfo = (key, value, level, fullPath) => {
     info['valueClass'] = 'id';
     info['copyValue'] = value;
     info['idValue'] = value;
+    info['labelType'] = 'info';
+    info['labelText'] = 'ID';
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['valueClass'] = 'number';
     info['copyValue'] = value;
+    info['labelType'] = 'default';
+    info['labelText'] = '#';
   } else if (_.isString(value)) {
-    if (value.length == 0) {
-      info['formattedValue'] = "\"\" empty string";
-      info['isPruned'] = value.length > 35;
-      info['copyValue'] = value;
-      info['notPrunedString'] = value;
-      info['valueClass'] = 'null';
-    } else {
-      info['formattedValue'] = s(value).prune(35).value();
-      info['isPruned'] = value.length > 35;
-      info['copyValue'] = value;
-      info['notPrunedString'] = value;
-    }
+    info['formattedValue'] = s(value).prune(35).value();
+    info['isPruned'] = value.length > 35;
+    info['copyValue'] = value;
+    info['notPrunedString'] = value;
+
+    info['labelType'] = 'default';
+    info['labelText'] = '\" \"';
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
     info['valueClass'] = 'null';
+    info['labelType'] = 'default';
+    info['labelText'] = '\0';
   } else if (_.isBoolean(value)) {
     info['formattedValue'] = value ? 'true' : 'false';
+    info['labelType'] = 'default';
+    info['labelText'] = 'TF';
   } else if (_.isDate(value)) {
     info['formattedValue'] = moment(value).format(Settings.dateFormat);
     info['valueClass'] = 'date';
     info['copyValue'] = info['formattedValue'];
+    info['labelType'] = 'default';
+    info['labelText'] = '<i class="fa fa-calendar"></i>';
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['valueClass'] = 'array';
     info['hasChildren'] = true;
     info['copyValue'] = JSON.stringify(value);
+    info['labelType'] = 'success';
+    info['labelText'] = '[ ]';
   } else if (_.isObject(value)) {
     info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
     info['valueClass'] = 'object';
     info['hasChildren'] = true;
     info['copyValue'] = JSON.stringify(value);
+    info['labelType'] = 'warning';
+    info['labelText'] = '{ }';
   }
 
   if (!info['hasChildren']) {

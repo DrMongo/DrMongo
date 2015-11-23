@@ -2,7 +2,7 @@
   <div class="col-xs-12 parent">
     <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
       <div class="col-xs-3 cell key">
-        {{drMongoIndex}} {{{keyValue}}}
+        {{drMongoIndex}} <span class="label label-{{labelType}} value-type-label">{{{labelText}}}</span> {{{keyValue}}}
         {{#unless hasChildren}}
           <div class="btn btn-link btn-xs control-icon pin-column" data-full-path="{{fullPath}}">
             {{#if isPinned}}

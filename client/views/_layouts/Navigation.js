@@ -59,11 +59,10 @@ Template.Navigation.events({
           database: c.database().name,
           connection: c.database().connection().slug
         };
-        goTo(FlowRouter.path('Documents', data));
-
-        CurrentSession.documentsSelector = searchString;
-        CurrentSession.documentsOptions = {};
+        CurrentSession.documentsFilter = searchString;
         Session.set('showLoader', false);
+
+        goTo(FlowRouter.path('Documents', data));
       }
     });
   }
