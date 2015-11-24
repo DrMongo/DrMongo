@@ -10,7 +10,7 @@ let getRowInfo = (key, value, level, fullPath) => {
     level: level,
     isPruned: false,
     hasChildren: false,
-    valueClass: type,
+    fieldClass: type,
     copyValue: false,
     isId: false,
     idValue: null,
@@ -20,16 +20,14 @@ let getRowInfo = (key, value, level, fullPath) => {
 
   if (resemblesId(value) || key == '_id') {
     info['formattedValue'] = new Handlebars.SafeString('<a href="#" class="find-id">' + value + '</a>');
-    info['valueClass'] = 'id';
+    info['fieldClass'] = 'id';
     info['copyValue'] = value;
     info['idValue'] = value;
-    info['labelType'] = 'info';
     info['labelText'] = 'ID';
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
-    info['valueClass'] = 'number';
+    info['fieldClass'] = 'number';
     info['copyValue'] = value;
-    info['labelType'] = 'default';
     info['labelText'] = '#';
   } else if (_.isString(value)) {
     info['formattedValue'] = s(value).prune(35).value();
@@ -37,36 +35,30 @@ let getRowInfo = (key, value, level, fullPath) => {
     info['copyValue'] = value;
     info['notPrunedString'] = value;
 
-    info['labelType'] = 'default';
     info['labelText'] = '\" \"';
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
-    info['valueClass'] = 'null';
-    info['labelType'] = 'default';
+    info['fieldClass'] = 'null';
     info['labelText'] = '\\0';
   } else if (_.isBoolean(value)) {
     info['formattedValue'] = value ? 'true' : 'false';
-    info['labelType'] = 'default';
     info['labelText'] = 'TF';
   } else if (_.isDate(value)) {
     info['formattedValue'] = moment(value).format(Settings.dateFormat);
-    info['valueClass'] = 'date';
+    info['fieldClass'] = 'date';
     info['copyValue'] = info['formattedValue'];
-    info['labelType'] = 'default';
-    info['labelText'] = '<i class="fa fa-calendar"></i>';
+    info['labelText'] = new Handlebars.SafeString('<i class="fa fa-calendar"></i>');
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
-    info['valueClass'] = 'array';
+    info['fieldClass'] = 'array';
     info['hasChildren'] = true;
     info['copyValue'] = JSON.stringify(value);
-    info['labelType'] = 'success';
     info['labelText'] = '[ ]';
   } else if (_.isObject(value)) {
     info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
-    info['valueClass'] = 'object';
+    info['fieldClass'] = 'object';
     info['hasChildren'] = true;
     info['copyValue'] = JSON.stringify(value);
-    info['labelType'] = 'warning';
     info['labelText'] = '{ }';
   }
 
@@ -75,7 +67,7 @@ let getRowInfo = (key, value, level, fullPath) => {
     info['isPinned'] = _.contains(CurrentSession.collection.pinnedColumns, fullPath)
   }
 
-  info.valueClass = 'value-' + info.valueClass;
+  info.fieldClass = 'field-' + info.fieldClass;
 
   if (level == 0) {
     let pinnedColumns = [];
@@ -236,7 +228,7 @@ Template.TreeDocument.events({
     Meteor.call('duplicateDocument', CurrentSession.collection._id, this.value._id, function (error, result) {
       if (!error) {
         sAlert.success('Document duplicated.')
-        refreshDocuments();      
+        refreshDocuments();
       } else {
         sAlert.error('Could NOT duplicate document. Probably due to unique index.')
       }

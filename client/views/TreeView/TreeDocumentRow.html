@@ -1,8 +1,8 @@
 <template name="TreeDocumentRow">
   <div class="col-xs-12 parent">
-    <div class="row {{printIf hasChildren 'toggle-children' ''}} head">
+    <div class="row {{printIf hasChildren 'toggle-children' ''}} head {{fieldClass}}">
       <div class="col-xs-3 cell key">
-        {{drMongoIndex}} <span class="label label-{{labelType}} value-type-label">{{{labelText}}}</span> {{{keyValue}}}
+        {{drMongoIndex}} <span class="value-type-label">{{labelText}}</span> {{{keyValue}}}
         {{#unless hasChildren}}
           <div class="btn btn-link btn-xs control-icon pin-column" data-full-path="{{fullPath}}">
             {{#if isPinned}}
@@ -18,7 +18,7 @@
         </div>
         {{/if}}
       </div>
-      <div class="col-xs-7 cell value {{valueClass}}">
+      <div class="col-xs-7 cell value">
         {{formattedValue}}
         {{#if isPruned}}
             <a class="view-value" href="#">view</a>

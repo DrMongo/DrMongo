@@ -101,18 +101,41 @@
     border-top: 1px solid #ccc;
   }
 
-  .value-null {
-    color: #aaa;
-    font-style: italic;
+  .value-type-label {
+    width: 18px;
+    display: inline-block;
+    font-size: 9px;
+    padding: 1px 2px;
+    text-align: center;
+    background-color: #F2F2F2;
+    border-radius: 2px;
   }
 
-  .value-boolean {
-    font-weight: bold;
+  .field-number {
+    .value, .value-type-label { color: #1E20E8; }
   }
 
-  .value-array, .value-object {
-    color: #aaa;
+  .field-null {
+    .value {
+      color: #aaa;
+      font-style: italic;
+    }
+    .value-type-label { color: #E81EA6; }
   }
+
+  .field-boolean {
+    .value { font-weight: bold; }
+    .value-type-label { color: #E81EA6; }
+  }
+
+  .field-array, .field-object {
+    .value { color: #aaa; }
+  }
+
+  .field-id .value-type-label { color: #3CA2D7; }
+  .field-date .value-type-label { color: #AE681B; }
+  .field-array .value-type-label { color: #EA5454; }
+  .field-object .value-type-label { color: #3AAC55; }
 
   .pinned-column {
     overflow: hidden;
@@ -123,12 +146,5 @@
     // background: #fff;
     // box-shadow: 0px 0px 3px gray;
   }
-  .value-type-label {
-    width: 18px;
-    display: inline-block;
-    font-size: 9px;
-    padding-bottom: 3px;
-    margin-right: 5px;
-    opacity: .4;
-  }
+
 }
