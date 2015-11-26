@@ -11,6 +11,7 @@ Template.Documents.onCreated(function () {
     if (!CurrentSession.collection) return false;
 
     let filter = CurrentSession.documentsFilter || '{}';
+    Session.set('showLoader', true);
 
     CurrentSession.documentsReady = false;
     Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, filter, CurrentSession.documentsPagination, CurrentSession.documentsRandomSeed, function(error, result) {
