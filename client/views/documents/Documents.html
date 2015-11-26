@@ -3,7 +3,7 @@
   <div class="db-head-theme-{{currentDatabaseTheme}}">
     <div class="container">
       <div class="pull-right" style="margin-top: 10px;">
-        <span class="dropdown">
+        <span class="dropdown" title="Saved views">
           <button type="button" class="theme-color btn btn-inverted btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-star"></i> <span class="caret"></span>
           </button>
@@ -15,8 +15,8 @@
             {{/each}}
           </ul>
         </span>
-        <button class="theme-color btn btn-sm btn-inverted pull-right" id="reset-filter"><i class="fa fa-ban"></i></button>
-        <button class="theme-color btn btn-sm btn-inverted pull-right" id="refresh-documents"><i class="fa fa-refresh"></i></button>
+        <button class="theme-color btn btn-sm btn-inverted pull-right" id="reset-filter" title="Clear filter"><i class="fa fa-ban"></i></button>
+        <button class="theme-color btn btn-sm btn-inverted pull-right" id="refresh-documents" title="Reload documents"><i class="fa fa-refresh"></i></button>
 
       </div>
       <h1 class="m-b pull-left">
@@ -24,10 +24,10 @@
       </h1>
 
       <div class="pull-left" style="margin: 6px 0 0 10px;">
-        <a id="insert-document" class="theme-color btn btn-inverted btn-sm" href="#">
+        <a id="insert-document" class="theme-color btn btn-inverted btn-sm" href="#" title="Insert new document">
           <i class="fa fa-plus"></i>
         </a>
-        <button class="theme-color btn btn-sm btn-inverted pull-right" id="settings"><i class="fa fa-cog"></i></button>
+        <button class="theme-color btn btn-sm btn-inverted pull-right hide" id="settings" title="Collection settings"><i class="fa fa-cog"></i></button>
       </div>
       {{> DocumentsFilter filterData}}
     </div>
