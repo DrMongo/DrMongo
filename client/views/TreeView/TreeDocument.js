@@ -11,7 +11,6 @@ let getRowInfo = (key, value, level, fullPath) => {
     isPruned: false,
     hasChildren: false,
     fieldClass: type,
-    copyValue: false,
     isId: false,
     idValue: null,
     fullPath: fullPath,
@@ -21,18 +20,15 @@ let getRowInfo = (key, value, level, fullPath) => {
   if (resemblesId(value) || key == '_id') {
     info['formattedValue'] = new Handlebars.SafeString('<a href="#" class="find-id">' + value + '</a>');
     info['fieldClass'] = 'id';
-    info['copyValue'] = value;
     info['idValue'] = value;
     info['labelText'] = 'ID';
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['fieldClass'] = 'number';
-    info['copyValue'] = value;
     info['labelText'] = '#';
   } else if (_.isString(value)) {
     info['formattedValue'] = s(value).prune(35).value();
     info['isPruned'] = value.length > 35;
-    info['copyValue'] = value;
     info['notPrunedString'] = value;
 
     info['labelText'] = '\" \"';
@@ -46,19 +42,16 @@ let getRowInfo = (key, value, level, fullPath) => {
   } else if (_.isDate(value)) {
     info['formattedValue'] = moment(value).format(Settings.dateFormat);
     info['fieldClass'] = 'date';
-    info['copyValue'] = info['formattedValue'];
     info['labelText'] = new Handlebars.SafeString('<i class="fa fa-calendar"></i>');
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['fieldClass'] = 'array';
     info['hasChildren'] = true;
-    info['copyValue'] = JSON.stringify(value);
     info['labelText'] = '[ ]';
   } else if (_.isObject(value)) {
     info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
     info['fieldClass'] = 'object';
     info['hasChildren'] = true;
-    info['copyValue'] = JSON.stringify(value);
     info['labelText'] = '{ }';
   }
 
@@ -174,7 +167,7 @@ Template.TreeDocument.events({
   'click .copy-value'(event, templateInstance) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    copyText($(event.currentTarget).attr('data-clipboard-text'));
+    copyText(EJSON.stringify(Template.currentData()));
   },
 
   'click .pin-column'(event, templateInstance) {

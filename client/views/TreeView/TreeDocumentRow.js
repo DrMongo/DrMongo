@@ -6,5 +6,10 @@ Template.TreeDocumentRow.events({
     event.stopImmediatePropagation();
 
     $(event.currentTarget).parent('.parent').toggleClass('collapsed');
-  }
+  },
+  'click .copy-value'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    copyText(EJSON.stringify(this.value));
+  },
 });
