@@ -259,7 +259,6 @@ Template.TreeDocument.events({
     event.stopImmediatePropagation();
     Session.set('showLoader', true);
 
-    log(this.idValue)
     Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, this.idValue, (error, result) => {
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {
@@ -284,7 +283,6 @@ Template.TreeDocument.events({
         FlowRouter.go(getFilterRoute(newId));
 
       }
-      Session.set('showLoader', false);
     });
   }
 

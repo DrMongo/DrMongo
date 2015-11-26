@@ -21,6 +21,7 @@ Template.Documents.onCreated(function () {
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;
+      Session.set('showLoader', false);
 
     });
   });
