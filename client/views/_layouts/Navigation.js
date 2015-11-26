@@ -60,7 +60,6 @@ Template.Navigation.events({
           connection: c.database().connection().slug
         };
         CurrentSession.documentsFilter = searchString;
-        Session.set('showLoader', false);
 
         goTo(FlowRouter.path('Documents', data));
       }

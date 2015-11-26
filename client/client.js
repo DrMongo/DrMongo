@@ -104,7 +104,14 @@ Tracker.autorun(function () {
 
 Tracker.autorun(function () {
   if (CurrentSession.collection) {
-    seo.setTitle(CurrentSession.collection.name);
+    seo.setTitle(
+      CurrentSession.collection.name
+      + '.find('
+      + CurrentSession.documentsFilter
+      + '); [page '
+      + (CurrentSession.documentsPagination + 1)
+      + ']'
+    );
   } else if (CurrentSession.database) {
     seo.setTitle(CurrentSession.database.name);
   } else if (CurrentSession.connection) {

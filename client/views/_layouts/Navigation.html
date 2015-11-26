@@ -22,7 +22,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                  role="button" aria-haspopup="true"
-                 aria-expanded="false">
+                 aria-expanded="false" title="Select connection">
                 {{#if currentConnection}}{{currentConnection.name}}{{else}}Select connection{{/if}}
                 <span class="caret"></span>
               </a>
@@ -35,7 +35,7 @@
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle db-theme-inverted-{{currentDatabase.theme}}" data-toggle="dropdown" role="button">
+              <a href="#" class="dropdown-toggle db-theme-inverted-{{currentDatabase.theme}}" data-toggle="dropdown" role="button" title="Select database">
                 {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}}
                 <span class="caret"></span>
               </a>
@@ -52,7 +52,7 @@
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                  role="button"
-                 aria-haspopup="true" aria-expanded="false">
+                 aria-haspopup="true" aria-expanded="false" title="Select collection">
                 {{#if currentCollection}}{{currentCollection.name}}{{else}}Select collection{{/if}}
                 <span class="caret"></span>
               </a>
@@ -81,12 +81,6 @@
             <button type="submit" class="btn btn-default hidden">Submit</button>
           </form>
         {{/if}}
-        <div class="nav navbar-nav navbar-right">
-          {{#if showLoader}}
-            <i class="fa fa-spinner fa-spin" id="background-loader"></i>
-          {{/if}}
-        </div>
-
 
       </div><!-- /.navbar-collapse -->
     </div><!-- /.container -->

@@ -1,8 +1,19 @@
 Template.Pagination.helpers({
   pages() {
     const count = Math.ceil(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit);
+
+    if (count > 20) {
+      var firstPage = CurrentSession.documentsPagination - 10;
+      if (firstPage < 0) firstPage = 0;
+
+      var lastPage = CurrentSession.documentsPagination + 10;
+      if (lastPage > count) lastPage = count;
+    } else {
+      var firstPage = 0;
+      var lastPage = count;      
+    }
     let pages = [];
-    for (var i = 0; i < count; i++) {
+    for (var i = firstPage; i < lastPage; i++) {
       pages.push({
         index: i,
         label: (i+1) + '. page'
