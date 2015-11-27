@@ -1,6 +1,8 @@
 # Dr. Mongo
 
-The Meteor-based Mongo database manager.
+MongoDB admin app built on MeteorJs.
+
+Dr. Mongo is a stand-alone application allowing you to connect to several Mongo DB simultaneously. This means you only have to have one instance running to connect to any of your databases.
 
 ## Installation
 
@@ -19,3 +21,13 @@ $ meteor --port 3040
 _Your Dr. Mongo instance has to be running along with your other Meteor apps, so we use port 3040, but you are free to use any port._
 
 Once your app is running, go to: http://127.0.0.1:3040
+
+
+### Connecting to Meteor database
+**Host:** localhost
+**Port:** 3001
+_If your meteor running on port 3000 use port 3001 in connection as Meteor always creates its mongodb on a port of app + 1._
+
+## FAQ
+#### Can be Dr. Mongo installed as meteor package?
+We are planning on building Dr. Mongo as a OSX/Win/Linux application and as a Meteor package, also.
