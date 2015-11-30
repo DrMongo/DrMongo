@@ -15,11 +15,9 @@
     </tr>
     <tr class="children hidden">
       <td colspan="{{colspan}}">
-        {{#if renderChildren}}
-          {{#each children}}
-            {{> TreeDocumentRow this}}
-          {{/each}}
-        {{/if}}
+        {{#each children}}
+          {{> TreeDocumentRow this}}
+        {{/each}}
       </td>
     </tr>
   {{/with}}
