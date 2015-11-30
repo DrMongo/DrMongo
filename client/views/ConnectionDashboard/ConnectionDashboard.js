@@ -1,3 +1,3 @@
 Template.ConnectionDashboard.onCreated(function () {
-  redirectToMainCollection();
+  // redirectToMainCollection();
 });

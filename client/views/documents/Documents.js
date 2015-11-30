@@ -78,6 +78,8 @@ Template.Documents.events({
     if (filterId) {
       let name = prompt('Give filter a name to save it:');
       FilterHistory.update(filterId, {$set: {name: name}});
+    } else {
+      sAlert.info('No filter set.')
     }
   },
 

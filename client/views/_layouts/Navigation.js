@@ -52,6 +52,10 @@ Template.Navigation.events({
     }
     Session.set('showLoader', true);
     Meteor.call('findCollectionForDocumentId', CurrentSession.database._id, searchString, (error, result) => {
+      if (result === null) {
+        sAlert.warning('Document not found.');
+        Session.set('showLoader', false);
+      }
       let c = Collections.findOne({database_id: CurrentSession.database._id, name: result});
       if (c) {
         const data = {

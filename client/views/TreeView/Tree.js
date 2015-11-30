@@ -8,4 +8,8 @@ Template.Tree.onRendered(function () {
   $(this.find('.toggle-children')).click();
 });
 
-Template.Tree.helpers({});
+Template.Tree.helpers({
+	'zeroResults': function() {
+		return this.documents.length == 0;
+	}
+});

@@ -1,17 +1,12 @@
 ConnectionStructureSubscription = Meteor.subscribe('connectionStructure');
 
-CurrentConnectionId = false;
-CurrentDatabaseId = false;
-
 CurrentSession = new ReactiveObjects({
   connection: null,
   database: null,
   collection: null,
-  mongoCollection: null,
   documents: null,
   documentsReady: false,
   documentsCount: null,
-  mountedCollections: null,
   documentsFilter: '{}',
   documentsRandomSeed: 0,
   documentsPagination: 0,
@@ -44,12 +39,9 @@ Tracker.autorun(function () {
       return false;
     }
 
-    if (CurrentSession.connection._id != CurrentConnectionId && CurrentConnectionId != false) {
-      Meteor.call('changeDatabase');
-    } else {
-      CurrentConnectionId = CurrentSession.connection._id;
-    }
-
+    CurrentSession.database = null;
+    CurrentSession.collection = null;
+    
     if (CurrentSession.connection && routeParams.database) {
       CurrentSession.database = Databases.findOne({
         name: routeParams.database,
@@ -58,17 +50,6 @@ Tracker.autorun(function () {
       if (!CurrentSession.database) {
         FlowRouter.go('/');
         return false;
-      }
-
-      if (CurrentSession.database && !CurrentSession.mountedCollections) {
-        CurrentSession.mountedCollections = mountCollections(CurrentSession.database._id);
-        CollectionsAreMounted = true;
-      }
-
-      if (CurrentSession.database._id != CurrentDatabaseId && CurrentDatabaseId != false) {
-        Meteor.call('changeDatabase');
-      } else {
-        CurrentDatabaseId = CurrentSession.database._id;
       }
 
       if (CurrentSession.database && routeParams.collection) {
@@ -84,8 +65,6 @@ Tracker.autorun(function () {
         }
 
         if (CurrentSession.collection) {
-          CurrentSession.mongoCollection = CurrentSession.mountedCollections[CurrentSession.collection._id];
-
           if (routeParams.filter && routeParams.filter != '-') {
             let filter = FilterHistory.findOne(routeParams.filter);
 
@@ -99,7 +78,7 @@ Tracker.autorun(function () {
         }
       }
     }
-  }
+  }  
 });
 
 Tracker.autorun(function () {
@@ -120,14 +99,3 @@ Tracker.autorun(function () {
     seo.setTitle(null);
   }
 });
-
-mountCollections = function(databaseId) {
-  var mountedCollections = {};
-
-  Collections.find({database_id: databaseId}).forEach((collection) => {
-    mountedCollections[collection._id] = new Mongo.Collection(collection.name);
-  });
-
-  return mountedCollections;
-
-}
