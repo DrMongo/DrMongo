@@ -24,10 +24,9 @@ Once your app is running, go to: http://127.0.0.1:3040
 
 
 ### Connecting to Meteor database
-Field | Value | |
-------|-------|------|
-**Host** | localhost | |
-**Port** | 3001 | _If your meteor running on port 3000 use port 3001 in connection as Meteor always creates its mongodb on a port of app + 1._ |
+If your meteor running on port 3000 use port 3001 in connection as Meteor always creates its mongodb on a port of app + 1. 
+So mongo URI will be `mongodb://localhost:3001/meteor`
+
 
 ## FAQ
 #### Can be Dr. Mongo installed as meteor package?
