@@ -32,5 +32,20 @@ Template.DatabaseDashboard.events({
     log(theme);
 
     Databases.update(CurrentSession.database._id, {$set: {theme: theme}});
+  },
+  'click div.collection-settings': function (event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    log({
+      collectionId: this._id,
+      databaseId: this.database()._id,
+      connectionId: this.database().connection()._id
+    })
+    Session.set('CollectionDashboardModal', {
+      collectionId: this._id,
+      databaseId: this.database()._id,
+      connectionId: this.database().connection()._id
+    });
+    $('#CollectionDashboardModal').modal('show');
   }
 });

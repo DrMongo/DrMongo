@@ -5,6 +5,7 @@ Template.CollectionDashboardModal.onCreated(function () {
 Template.CollectionDashboardModal.helpers({
   connection() {
     var ModalParams = Session.get('CollectionDashboardModal');
+    log(ModalParams)
     if (!ModalParams) return false;
     return Connections.findOne(ModalParams.connectionId);
   },
@@ -16,7 +17,6 @@ Template.CollectionDashboardModal.helpers({
   collection() {
     var ModalParams = Session.get('CollectionDashboardModal');
     if (!ModalParams) return false;
-    log(Collections.findOne(ModalParams.collectionId), ModalParams.collectionId)
     return Collections.findOne(ModalParams.collectionId);
   }
 });
