@@ -238,12 +238,22 @@ Meteor.methods({
 
     return result;
   },
-  changeDatabase() {
-    if (Meteor.isServer) {
-      //log('exiting')
-      //process.exit();
-    } else {
-      location.reload();
-    }
+  dropAllDocuments(collectionId) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    let wrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.deleteMany({}, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let result = wrapper();
+    db.close();
+
+    return result;
   },
 });
