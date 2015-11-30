@@ -12,28 +12,15 @@
           <form>
             <div class="modal-body">
               <div class="form-group">
-                <label for="name">Name</label>
-                <input type="text" class="form-control" id="name"
-                       placeholder="Name"
-                       value="{{name}}">
+                <label>Name</label>
+                <input type="text" class="form-control" id="name" value="{{name}}">
               </div>
               <div class="form-group">
-                <label for="name">Host</label>
-                <input type="text" class="form-control" id="host"
-                       placeholder="Host"
-                       value="{{host}}">
-              </div>
-              <div class="form-group">
-                <label for="name">Port</label>
-                <input type="text" class="form-control" id="port"
-                       placeholder="Port"
-                       value="{{port}}">
-              </div>
-              <div class="form-group">
-                <label for="name">Default database</label>
-                <input type="text" class="form-control" id="database"
-                       placeholder="Default database"
-                       value="{{database}}">
+                <label>Mongo URI</label>
+                <input type="text" class="form-control" id="mongo-uri" value="{{mongoUri}}">
+                <p class="help-block"><a href="https://docs.mongodb.org/manual/reference/connection-string/" target="_blank">
+                  What is Mongo URI?
+                </a></p>
               </div>
             </div>
             <div class="modal-footer">
