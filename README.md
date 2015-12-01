@@ -4,6 +4,8 @@ MongoDB admin app built on MeteorJs.
 
 Dr. Mongo is a stand-alone application allowing you to connect to several Mongo DB simultaneously. This means you only have to have one instance running to connect to any of your databases.
 
+Follow us on twitter [@drmongoapp](https://twitter.com/drmongoapp)
+
 ## Installation
 
 Dr. Mongo runs as a Meteor application, so you need to have Meteor installed, first.
