@@ -1,9 +1,9 @@
 let getConnection = (data, cb) => {
   const connection = data.connection;
-  const database = data.database || null;
-  const url = 'mongodb://' + connection.host + ':' + connection.port + (database ? '/' + database : '');
+  const uri = MongodbUriParser.parse(data.connection.mongoUri);
+  uri.database = data.database ? data.database : null;
 
-  MongoInternals.NpmModules.mongodb.module(url, (error, db) => {
+  MongoInternals.NpmModules.mongodb.module(MongodbUriParser.format(uri), (error, db) => {
     if(error) {
       cb(null, false);
     } else {

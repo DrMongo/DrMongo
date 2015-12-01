@@ -5,11 +5,16 @@ Template.Connections.helpers({
   connections() {
     return Connections.find({}, {sort: {name: 1}});
   },
+
+  shortMongoUri() {
+    let uri = MongodbUriParser.parse(this.mongoUri);
+    delete uri.scheme;
+    delete uri.options;
+    return MongodbUriParser.format(uri);
+  },
+
   connectLink() {
-    let database = null;
-    if (this.database) {
-      database = this.defaultDatabase();
-    }
+    let database = this.mainDatabase();
     if (database) {
       return '/' + this.slug + '/' + database.name;
     } else {
@@ -23,8 +28,7 @@ Template.Connections.events({
     event.preventDefault();
     var newId = Connections.insert({
       name: 'New Connection',
-      host: 'localhost',
-      port: '27017'
+      mongoUri: 'mongodb://localhost:27017'
     });
     Session.set('EditConnectionModal', {
       connectionId: newId

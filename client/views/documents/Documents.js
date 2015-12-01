@@ -97,6 +97,17 @@ Template.Documents.events({
       collectionId: CurrentSession.collection._id
     });
     $('#DocumentInsertModal').modal('show');
+  },
+
+  'click #collection-dashboard'(event, templateInstance) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    Session.set('CollectionDashboardModal', {
+      connectionId: CurrentSession.connection._id,
+      databaseId: CurrentSession.database._id,
+      collectionId: CurrentSession.collection._id
+    });
+    $('#CollectionDashboardModal').modal('show');
   }
 
 });

@@ -19,6 +19,7 @@ ecmascript              # Enable ECMAScript2015+ syntax in app code
 insecure                # Allow all DB writes from clients (for prototyping)
 check
 ejson
+random
 
 
 # router
@@ -32,8 +33,9 @@ dburles:mongo-collection-instances
 dburles:collection-helpers
 todda00:friendly-slugs
 matb33:collection-hooks
+percolate:migrations
 
-# library
+# lib
 reactive-var
 meteorhacks:npm
 percolate:synced-cron
@@ -47,6 +49,7 @@ npm-container
 # plugins
 mousetrap:mousetrap
 juliancwirko:s-alert
+mizzao:sharejs-ace@1.1.9
 
 # seo
 kadira:dochead
@@ -62,5 +65,4 @@ fortawesome:fontawesome
 # Dr Mongo
 drmongo:mongo-helpers
 drmongo:icons
-random
-mizzao:sharejs-ace@1.1.9
+
