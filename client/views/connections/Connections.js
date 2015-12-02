@@ -52,7 +52,8 @@ Template.Connections.events({
       $('.refresh-connection i').addClass('fa-spin');
       Meteor.call('updateConnectionStructure', connection._id, function (error, result) {
         $('.refresh-connection i').removeClass('fa-spin');
-        if (result === false) {
+        if (error) {
+          log('Connection failed: ', error);
           sAlert.error('Connection failed.')
         }
       });

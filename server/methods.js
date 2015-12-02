@@ -16,7 +16,6 @@ Meteor.methods({
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
-    if (databases === false) return false;
 
     Connections.clearAllRelations(connection);
 
@@ -40,7 +39,7 @@ Meteor.methods({
       Collections.update({database_id: database._id}, {$set: {keep: false}}, {multi: true});
       let collections = MongoHelpers.getCollections(connection, databaseName);
       if (collections === false) return false;
-      
+
       _.each(collections, (collectionName) => {
         Collections.upsert(
           {database_id: database._id, name: collectionName},

@@ -2,13 +2,17 @@ let getConnection = (data, cb) => {
   const connection = data.connection;
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
   uri.database = data.database ? data.database : null;
-
-  MongoInternals.NpmModules.mongodb.module(MongodbUriParser.format(uri), (error, db) => {
+  const mongoUri = MongodbUriParser.format(uri);
+  log('> connecting to: ' + mongoUri);
+  MongoInternals.NpmModules.mongodb.module(mongoUri, (error, db) => {
     if(error) {
-      cb(null, false);
+      log('> connection error: ', error);
+      cb(error, null);
     } else {
+      log('> connected');
       cb(null, db);
     }
+    log('-----');
   });
 };
 
@@ -18,8 +22,6 @@ MongoHelpers = {
   getDatabases(connection) {
     let getConnectionWrapper = Meteor.wrapAsync(getConnection);
     let db = getConnectionWrapper({connection: connection});
-    if (db === false) return false;
-
     // Use the admin database for the operation
     var adminDb = db.admin();
 
