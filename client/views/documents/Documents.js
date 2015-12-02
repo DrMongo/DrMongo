@@ -15,8 +15,9 @@ Template.Documents.onCreated(function () {
 
     CurrentSession.documentsReady = false;
     Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, filter, CurrentSession.documentsPagination, CurrentSession.documentsRandomSeed, function(error, result) {
-      if (result == false) {
-        alert('Filter incorrect...');
+
+      if (error || result == false || typeof result == 'undefined') {
+        alert('Connection failed or filter incorrect...');
         return false;
       }
       CurrentSession.documents = result.docs;
