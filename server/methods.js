@@ -16,9 +16,13 @@ Meteor.methods({
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
+<<<<<<< a42d96085451352cac47a42cb6608bf1a3da7be9
     log(databases);
 
     Connections.clearAllRelations(connection);
+=======
+    // Connections.clearAllRelations(connection);
+>>>>>>> removed clearAllRelations
 
     Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true});
     _.each(databases, (databaseName) => {
