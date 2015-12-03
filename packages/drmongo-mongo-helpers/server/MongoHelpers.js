@@ -3,16 +3,13 @@ let getConnection = (data, cb) => {
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
   uri.database = data.database ? data.database : null;
   const mongoUri = MongodbUriParser.format(uri);
-  log('> connecting to: ' + mongoUri);
+
   MongoInternals.NpmModules.mongodb.module(mongoUri, (error, db) => {
     if(error) {
-      log('> connection error: ', error);
       cb(error, null);
     } else {
-      log('> connected');
       cb(null, db);
     }
-    log('-----');
   });
 };
 
