@@ -18,9 +18,10 @@
               <div class="form-group">
                 <label>Mongo URI</label>
                 <input type="text" class="form-control" id="mongo-uri" value="{{mongoUri}}">
-                <p class="help-block"><a href="https://docs.mongodb.org/manual/reference/connection-string/" target="_blank">
-                  What is Mongo URI?
-                </a></p>
+                <p class="help-block">
+                  <a href="https://docs.mongodb.org/manual/reference/connection-string/" target="_blank">What is Mongo URI?</a>
+                  <br/>Use '127.0.0.1' instead of 'localhost' if possible. Mongo connection fails if working offline and using 'localhost'.
+                </p>
               </div>
             </div>
             <div class="modal-footer">
