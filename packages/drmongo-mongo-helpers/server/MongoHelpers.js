@@ -29,14 +29,22 @@ MongoHelpers = {
     // Get all the available databases
     let listDatabasesWrapper = Meteor.wrapAsync(adminDb.listDatabases);
     let databases = listDatabasesWrapper();
+
+    let databasesList;
     if(databases.ok == 0) {
-      throw new Meteor.Error(databases.code, databases.errmsg || 'Error on fetching databases from server');
+      if(databases.code == 13 && connection.database) {
+        databasesList = [{name: connection.database}]
+      } else {
+        throw new Meteor.Error(databases.code, databases.errmsg);
+      }
+    } else {
+      databasesList = databases.databases;
     }
 
     db.close();
 
     let databaseNames = [];
-    _.each(databases.databases, (value) => {
+    _.each(databasesList, (value) => {
       if (value.name == 'local' || value.name == 'admin') return false;
       databaseNames.push(value.name)
     });
