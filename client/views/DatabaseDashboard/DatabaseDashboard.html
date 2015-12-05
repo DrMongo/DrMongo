@@ -11,6 +11,10 @@
     </div>
     <h1 class="page-header db-theme-inverted-{{currentDatabaseTheme}}"><i class="fa fa-database"></i> {{currentDatabase.name}}</h1>
 
+    <h4>
+      <a href="{{pathForConsole data=currentDatabase}}">Console</a>
+    </h4>
+
     <h4>Collections</h4>
       <table class="table tree-view">
         {{#each collections}}

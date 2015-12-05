@@ -1,14 +1,9 @@
-Template.Commands.onCreated(function () {
-  var parameters = validateRouteUrl();
-  this.routeParameters = new ReactiveVar(parameters);
-
-  this.externalCollection = cm.mountCollection(parameters.collection);
-  this.subscribe('externalCollection', parameters.collection.name);
+Template.Console.onCreated(function () {
 });
 
-Template.Commands.helpers({
-  collection() {
-    return Template.instance().routeParameters.get().collection;
+Template.Console.helpers({
+  currentDatabase() {
+    return CurrentSession.database;
   },
 
   config() {
@@ -26,7 +21,7 @@ Template.Commands.helpers({
 });
 
 
-Template.Commands.events({
+Template.Console.events({
   'submit form.commands-editor': function (event, templateInstance) {
     event.preventDefault();
     let editor = ace.edit("editor");

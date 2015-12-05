@@ -28,14 +28,12 @@
               </a>
               <ul class="dropdown-menu">
                 {{#each connections}}
-                  <li><a
-                      href="{{pathForConnectionDashboard data=this}}">{{name}}</a>
-                  </li>
+                  <li><a href="{{pathForConnectionDashboard data=this}}">{{name}}</a></li>
                 {{/each}}
               </ul>
             </li>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle db-theme-inverted-{{currentDatabase.theme}}" data-toggle="dropdown" role="button" title="Select database">
+              <a href="#" class="dropdown-toggle db-theme-inverted-{{currentDatabaseTheme}}" data-toggle="dropdown" role="button" title="Select database">
                 {{#if currentDatabase}}{{currentDatabase.name}}{{else}}Select database{{/if}}
                 <span class="caret"></span>
               </a>
@@ -53,14 +51,16 @@
               <a href="#" class="dropdown-toggle" data-toggle="dropdown"
                  role="button"
                  aria-haspopup="true" aria-expanded="false" title="Select collection">
-                {{#if currentCollection}}{{currentCollection.name}}{{else}}Select collection{{/if}}
+                {{selectedCollection}}
                 <span class="caret"></span>
               </a>
               <ul class="dropdown-menu collection-dropdown">
+                <li><a href="{{pathForConsole data=currentDatabase}}"><i class="fa fa-terminal"></i> Console</a></li>
+                <li role="separator" class="divider"></li>
                 {{#each collections}}
                   <li>
                     <a href="{{pathForDocuments data=this}}">
-                      <i class="{{icon}}"></i>
+                      <i class="{{icon}} after"></i>
                       <div class="relative text-nowrap z1">{{name}}</div>
                     </a>
                   </li>

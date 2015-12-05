@@ -46,14 +46,14 @@ Template.registerHelper('pathForDocuments', function (params) {
   return FlowRouter.path('Documents', data);
 });
 
-Template.registerHelper('pathForCommands', function (params) {
+Template.registerHelper('pathForConsole', function (params) {
   params = params.hash || {};
   const data = {
     database: params.data.name,
     connection: params.data.connection().slug
   };
 
-  return FlowRouter.path('Commands', data);
+  return FlowRouter.path('Console', data);
 });
 
 Template.registerHelper('pathForJsCode', function (params) {

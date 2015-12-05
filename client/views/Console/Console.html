@@ -1,0 +1,39 @@
+<template name="Console">
+
+  <div class="db-head-theme-{{currentDatabaseTheme}}">
+    <div class="container p-b">
+      <h2><i class="fa fa-terminal"></i> Console</h2>
+    </div>
+  </div>
+
+  <div class="container">
+    <div class="bg-box m-t p-t p-b">
+      <div class="text-center">
+        ...coming soon, promise...
+      </div>
+
+      <div class="row hidden">
+        <div class="col-xs-7">
+          <div>
+            Variable
+            <strong>{{collection.className}}</strong> contains instance of Mongo.Collection()
+          </div>
+          <form class="commands-editor">
+            {{> sharejsAce onRender=config id="editor"}}
+            <button class="btn btn-success btn-inverted m-t" type="submit">Execute</button>
+          </form>
+        </div>
+        <div class="col-xs-5">
+          <div>
+            Response:
+          </div>
+          <div class="response">
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+</template>
