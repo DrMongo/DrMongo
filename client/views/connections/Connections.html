@@ -10,6 +10,11 @@
     </div>
 
     <div class="container">
+        {{#if newVersionAvailable}}
+        <div class="row bg-box p-t m-t">
+          <div class="alert alert-success col-md-6 col-md-offset-3" role="alert" style="text-align: center;">New version of Dr. Mongo available. <a href="https://github.com/DrMongo/DrMongo" target="_blank" class="alert-link">Check it out!</a></div>
+          </div>
+        {{/if}}
       <div class="row bg-box p-t m-t">
         {{#each connections}}
           <div class="col-md-4 col-lg-3">

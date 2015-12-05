@@ -45,6 +45,7 @@ underscorestring:underscore.string
 momentjs:moment
 kestanous:reactive-objects
 npm-container
+http
 
 # plugins
 mousetrap:mousetrap
@@ -65,4 +66,5 @@ fortawesome:fontawesome
 # Dr Mongo
 drmongo:mongo-helpers
 drmongo:icons
+
 

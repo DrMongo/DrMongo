@@ -3,6 +3,9 @@ Template.Navigation.onRendered(function () {
 });
 
 Template.Navigation.helpers({
+  newVersionAvailable() {
+    return Session.get('NewVersionAvailable');
+  },
   currentConnection() {
     return CurrentSession.connection;
   },

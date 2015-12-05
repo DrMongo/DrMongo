@@ -13,8 +13,12 @@ CurrentSession = new ReactiveObjects({
   documentsPaginationLimit: 20
 });
 
+Session.set('NewVersionAvailable', false);
+
 
 Meteor.startup(function() {
+  Meteor.setTimeout(checkForNewVersion, 5000);
+  Meteor.setInterval(checkForNewVersion, 24*60*60*1000);
 });
 
 Tracker.autorun(function () {
