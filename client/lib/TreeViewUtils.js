@@ -84,7 +84,7 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
       } else if (value.title) {
         pinnedColumns.push(value.title);
       } else {
-        pinnedColumns.push("");
+        // pinnedColumns.push("");
       }
     }
     if (pinnedColumns.length) {

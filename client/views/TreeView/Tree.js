@@ -19,5 +19,7 @@ Template.Tree.helpers({
 			if (this.documents[0].name) return ['name'];
 			if (this.documents[0].title) return ['title'];
 		}
+
+		return false;
 	}
 });
