@@ -6,10 +6,10 @@
       {{totalCount}}x
     {{/if}}
   </div>
-  <a class="pagination-first theme-color input-group-addon" href="#" title="Go to first page">
+  <a class="pagination-first theme-color input-group-addon {{prevInactive}}" href="#" title="Go to first page">
     <i class="fa fa-angle-double-left"></i>
   </a>
-  <a class="pagination-previous theme-color input-group-addon" href="#" title="Go to previous page">
+  <a class="pagination-previous theme-color input-group-addon {{prevInactive}}" href="#" title="Go to previous page">
     <i class="fa fa-angle-left"></i>
   </a>
   <div class="input-group-addon" href="#" title="Select page">
@@ -24,10 +24,10 @@
       </ul>
     </div>
   </div>
-  <a class="pagination-next theme-color input-group-addon" href="#" title="Go to next page">
+  <a class="pagination-next theme-color input-group-addon {{nextInactive}}" href="#" title="Go to next page">
     <i class="fa fa-angle-right"></i>
   </a>
-  <a class="pagination-last theme-color input-group-addon" href="#" title="Go to last page">
+  <a class="pagination-last theme-color input-group-addon {{nextInactive}}" href="#" title="Go to last page">
     <i class="fa fa-angle-double-right"></i>
   </a>
 </template>
