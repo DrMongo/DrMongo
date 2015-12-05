@@ -29,6 +29,9 @@ MongoHelpers = {
     // Get all the available databases
     let listDatabasesWrapper = Meteor.wrapAsync(adminDb.listDatabases);
     let databases = listDatabasesWrapper();
+    if(databases.ok == 0) {
+      throw new Meteor.Error(databases.code, databases.errmsg || 'Error on fetching databases from server');
+    }
 
     db.close();
 
