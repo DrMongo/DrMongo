@@ -5,7 +5,6 @@ Template.CollectionDashboardModal.onCreated(function () {
 Template.CollectionDashboardModal.helpers({
   connection() {
     var ModalParams = Session.get('CollectionDashboardModal');
-    log(ModalParams)
     if (!ModalParams) return false;
     return Connections.findOne(ModalParams.connectionId);
   },
@@ -30,9 +29,8 @@ Template.CollectionDashboardModal.events({
     if (!confirm('Drop ALL documents in ' + c.name + '?')) return false;
 
     Meteor.call('dropAllDocuments', ModalParams.collectionId, function(error, result) {
-      log(result)
       $('#CollectionDashboardModal').modal('hide');
-      refreshDocuments();      
+      refreshDocuments();
     });
   }
 });
