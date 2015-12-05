@@ -4,6 +4,14 @@ shortcuts.register('Documents list', ['n', 'N'], ['N'], 'Previous page', functio
 shortcuts.register('Documents list', ['m', 'M'], ['M'], 'Next page', function() { $('.pagination-next').click() });
 
 
+convertToHex = function (str) {
+    var hex = '';
+    for(var i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
 
 Template.Documents.onCreated(function () {
   this.autorun(() => {
@@ -20,6 +28,14 @@ Template.Documents.onCreated(function () {
         alert('Connection failed or filter incorrect...');
         return false;
       }
+
+      if (result.docs[0] && typeof result.docs[0]._id == 'object') {
+        _.each(result.docs, function(doc, index) {
+          log(convertToHex(doc._id.id))
+          result.docs[index]._id = convertToHex(doc._id.id);
+        })
+      }
+      console.log(result.docs)
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;
