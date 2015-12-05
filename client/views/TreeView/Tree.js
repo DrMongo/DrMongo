@@ -11,5 +11,8 @@ Template.Tree.onRendered(function () {
 Template.Tree.helpers({
 	'zeroResults': function() {
 		return this.documents.length == 0;
+	},
+	'pinnedColumns': function() {
+		return CurrentSession.collection.pinnedColumnsFormatted;
 	}
 });

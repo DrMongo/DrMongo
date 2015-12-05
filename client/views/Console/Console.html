@@ -6,31 +6,33 @@
     </div>
   </div>
 
-  <div class="container">
+  <div id="console" class="container">
     <div class="bg-box m-t p-t p-b">
-      <div class="text-center">
-        ...coming soon, promise...
+
+      <div class="p-l">
+        Available variables are:<br>
+        <strong>db</strong> - database instance <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Db.html" target="_blank">see api</a><br>
+        <br>
+        Api:<br>
+        <code>db.collection('collectionName').updateMany(filter, update, options)</code> <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#updateMany" target="_blank">updateMany api</a><br>
+        <code>db.collection('collectionName').deleteMany(filter, options)</code> <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#deleteMany" target="_blank">deleteMany api</a><br>
+        Example:<br>
+        <code>db.collection('Articles').updateMany({published: true}, {$set:{published:false}}, {multi: true})</code>
       </div>
+      <form class="commands-editor">
+        {{> sharejsAce onRender=config id="editor"}}
+        <button class="btn btn-success btn-inverted m-t m-l" type="submit">Execute</button>
+      </form>
 
-      <div class="row hidden">
-        <div class="col-xs-7">
-          <div>
-            Variable
-            <strong>{{collection.className}}</strong> contains instance of Mongo.Collection()
+      <div class="results">
+        {{#each commandsResults}}
+          <div class="result-box m-t-md">
+            <h4 class="title">{{command}}</h4>
+            <div class="result">
+              {{result}}
+            </div>
           </div>
-          <form class="commands-editor">
-            {{> sharejsAce onRender=config id="editor"}}
-            <button class="btn btn-success btn-inverted m-t" type="submit">Execute</button>
-          </form>
-        </div>
-        <div class="col-xs-5">
-          <div>
-            Response:
-          </div>
-          <div class="response">
-
-          </div>
-        </div>
+        {{/each}}
       </div>
 
     </div>

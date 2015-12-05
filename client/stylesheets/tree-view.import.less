@@ -2,6 +2,14 @@
   .toggle-children {
     cursor: pointer;
   }
+
+  th {
+    color: #cc0000;
+    border-bottom: 2px solid black;
+  }
+
+  
+
   & > .parent:hover {background: #ddd}
 
   .parent {
@@ -80,6 +88,12 @@
     &.key {
       padding-right: 0px;
       padding-left: 10px;
+      span {
+        color: #cc0000;
+      }
+      small {
+        color: #aaa;
+      }
     }
     &.value {
       padding-left: 0px;

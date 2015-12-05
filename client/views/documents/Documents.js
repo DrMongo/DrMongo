@@ -4,6 +4,14 @@ shortcuts.register('Documents list', ['n', 'N'], ['N'], 'Previous page', functio
 shortcuts.register('Documents list', ['m', 'M'], ['M'], 'Next page', function() { $('.pagination-next').click() });
 
 
+convertToHex = function (str) {
+    var hex = '';
+    for(var i=0;i<str.length;i++) {
+        hex += ''+str.charCodeAt(i).toString(16);
+    }
+    return hex;
+}
+
 
 Template.Documents.onCreated(function () {
   this.autorun(() => {
@@ -15,10 +23,19 @@ Template.Documents.onCreated(function () {
 
     CurrentSession.documentsReady = false;
     Meteor.call('getDocuments', CurrentSession.database._id, CurrentSession.collection.name, filter, CurrentSession.documentsPagination, CurrentSession.documentsRandomSeed, function(error, result) {
-      if (result == false) {
-        alert('Filter incorrect...');
+
+      if (error || result == false || typeof result == 'undefined') {
+        alert('Connection failed or filter incorrect...');
         return false;
       }
+
+      // if (result.docs[0] && typeof result.docs[0]._id == 'object') {
+      //   _.each(result.docs, function(doc, index) {
+      //     log(convertToHex(doc._id.id))
+      //     result.docs[index]._id = convertToHex(doc._id.id);
+      //   })
+      // }
+
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;

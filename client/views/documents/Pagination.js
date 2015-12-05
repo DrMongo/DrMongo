@@ -28,6 +28,13 @@ Template.Pagination.helpers({
 
   totalCount() {
     return CurrentSession.documentsCount;
+  },
+  prevInactive() {
+    return CurrentSession.documentsPagination == 0 ? 'inactive' : '';
+  },
+  nextInactive() {
+    const count = Math.ceil(CurrentSession.documentsCount / CurrentSession.documentsPaginationLimit);
+    return (CurrentSession.documentsPagination == count - 1) ? 'inactive' : '';
   }
 });
 
