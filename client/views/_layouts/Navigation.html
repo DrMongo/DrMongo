@@ -13,7 +13,14 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/" title="Home / Connections"><i
-            class="fa fa-heartbeat"></i> Dr. Mongo</a>
+            class="fa fa-heartbeat"></i> Dr. Mongo
+            {{#if newVersionAvailable}}
+            <i class="fa fa-star fa-spin" style="
+                font-size: 10px;
+                vertical-align: top;
+            "></i>
+            {{/if}}
+          </a>
       </div>
       <!-- Collect the nav links, forms, and other content for toggling -->
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">

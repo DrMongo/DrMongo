@@ -13,6 +13,11 @@ Template.Tree.helpers({
 		return this.documents.length == 0;
 	},
 	'pinnedColumns': function() {
-		return CurrentSession.collection.pinnedColumnsFormatted;
+		if (CurrentSession.collection.pinnedColumnsFormatted) {
+			return CurrentSession.collection.pinnedColumnsFormatted;
+		} else if (this.documents.length > 0) {
+			if (this.documents[0].name) return ['name'];
+			if (this.documents[0].title) return ['title'];
+		}
 	}
 });

@@ -2,6 +2,9 @@ Template.Connections.onCreated(function () {
 });
 
 Template.Connections.helpers({
+  newVersionAvailable() {
+    return Session.get('NewVersionAvailable');
+  },
   connections() {
     return Connections.find({}, {sort: {name: 1}});
   },
