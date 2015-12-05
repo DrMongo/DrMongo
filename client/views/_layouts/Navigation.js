@@ -12,6 +12,15 @@ Template.Navigation.helpers({
   currentCollection() {
     return CurrentSession.collection;
   },
+  selectedCollection() {
+    const routeName = FlowRouter.getRouteName();
+    if(routeName == 'Documents') {
+      const collection = CurrentSession.collection;
+      return collection ? collection.name : 'Select collection';
+    } else {
+      return routeName;
+    }
+  },
   connections() {
     return Connections.find({}, {sort: {name: 1}});
   },

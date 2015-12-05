@@ -1,0 +1,41 @@
+<template name="Console">
+
+  <div class="db-head-theme-{{currentDatabaseTheme}}">
+    <div class="container p-b">
+      <h2><i class="fa fa-terminal"></i> Console</h2>
+    </div>
+  </div>
+
+  <div id="console" class="container">
+    <div class="bg-box m-t p-t p-b">
+
+      <div class="p-l">
+        Available variables are:<br>
+        <strong>db</strong> - database instance <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Db.html" target="_blank">see api</a><br>
+        <br>
+        Api:<br>
+        <code>db.collection('collectionName').updateMany(filter, update, options)</code> <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#updateMany" target="_blank">updateMany api</a><br>
+        <code>db.collection('collectionName').deleteMany(filter, options)</code> <a href="http://mongodb.github.io/node-mongodb-native/2.0/api/Collection.html#deleteMany" target="_blank">deleteMany api</a><br>
+        Example:<br>
+        <code>db.collection('Articles').updateMany({published: true}, {$set:{published:false}}, {multi: true})</code>
+      </div>
+      <form class="commands-editor">
+        {{> sharejsAce onRender=config id="editor"}}
+        <button class="btn btn-success btn-inverted m-t m-l" type="submit">Execute</button>
+      </form>
+
+      <div class="results">
+        {{#each commandsResults}}
+          <div class="result-box m-t-md">
+            <h4 class="title">{{command}}</h4>
+            <div class="result">
+              {{result}}
+            </div>
+          </div>
+        {{/each}}
+      </div>
+
+    </div>
+
+  </div>
+</template>
