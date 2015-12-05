@@ -29,12 +29,12 @@ Template.Documents.onCreated(function () {
         return false;
       }
 
-      if (result.docs[0] && typeof result.docs[0]._id == 'object') {
-        _.each(result.docs, function(doc, index) {
-          log(convertToHex(doc._id.id))
-          result.docs[index]._id = convertToHex(doc._id.id);
-        })
-      }
+      // if (result.docs[0] && typeof result.docs[0]._id == 'object') {
+      //   _.each(result.docs, function(doc, index) {
+      //     log(convertToHex(doc._id.id))
+      //     result.docs[index]._id = convertToHex(doc._id.id);
+      //   })
+      // }
 
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
