@@ -5,6 +5,13 @@
   		<h2 class="no-results">No results.</h2>
   	{{else}}
     <table class="table tree-view">
+      <tr class="document">
+        <th class="cell key">ID</th>
+        {{#each pinnedColumns}}
+          <th class="cell pinned">{{this}}</th>
+        {{/each}}
+        <th class="cell actions text-right">Actions</th>
+      </tr>
       {{#each documents}}
         {{> TreeDocument}}
       {{/each}}
