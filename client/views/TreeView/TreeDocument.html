@@ -6,11 +6,11 @@
         <td class="cell pinned">{{this}}</td>
       {{/each}}
       <td class="cell actions text-right">
-        <div class="btn btn-default btn-inverted btn-xs copy-value" id="{{value._id}}"><i class="fa fa-clipboard"></i></div>
-        <div class="btn btn-primary btn-inverted btn-xs edit-document"><i class="fa fa-pencil"></i></div>
-        <div class="btn btn-primary btn-inverted btn-xs view-document"><i class="fa fa-eye"></i></div>
-        <div class="btn btn-warning btn-inverted btn-xs duplicate-document"><i class="fa fa-files-o"></i></div>
-        <div class="btn btn-danger btn-inverted btn-xs delete-document"><i class="fa fa-trash-o"></i></div>
+        <div class="btn btn-default btn-inverted btn-xs copy-value" id="{{value._id}}" title="Copy document as JSON"><i class="fa fa-clipboard"></i></div>
+        <div class="btn btn-primary btn-inverted btn-xs edit-document" title="Edit document"><i class="fa fa-pencil"></i></div>
+        <div class="btn btn-primary btn-inverted btn-xs view-document" title="View document JSON"><i class="fa fa-eye"></i></div>
+        <div class="btn btn-warning btn-inverted btn-xs duplicate-document" title="Duplicate document"><i class="fa fa-files-o"></i></div>
+        <div class="btn btn-danger btn-inverted btn-xs delete-document" title="Remove document"><i class="fa fa-trash-o"></i></div>
       </td>
     </tr>
     <tr class="children hidden">
