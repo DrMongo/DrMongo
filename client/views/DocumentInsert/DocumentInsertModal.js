@@ -46,7 +46,9 @@ Template.DocumentInsertModal.events({
       return false;
     }
     var ModalParams = Session.get('DocumentInsertModal');
-    Meteor.call('insertDocument', ModalParams.collectionId, data)
-    $('#DocumentInsertModal').modal('hide');
+    Meteor.call('insertDocument', ModalParams.collectionId, data, function(error, result) {
+      $('#DocumentInsertModal').modal('hide');
+      refreshDocuments();
+    })
   }
 });

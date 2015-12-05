@@ -35,7 +35,7 @@ Template.Documents.onCreated(function () {
           result.docs[index]._id = convertToHex(doc._id.id);
         })
       }
-      console.log(result.docs)
+
       CurrentSession.documents = result.docs;
       CurrentSession.documentsCount = result.count;
       CurrentSession.documentsReady = true;
