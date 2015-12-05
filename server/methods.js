@@ -67,7 +67,7 @@ Meteor.methods({
         cb(error, response);
       })
     });
-    let collections = collectionNamesWrapper();
+    let collections = collectionNamesWrapper(); // todo fetch collection from DRM db ?
 
     var c;
     let collectionFindWrapper = Meteor.wrapAsync((cb) => {
@@ -81,7 +81,7 @@ Meteor.methods({
 
       c = db.collection(collection.name);
 
-      let result = collectionFindWrapper();
+      let result = collectionFindWrapper(); // todo refactor this magic parameter passing
       if (result.length == 1) foundCollection = collection.name;
     });
 
