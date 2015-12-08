@@ -17,11 +17,11 @@ Template.Navigation.helpers({
   },
   selectedCollection() {
     const routeName = FlowRouter.getRouteName();
-    if(routeName == 'Documents') {
+    if(_.indexOf(['Console'], routeName) >= 0) {
+      return routeName;
+    } else {
       const collection = CurrentSession.collection;
       return collection ? collection.name : 'Select collection';
-    } else {
-      return routeName;
     }
   },
   connections() {
