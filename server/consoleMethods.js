@@ -22,6 +22,8 @@ Meteor.methods({
       }
     }());
 
+    db.close();
+
     return evalData;
   }
 });

@@ -1,4 +1,18 @@
 Template.CollectionDashboardModal.onCreated(function () {
+  this.rawStats = new ReactiveVar(null);
+  this.autorun(() => {
+    this.rawStats.set('Loading...');
+    var ModalParams = Session.get('CollectionDashboardModal');
+    if(ModalParams) {
+      Meteor.call('stats.rawCollectionStats', ModalParams.collectionId, (error, stats) => {
+        if(error) {
+          log(error);
+        } else {
+          this.rawStats.set(JSON.stringify(stats, null, 2));
+        }
+      });
+    }
+  });
 
 });
 
@@ -17,6 +31,9 @@ Template.CollectionDashboardModal.helpers({
     var ModalParams = Session.get('CollectionDashboardModal');
     if (!ModalParams) return false;
     return Collections.findOne(ModalParams.collectionId);
+  },
+  rawStats() {
+    return Template.instance().rawStats.get();
   }
 });
 
