@@ -6,11 +6,11 @@
   	{{else}}
     <table class="table tree-view">
       <tr class="column-headers">
-        <th class="cell key">ID</th>
+        <td class="cell key">#. _id</td>
         {{#each pinnedColumns}}
-          <th class="cell pinned">{{this}}</th>
+          <td class="cell pinned">{{this}}</td>
         {{/each}}
-        <th class="cell actions text-right">Actions</th>
+        <td></td>
       </tr>
       {{#each documents}}
         {{> TreeDocument}}
