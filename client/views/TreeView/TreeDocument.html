@@ -1,7 +1,7 @@
 <template name="TreeDocument">
   {{#with info}}
     <tr class="parent document {{printIf hasChildren 'toggle-children' ''}}">
-      <td class="cell key"><span>{{drMongoIndex}}</span> {{keyValue}} <small>{{formattedValue}}</small></td>
+      <td class="cell key"><span class="drm-index">{{drMongoIndex}}</span> {{keyValue}} <small>{{formattedValue}}</small></td>
       {{#each pinnedColumns}}
         <td class="cell pinned">{{this}}</td>
       {{/each}}
