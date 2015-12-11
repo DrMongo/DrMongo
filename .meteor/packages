@@ -4,67 +4,64 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base             # Packages every Meteor app needs to have
-mobile-experience       # Packages for a great mobile UX
-mongo                   # The database Meteor supports right now
-blaze-html-templates    # Compile .html files into Meteor Blaze views
-session                 # Client-side reactive dictionary for your app
-jquery                  # Helpful client-side library
-tracker                 # Meteor's client-side reactive programming library
+meteor-base
 
-standard-minifiers      # JS/CSS minifiers run for production mode
-es5-shim                # ECMAScript 5 compatibility for older browsers.
-ecmascript              # Enable ECMAScript2015+ syntax in app code
 
-insecure                # Allow all DB writes from clients (for prototyping)
+# Build system
+ecmascript
+es5-shim
+standard-minifiers
+
+
+# Collections
+dburles:collection-helpers
+dburles:mongo-collection-instances
+matb33:collection-hooks
+mongo
+percolate:migrations
+tmeasday:publish-counts
+todda00:friendly-slugs
+
+# Utilities
+bojicas:inflections
 check
 ejson
-random
-
-
-# router
+http
+insecure                # Allow all DB writes from clients (for prototyping) !!!!!!!!!!
+jquery
 kadira:flow-router
-kadira:blaze-layout
-tomwasd:flow-router-autoscroll
-
-# collections
-tmeasday:publish-counts
-dburles:mongo-collection-instances
-dburles:collection-helpers
-todda00:friendly-slugs
-matb33:collection-hooks
-percolate:migrations
-
-# lib
-reactive-var
+kestanous:reactive-objects
 meteorhacks:npm
+momentjs:moment
+npm-container
 percolate:synced-cron
-bojicas:inflections
+random
+reactive-var
+session
+tomwasd:flow-router-autoscroll
+tracker
 underscore
 underscorestring:underscore.string
-momentjs:moment
-kestanous:reactive-objects
-npm-container
-http
 
-# plugins
-mousetrap:mousetrap
-juliancwirko:s-alert
-mizzao:sharejs-ace@1.1.9
-
-# seo
-kadira:dochead
-
-# design
-nemo64:bootstrap
+# UI components
+blaze-html-templates
 flemay:less-autoprefixer
 fortawesome:fontawesome
+juliancwirko:s-alert
+kadira:blaze-layout
+kadira:dochead
+kadira:react-layout
+mizzao:sharejs-ace@1.1.9
+mobile-experience
+mousetrap:mousetrap
+nemo64:bootstrap
+react
 
-# debug
-# meteortoys:allthings
 
 # Dr Mongo
 drmongo:mongo-helpers
 drmongo:icons
+
+
 
 
