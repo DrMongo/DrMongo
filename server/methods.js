@@ -88,17 +88,16 @@ Meteor.methods({
     db.close();
     return foundCollection;
   },
-  getDocuments(databaseId, collectionName, filter, pagination) {
-    // @TODO pass only collectionId instead of databaseId and collectionName
-    pagination = pagination || 0;
 
-    var db = connectDatabase(databaseId);
-    var collection = db.collection(collectionName);
+  getDocuments(collectionId, filter, page) {
+    page = page || 0;
 
-    var collectionInfo = Collections.findOne({database_id: databaseId, name: collectionName});
-    collectionInfo.paginationLimit = collectionInfo.paginationLimit || 20;
-
+    let collectionInfo = Collections.findOne(collectionId);
     if (!collectionInfo) return false;
+    let db = connectDatabase(collectionInfo.database_id);
+    let collection = db.collection(collectionInfo.name);
+
+    collectionInfo.paginationLimit = collectionInfo.paginationLimit || 20;
 
     if (resemblesId(filter)) {
       var selector = {_id: filter};
@@ -125,7 +124,7 @@ Meteor.methods({
     let docsCount = collectionCountWrapper();
 
     if (!options.skip) {
-      options.skip = pagination * collectionInfo.paginationLimit;
+      options.skip = page * collectionInfo.paginationLimit;
     }
     if (!options.limit) {
       options.limit = collectionInfo.paginationLimit;
@@ -145,12 +144,18 @@ Meteor.methods({
 
     docs = collectionToArrayWrapper();
 
+    var index = options.skip + 1;
+    docs.map(item => {
+      item[dr.documentIndex] = index++;
+    });
+
     db.close();
     return {
       docs: docs,
       count: docsCount // @TODO rename this to 'totalCount'
     }
   },
+
   insertDocument(collectionId, data) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();

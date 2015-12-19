@@ -48,9 +48,10 @@ FlowRouter.route('/:connection/:database/js-code', {
 });
 
 
-FlowRouter.route('/:connection/:database/:collection/:filter?/:page?', {
+FlowRouter.route('/:connection/:database/:collection/:filter?', {
   name: 'Documents',
-  action(params) {
+  action(params, queryParams) {
+    params = _.extend(params, queryParams);
     ReactLayout.render(DefaultReactLayout, {content: <DocumentsPage {...params} />});
 
   }

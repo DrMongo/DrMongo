@@ -45,11 +45,15 @@
   .parent:hover > .head .control-icon { color: #337ab7;}
   .parent:hover > .head .control-icon:hover { background: #ddd;}
 
-  // L A Y O U T  +  D E S I G N
+  // ---------------------------------------------------------------------------
+  // L A Y O U T  +  D E S I G N -----------------------------------------------
+  // ---------------------------------------------------------------------------
   margin: 0;
 
   border: none;
   border-radius: 3px;
+
+  tbody + tbody { border: none; } // reset BS border
 
   .document {
     border-top: 1px solid #ccc;
@@ -57,6 +61,8 @@
   .document:first-child {
     border-top: none;
   }
+
+  .document > .cell.key { width: 33.33333333%; }
 
   .parent {
     .children {
@@ -92,7 +98,7 @@
       }
     }
     &.value {
-      padding-left: 0px;
+      padding-left: 5px;
     }
     &.actions {
       padding-right: 10px;

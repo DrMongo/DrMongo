@@ -67,9 +67,18 @@ DocumentsPage = React.createClass({
         </div>
       </div>
 
-      {this.data.filterReady ? <DocumentsResult collection={collection} filter={this.data.filter} page={this.props.page} /> : <Loading />}
+      {this.data.filterReady
+        ? <DocumentsResult collection={collection}
+                           filter={this.data.filter}
+                           page={this.props.page}
+                           onPageChange={this.handlePageChange} />
+        : <Loading />}
 
     </div>
+  },
+
+  handlePageChange(page) {
+    RouterUtils.setQueryParams({page: page});
   }
 
 });
@@ -135,7 +144,7 @@ DocumentsResult = React.createClass({
     const page = this.props.page;
     const collection = this.props.collection;
 
-    Meteor.call('getDocuments', collection.database_id, collection.name, this.props.filter, page, (error, result) => {
+    Meteor.call('getDocuments', collection._id, this.props.filter, page, (error, result) => {
       if (error || result == false || typeof result == 'undefined') {
         alert('Connection failed or filter incorrect...');
         return false;
@@ -157,87 +166,21 @@ DocumentsResult = React.createClass({
   },
 
   render() {
-    const totalCount = this.state.totalCount;
-    const collection = this.props.collection;
-    const page = this.props.page;
-    const pageLimit = collection.paginationLimit;
-
     return <div>
-      <div className="text-center m-t-sm">
-        {totalCount ? <DocumentsPagination totalCount={totalCount} pageLimit={pageLimit} currentPage={page} sizeClass="btn-group-xs" /> : null}
-      </div>
-
       <div className="container">
         <div className="bg-box m-t-sm">
           {this.state.documentsReady
-            ? <TreeView documents={this.state.documents} />
+            ? <TreeView collection={this.props.collection}
+                        documents={this.state.documents}
+                        totalCount={this.state.totalCount}
+                        currentPage={this.props.page}
+                        onPageChange={this.props.onPageChange} />
             : <Loading />
           }
         </div>
       </div>
-
-      <div className="text-center m-t">
-        {totalCount ? <DocumentsPagination totalCount={totalCount} pageLimit={pageLimit} currentPage={page} /> : null}
-      </div>
     </div>
   }
 });
 
-DocumentsPagination = React.createClass({
 
-  getDefaultProps() {
-    return {
-      pageLimit: 20,
-      currentPage: 1
-    }
-  },
-
-  render() {
-
-    const totalCount = this.props.totalCount;
-    const currentPage = this.props.currentPage;
-    const pagesCount = Math.ceil(totalCount / this.props.pageLimit);
-    const groupClass = classNames('btn-group', this.props.sizeClass || null);
-
-    const pages = [];
-    for (var i = 0; i < 5; i++) {
-      var index = currentPage - i;
-      if(index <= 0) break;
-      pages.push({
-        index: index,
-        label: index + ' page'
-      });
-    }
-
-    pages.push({
-      index: currentPage,
-      label: currentPage + 'page'
-    });
-
-    for (var i = 0; i < 5; i++) {
-      var index = currentPage + i;
-      if(index > pagesCount) break;
-      pages.push({
-        index: index,
-        label: index + ' page'
-      });
-    }
-
-    log(pages);
-
-    return <div className={groupClass}>
-      <button className="btn btn-default" onClick={this.handlePageChange} ><i className="fa fa-angle-double-left" /></button>
-      <button className="btn btn-default"><i className="fa fa-angle-left" /></button>
-      {pages.map(item => {
-        return <button key={item.index} className="btn btn-default">{item.index}</button>
-      })}
-      <button className="btn btn-default"><i className="fa fa-angle-right" /></button>
-      <button className="btn btn-default"><i className="fa fa-angle-double-right" /></button>
-    </div>
-  },
-
-  handlePageChange(event) {
-    event.preventDefault();
-  }
-
-});
