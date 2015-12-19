@@ -1,6 +1,6 @@
-TreeViewUrils = {};
+TreeViewUtils = {};
 
-TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
+TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
   let type = typeof value;
 
   let info = {
@@ -12,6 +12,7 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
     level: level,
     isPruned: false,
     hasChildren: false,
+    childrenFields: [],
     fieldClass: type,
     isId: false,
     idValue: null,
@@ -20,7 +21,7 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
   };
 
   if (resemblesId(value) || key == '_id') {
-    info['formattedValue'] = new Handlebars.SafeString('<a href="#" class="find-id">' + value + '</a>');
+    info['formattedValue'] = <a href="#" className="find-id">{value}</a>;
     info['fieldClass'] = 'id';
     info['idValue'] = value;
     info['labelText'] = 'ID';
@@ -44,7 +45,7 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
   } else if (_.isDate(value)) {
     info['formattedValue'] = moment(value).format(Settings.dateFormat);
     info['fieldClass'] = 'date';
-    info['labelText'] = new Handlebars.SafeString('<i class="fa fa-calendar"></i>');
+    info['labelText'] = <i className="fa fa-calendar" />;
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['fieldClass'] = 'array';
@@ -58,7 +59,6 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
   }
 
   if (!info['hasChildren']) {
-    // log(CurrentSession.collection.pinnedColumnsFormatted, fullPath, _.contains(CurrentSession.collection.pinnedColumnsFormatted, fullPath))
     info['isPinned'] = _.contains(CurrentSession.collection.pinnedColumns, fullPath)
   }
 
@@ -71,7 +71,6 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
         try {
           // todo remove eval
           let t = eval('(value.' + column + ')');
-          log(column, t)
           pinnedColumns.push(t);
         }
         catch (error) {
@@ -100,8 +99,9 @@ TreeViewUrils.getRowInfo = (key, value, level, fullPath) => {
   return info;
 };
 
-TreeViewUrils.getChildren = (value, info) => {
+TreeViewUtils.getChildren = (info) => {
   if (!info.hasChildren) return null;
+  const value = info.value;
 
   let fields = [];
   let id = null;
@@ -122,7 +122,7 @@ TreeViewUrils.getChildren = (value, info) => {
 
   let children = [];
   _.each(fields, (v) => {
-    children.push(TreeViewUrils.getRowInfo(v.key, v.value, info.level + 1, info.fullPath + '.' + v.key));
+    children.push(TreeViewUtils.getRowInfo(v.key, v.value, info.level + 1, info.fullPath + '.' + v.key));
   });
 
   return children;

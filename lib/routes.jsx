@@ -1,7 +1,7 @@
 FlowRouter.route('/', {
   name: 'Connections',
   action(params) {
-    BlazeLayout.render("DefaultLayout", {template: 'Connections'});
+    ReactLayout.render(DefaultReactLayout, {content: <ConnectionsPage />});
   }
 });
 
@@ -17,14 +17,14 @@ FlowRouter.route('/theme', {
 FlowRouter.route('/:connection', {
   name: 'ConnectionDashboard',
   action(params) {
-    BlazeLayout.render("DefaultLayout", {template: 'ConnectionDashboard'});
+    ReactLayout.render(DefaultReactLayout, {content: <ConnectionDashboardPage {...params} />});
   }
 });
 
 FlowRouter.route('/:connection/:database', {
   name: 'DatabaseDashboard',
   action(params) {
-    BlazeLayout.render("DefaultLayout", {template: 'DatabaseDashboard'});
+    ReactLayout.render(DefaultReactLayout, {content: <DatabaseDashboardPage {...params} />});
   }
 });
 
@@ -48,15 +48,29 @@ FlowRouter.route('/:connection/:database/js-code', {
 });
 
 
-FlowRouter.route('/:connection/:database/:collection/:filter?/:pagination?', {
+FlowRouter.route('/:connection/:database/:collection/:filter?/:page?', {
   name: 'Documents',
   action(params) {
-    BlazeLayout.render("DefaultLayout", {
-      template: 'Documents',
-      sidebar: 'Sidebar'
-    });
+    ReactLayout.render(DefaultReactLayout, {content: <DocumentsPage {...params} />});
+
   }
 });
+
+
+// implemented routes
+var blazeRoutes = FlowRouter.group({
+  prefix: '/blaze',
+  name: 'blaze'
+});
+
+
+blazeRoutes.route('/', {
+  name: 'BlazeConnections',
+  action(params) {
+    BlazeLayout.render("DefaultLayout", {template: 'Connections'});
+  }
+});
+
 
 
 if (Meteor.isClient) {

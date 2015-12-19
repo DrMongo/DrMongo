@@ -19,7 +19,7 @@ Template.TreeDocument.onCreated(function () {
 
   let key = this.data._id;
   let value = this.data;
-  let info = TreeViewUrils.getRowInfo(typeof key == 'string' ? key : key._str, value, 0, '');
+  let info = TreeViewUtils.getRowInfo(typeof key == 'string' ? key : key._str, value, 0, '');
   //log('> info', info);
 
   this.info = info;
@@ -31,7 +31,7 @@ Template.TreeDocument.helpers({
   },
 
   children() {
-    return Template.instance().renderChildren.get() ? TreeViewUrils.getChildren(Template.instance().data, Template.instance().info) : null;
+    return Template.instance().renderChildren.get() ? TreeViewUtils.getChildren(Template.instance().data, Template.instance().info) : null;
   }
 });
 

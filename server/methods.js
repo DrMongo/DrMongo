@@ -89,6 +89,7 @@ Meteor.methods({
     return foundCollection;
   },
   getDocuments(databaseId, collectionName, filter, pagination) {
+    // @TODO pass only collectionId instead of databaseId and collectionName
     pagination = pagination || 0;
 
     var db = connectDatabase(databaseId);
@@ -147,7 +148,7 @@ Meteor.methods({
     db.close();
     return {
       docs: docs,
-      count: docsCount
+      count: docsCount // @TODO rename this to 'totalCount'
     }
   },
   insertDocument(collectionId, data) {

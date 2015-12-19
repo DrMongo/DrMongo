@@ -10,7 +10,7 @@ convertToHex = function (str) {
         hex += ''+str.charCodeAt(i).toString(16);
     }
     return hex;
-}
+};
 
 
 Template.Documents.onCreated(function () {

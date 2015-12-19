@@ -1,0 +1,5 @@
+Loading = () => (
+  <div>
+    Loading...
+  </div>
+);

@@ -1,35 +1,19 @@
 .db-theme(@theme, @bg-color, @color, @color1, @color2, @color3) {
 
   .db-theme-@{theme} {
-    background-color: @bg-color !important;
-    color: @color !important;
 
-    &.collection-card, &.connection-card {
-      i { color: @color3; }
-      a i {color: @color; }
-    }
-  }
-
-  .db-theme-inverted-@{theme} {
-    color: @bg-color !important;
-    background-color: inherit;
-  }
-
-  .db-head-theme-@{theme} {
-    border-radius: 0;
-    border: none;
-    background-color: @bg-color !important;
-    color: @color !important;
-
-    a.dropdown-toggle, a.navbar-brand {
+    .db-theme {
+      background-color: @bg-color !important;
       color: @color !important;
     }
 
-    &.navbar-default .navbar-nav > .open > a {
-      background-color: @color1;
+    .db-theme-inverted {
+      color: @bg-color !important;
+      background-color: inherit;
+
     }
 
-    form {
+    .db-theme-form {
       input {
         border: none;
         color: @color;
@@ -77,6 +61,29 @@
       }
     }
 
+    .collection-card, .connection-card {
+      background-color: @bg-color !important;
+      color: @color !important;
+
+      i { color: @color3; }
+      a i {color: @color; }
+    }
+
+    .my-navbar {
+      border-radius: 0;
+      border: none;
+      background-color: @bg-color !important;
+      color: @color !important;
+
+      a.dropdown-toggle, a.navbar-brand {
+        color: @color !important;
+      }
+
+      &.navbar-default .navbar-nav > .open > a {
+        background-color: @color1;
+      }
+    }
+
     .theme-color {
       color: @color !important;
     }
@@ -88,6 +95,7 @@
     }
 
   }
+
 
   .db-theme-documents-@{theme} {
     .tree-view {

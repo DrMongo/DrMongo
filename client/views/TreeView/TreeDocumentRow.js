@@ -4,7 +4,7 @@ Template.TreeDocumentRow.onCreated(function() {
 
 Template.TreeDocumentRow.helpers({
   children() {
-    return Template.instance().renderChildren.get() ? TreeViewUrils.getChildren(Template.instance().data.value, Template.instance().data) : null;
+    return Template.instance().renderChildren.get() ? TreeViewUtils.getChildren(Template.instance().data) : null;
   }
 });
 

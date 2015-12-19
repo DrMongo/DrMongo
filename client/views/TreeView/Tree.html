@@ -4,18 +4,18 @@
   	{{#if zeroResults}}
   		<h2 class="no-results">No results.</h2>
   	{{else}}
-    <table class="table tree-view">
-      <tr class="column-headers">
-        <td class="cell key">#. _id</td>
-        {{#each pinnedColumns}}
-          <td class="cell pinned">{{this}}</td>
+      <table class="table tree-view">
+        <tr class="column-headers">
+          <td class="cell key">#. _id</td>
+          {{#each pinnedColumns}}
+            <td class="cell pinned">{{this}}</td>
+          {{/each}}
+          <td></td>
+        </tr>
+        {{#each documents}}
+          {{> TreeDocument}}
         {{/each}}
-        <td></td>
-      </tr>
-      {{#each documents}}
-        {{> TreeDocument}}
-      {{/each}}
-    </table>
+      </table>
     {{/if}}
   </div>
 </template>
