@@ -57,8 +57,41 @@ Navigation = React.createClass({
           {this.data.databases ? <NavigationDatabasesDropdown selected={selectedDatabase} items={this.data.databases} /> : null}
           {this.data.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.data.collections} /> : null}
         </ul>
+
+        <Formsy.Form className="navbar-form navbar-right db-theme-form" onSubmit={this.handleSearchSubmit}>
+          <div className="form-group">
+            <MyInput className="form-control" name="text" type="text" placeholder="Search by _id" autoComplete="off" />
+          </div>
+          <button className="btn btn-default hidden" type="submit">Submit</button>
+        </Formsy.Form>
       </div>
     </div>
+  },
+
+  handleSearchSubmit(values) {
+    if (!resemblesId(values.text)) {
+      sAlert.warning('Not an ID.');
+      return false;
+    }
+
+    const databaseId = this.props.currentEnvironment.databaseId;
+
+    Meteor.call('findCollectionForDocumentId', databaseId, values.text, (error, result) => {
+      if (result === null) {
+        sAlert.warning('Document not found.');
+      }
+      let c = Collections.findOne({database_id: databaseId, name: result});
+      if (c) {
+        const filterId = FilterHistory.insert({
+          createdAt: new Date(),
+          collection_id: c._id,
+          name: null,
+          filter: values.text
+        });
+
+        RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
+      }
+    });
   }
 });
 

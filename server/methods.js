@@ -124,7 +124,7 @@ Meteor.methods({
     let docsCount = collectionCountWrapper();
 
     if (!options.skip) {
-      options.skip = page * collectionInfo.paginationLimit;
+      options.skip = (page - 1) * collectionInfo.paginationLimit;
     }
     if (!options.limit) {
       options.limit = collectionInfo.paginationLimit;

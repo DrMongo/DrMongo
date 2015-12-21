@@ -5,40 +5,35 @@ TreeView = React.createClass({
   },
 
   render() {
+    const collection = this.props.collection;
     const documents = this.props.documents;
 
-    return <div>
-      {documents.length == 0 ? this.renderZeroResults() : this.renderResults()}
-    </div>
-  },
-
-
-  renderZeroResults() {
-    return <h2 className="text-center p-t-md">No results.</h2>
-  },
-
-  renderResults() {
-    const collection = this.props.collection;
+    let results;
+    if (documents == null) {
+      results = <tbody><tr><td colSpan="3"><Loading /></td></tr></tbody>;
+    } else if (documents.length == 0) {
+      return <h2 className="text-center p-t-md">No results.</h2>;
+    } else {
+      results = this.props.documents.map(item => (<TreeView.Document key={item.keyValue} document={item} />));
+    }
 
     return <table className="table tree-view">
       <thead>
-        <tr className="column-headers">
-          <td className="cell key">#. _id</td>
-          <td>pinned columns @TODO</td>
-          <td>
-            <div className="pull-right">
-              <span className="m-r-sm">{this.props.totalCount}x</span>
-              <TreeView.Pagination pageLimit={collection.paginationLimit}
-                                   totalCount={this.props.totalCount}
-                                   currentPage={this.props.currentPage}
-                                   onPageChange={this.props.onPageChange} />
-            </div>
-          </td>
-        </tr>
+      <tr className="column-headers">
+        <td className="cell key">#. _id</td>
+        <td>pinned columns @TODO</td>
+        <td>
+          <div className="pull-right">
+            <span className="m-r-sm">{this.props.totalCount}x</span>
+            <TreeView.Pagination pageLimit={collection.paginationLimit}
+                                 totalCount={this.props.totalCount}
+                                 currentPage={this.props.currentPage}
+                                 onPageChange={this.props.onPageChange} />
+          </div>
+        </td>
+      </tr>
       </thead>
-      {this.props.documents.map(item => (
-        <TreeView.Document key={item.keyValue} document={item} />
-      ))}
+      {results}
     </table>
   }
 
@@ -92,7 +87,6 @@ TreeView.Pagination = React.createClass({
   handlePageChange(page, event) {
     event.preventDefault();
     event.currentTarget.blur();
-    log(page);
     this.props.onPageChange(page);
   }
 
@@ -162,7 +156,7 @@ TreeView.DocumentRow = React.createClass({
       <div className={parentRowClass} onClick={this.handleToggleChildren}>
         <div className="col-xs-4 cell key">
           {info.drMongoIndex} <span className="value-type-label">{info.labelText}</span> {info.keyValue}
-          <div className="btn btn-link btn-xs copy-value control-icon pull-right">
+          <div className="btn btn-link btn-xs copy-value control-icon pull-right" onClick={this.handleCopyValue}>
             <i className="fa fa-clipboard" />
           </div>
         </div>
@@ -187,6 +181,13 @@ TreeView.DocumentRow = React.createClass({
 
     event.preventDefault();
     $(event.currentTarget).parent('.parent').toggleClass('collapsed');
+  },
+
+  handleCopyValue(event) {
+    event.preventDefault();
+    event.nativeEvent.stopImmediatePropagation();
+
+    copyText(EJSON.stringify(this.props.info.value));
   }
 
 });
