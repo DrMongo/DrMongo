@@ -115,6 +115,10 @@ TreeView.Document = React.createClass({
       pinnedColumns.push({key: key++, value: item});
     });
 
+    const editProps = {
+      document: document
+    };
+
     return <tbody>
       <tr className={rowClass} onClick={this.handleToggleDocument}>
         <td className="cell key">
@@ -127,7 +131,7 @@ TreeView.Document = React.createClass({
               actions <span className="caret" />
             </div>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><a href="#">@TODO</a></li>
+              <li><EditDocument.Modal className="nnn" title=" Edit" icon="fa fa-pencil" editProps={editProps} /></li>
             </ul>
           </div>
         </td>
