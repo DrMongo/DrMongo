@@ -21,6 +21,7 @@ DocumentsPage = React.createClass({
         data.filterReady = true;
       }
     } else {
+      data.filter = null;
       data.filterReady = true;
     }
 
@@ -29,7 +30,6 @@ DocumentsPage = React.createClass({
 
   render() {
     const env = this.props.currentEnvironment;
-
     const collection = env.collection;
 
     return <div>
@@ -46,7 +46,7 @@ DocumentsPage = React.createClass({
                 <li><a href="#">@TODO</a></li>
               </ul>
             </span>
-            <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Clear filter">
+            <button className="theme-color btn btn-sm btn-inverted pull-right" title="Clear filter" onClick={this.handleReset}>
               <i className="fa fa-ban" />
             </button>
             <button className="theme-color btn btn-sm btn-inverted pull-right" title="Reload documents" onClick={this.handleReload}>
@@ -67,7 +67,12 @@ DocumentsPage = React.createClass({
             </button>
           </div>
 
-          <DocumentsFilter collection={collection} />
+
+          {this.data.filterReady
+            ? <DocumentsFilter collection={collection}
+                               filter={this.data.filter}/>
+            : <Loading />
+          }
         </div>
       </div>
 
@@ -87,8 +92,13 @@ DocumentsPage = React.createClass({
   },
 
   handleReload(event) {
-
     this.setState({seed: Random.id()});
+  },
+
+  handleReset(event) {
+    var t = FlowRouter.current().params;
+    t.filter = null;
+    RouterUtils.setParams(t);
   },
 
   insertDocument(event) {
@@ -109,6 +119,9 @@ DocumentsPage = React.createClass({
 
 
 DocumentsFilter = React.createClass({
+  getInitialState: function() {
+    return {filter: this.props.filter};
+  },
 
   render() {
     const collection = this.props.collection;
@@ -120,7 +133,7 @@ DocumentsFilter = React.createClass({
             <div className="form-group">
               <div className="input-group">
                 <div className="input-group-addon">{collection.name}.find(</div>
-                <MyInput className="form-control" name="filter" value="{}" type="text" autoComplete="off" />
+                <MyInput className="form-control" name="filter" value={this.state.filter} type="text" autoComplete="off" />
                 <div className="input-group-addon">);</div>
               </div>
             </div>
