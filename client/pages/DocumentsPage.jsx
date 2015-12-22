@@ -2,6 +2,10 @@ DocumentsPage = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  getInitialState: function() {
+    return {};
+  },
+
   getMeteorData() {
     const data = {
       filterReady: false,
@@ -45,7 +49,7 @@ DocumentsPage = React.createClass({
             <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Clear filter">
               <i className="fa fa-ban" />
             </button>
-            <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Reload documents">
+            <button className="theme-color btn btn-sm btn-inverted pull-right" title="Reload documents" onClick={this.handleReload}>
               <i className="fa fa-refresh" />
             </button>
           </div>
@@ -55,7 +59,7 @@ DocumentsPage = React.createClass({
           </h1>
 
           <div className="pull-left m-t-sm m-l">
-            <button className="theme-color btn btn-inverted btn-sm" disabled title="Insert new document">
+            <button className="theme-color btn btn-inverted btn-sm" title="Insert new document" onClick={this.insertDocument}>
               <i className="fa fa-plus" />
             </button>
             <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Collection dashboard">
@@ -63,7 +67,7 @@ DocumentsPage = React.createClass({
             </button>
           </div>
 
-          <DocumnetsFilter collection={collection} />
+          <DocumentsFilter collection={collection} />
         </div>
       </div>
 
@@ -71,6 +75,7 @@ DocumentsPage = React.createClass({
         ? <DocumentsResult collection={collection}
                            filter={this.data.filter}
                            page={this.props.page}
+                           seed={this.state.seed}
                            onPageChange={this.handlePageChange} />
         : <Loading />}
 
@@ -79,12 +84,31 @@ DocumentsPage = React.createClass({
 
   handlePageChange(page) {
     RouterUtils.setQueryParams({page: page});
+  },
+
+  handleReload(event) {
+
+    this.setState({seed: Random.id()});
+  },
+
+  insertDocument(event) {
+    const env = this.props.currentEnvironment;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+
+    // @TODO
+    // Session.set('DocumentInsertModal', {
+    //   connectionId: CurrentSession.connection._id,
+    //   databaseId: CurrentSession.database._id,
+    //   collectionId: CurrentSession.collection._id
+    // });
+    // $('#DocumentInsertModal').modal('show');
   }
 
 });
 
 
-DocumnetsFilter = React.createClass({
+DocumentsFilter = React.createClass({
 
   render() {
     const collection = this.props.collection;
@@ -141,6 +165,8 @@ DocumentsResult = React.createClass({
 
   fetchNewDocuments() {
     log('> fetchNewDocuments');
+    this.setState({documentsReady: false})
+
     const page = this.props.page;
     const collection = this.props.collection;
 
