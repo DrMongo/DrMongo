@@ -156,23 +156,24 @@ DocumentsResult = React.createClass({
   },
 
   componentWillMount() {
-    this.fetchNewDocuments();
+    this.fetchNewDocuments(this.props);
   },
 
-  componentWillReceiveProps() {
-    this.fetchNewDocuments();
+  componentWillReceiveProps(nextProps) {
+    this.fetchNewDocuments(nextProps);
   },
 
-  fetchNewDocuments() {
-    log('> fetchNewDocuments');
-    this.setState({documentsReady: false})
+  fetchNewDocuments(nextProps) {
+    this.setState({
+      documents: null
+    })
 
-    const page = this.props.page;
-    const collection = this.props.collection;
+    const page = nextProps.page;
+    const collection = nextProps.collection;
 
-    Meteor.call('getDocuments', collection._id, this.props.filter, page, (error, result) => {
+    Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
       if (error || result == false || typeof result == 'undefined') {
-        alert('Connection failed or filter incorrect...');
+        sAlert.error('Connection failed or filter incorrect...');
         return false;
       }
 
@@ -184,7 +185,6 @@ DocumentsResult = React.createClass({
       });
 
       this.setState({
-        documentsReady: true,
         documents: formattedRows,
         totalCount: result.count
       })
@@ -192,17 +192,15 @@ DocumentsResult = React.createClass({
   },
 
   render() {
+
     return <div>
       <div className="container">
         <div className="bg-box m-t-sm">
-          {this.state.documentsReady
-            ? <TreeView collection={this.props.collection}
-                        documents={this.state.documents}
-                        totalCount={this.state.totalCount}
-                        currentPage={this.props.page}
-                        onPageChange={this.props.onPageChange} />
-            : <Loading />
-          }
+          <TreeView collection={this.props.collection}
+                    documents={this.state.documents}
+                    totalCount={this.state.totalCount}
+                    currentPage={this.props.page}
+                    onPageChange={this.props.onPageChange} />
         </div>
       </div>
     </div>

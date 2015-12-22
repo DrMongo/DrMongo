@@ -90,7 +90,7 @@ Meteor.methods({
   },
 
   getDocuments(collectionId, filter, page) {
-    page = page || 0;
+    page = page || 1;
 
     let collectionInfo = Collections.findOne(collectionId);
     if (!collectionInfo) return false;
@@ -124,8 +124,9 @@ Meteor.methods({
     let docsCount = collectionCountWrapper();
 
     if (!options.skip) {
-      options.skip = page * collectionInfo.paginationLimit;
+      options.skip = (page - 1) * collectionInfo.paginationLimit;
     }
+
     if (!options.limit) {
       options.limit = collectionInfo.paginationLimit;
     }
@@ -150,6 +151,8 @@ Meteor.methods({
     });
 
     db.close();
+
+    log('> total count: ' + docsCount);
     return {
       docs: docs,
       count: docsCount // @TODO rename this to 'totalCount'
