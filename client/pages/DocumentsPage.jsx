@@ -123,9 +123,12 @@ DocumentsFilter = React.createClass({
     return {filter: this.props.filter};
   },
 
+  componentWillReceiveProps(nextProps) {
+    this.setState({filter: nextProps.filter});
+  },
+
   render() {
     const collection = this.props.collection;
-
     return <div>
       <Formsy.Form className="documents-filter db-theme-form" onSubmit={this.handleSubmit}>
         <div className="row">
