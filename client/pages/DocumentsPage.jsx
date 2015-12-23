@@ -32,6 +32,8 @@ DocumentsPage = React.createClass({
     const env = this.props.currentEnvironment;
     const collection = env.collection;
 
+    let savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+
     return <div>
       <div className="db-theme">
         <div className="container">
@@ -41,8 +43,11 @@ DocumentsPage = React.createClass({
                 <i className="fa fa-star" /> <span className="caret" />
               </button>
               <ul className="dropdown-menu pull-right" id="saved-filters">
-                <li><a href="#" id="save-filter">Save current view @TODO</a></li>
+                <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
                 <li role="separator" className="divider" />
+                {savedFilters.map((item) => {
+                  return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a></li>
+                })}
                 <li><a href="#">@TODO</a></li>
               </ul>
             </span>
@@ -99,6 +104,18 @@ DocumentsPage = React.createClass({
     var t = FlowRouter.current().params;
     t.filter = null;
     RouterUtils.setParams(t);
+  },
+
+  handleSaveFilter(event) {
+    event.preventDefault();
+
+    let filterId = FlowRouter.getParam('filter');
+    if (filterId) {
+      let name = prompt('Give filter a name to save it:');
+      FilterHistory.update(filterId, {$set: {name: name}});
+    } else {
+      sAlert.info('No filter set.')
+    }
   },
 
   insertDocument(event) {
