@@ -41,7 +41,7 @@ CollectionSettings.Modal = React.createClass({
 
   render() {
     return <span>
-      <button className="theme-color btn btn-inverted btn-sm" title="Collection Settings" onClick={this.handleOpen}>
+      <button className={this.props.className} title="Collection Settings" onClick={this.handleOpen}>
         <i className="fa fa-cog" />
       </button>
 

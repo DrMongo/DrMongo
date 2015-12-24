@@ -21,7 +21,7 @@ TreeView = React.createClass({
     if (documents == null) {
       results = <tbody><tr><td colSpan="3"><Loading /></td></tr></tbody>;
     } else if (documents.length == 0) {
-      return <h2 className="text-center p-t-md">No results.</h2>;
+      return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
       results = this.props.documents.map(item => (<TreeView.Document key={item.keyValue} document={item} collection={collection} />));
     }

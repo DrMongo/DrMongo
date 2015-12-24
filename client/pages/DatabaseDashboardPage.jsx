@@ -18,10 +18,8 @@ DatabaseDashboardPage = React.createClass({
     const collections = this.data.collections;
 
     return <div className="container bg-box m-t-md p-t">
+      <a className="btn btn-success pull-right" role="button" href={RouterUtils.pathForConsole(env.database)}>Console</a>
       <h1 className="page-header"><i className="fa fa-database" /> {env.database.name}</h1>
-      <h4>
-        <a href={RouterUtils.pathForConsole(env.database)}>Console @TODO</a>
-      </h4>
 
       <h4>Collections</h4>
       {!collections ? <Loading /> : this.renderCollections()}
@@ -29,7 +27,7 @@ DatabaseDashboardPage = React.createClass({
   },
 
   renderCollections() {
-    return <table>
+    return <table className="table table-hover">
       <tbody>
         {this.data.collections.map(item => {
           return <CollectionItem key={item._id} collection={item} />
@@ -44,6 +42,9 @@ CollectionItem = ({collection}) => (
   <tr>
     <td>
       <a href={RouterUtils.pathForDocuments(collection)}>{collection.name}</a>
+    </td>
+    <td>
+      <CollectionSettings.Modal className="theme-color btn btn-info btn-xs" title="Collection Settings" icon="fa fa-cog" collection={collection}/>
     </td>
   </tr>
 );
