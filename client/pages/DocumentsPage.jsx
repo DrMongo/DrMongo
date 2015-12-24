@@ -48,7 +48,6 @@ DocumentsPage = React.createClass({
                 {savedFilters.map((item) => {
                   return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a></li>
                 })}
-                <li><a href="#">@TODO</a></li>
               </ul>
             </span>
             <button className="theme-color btn btn-sm btn-inverted pull-right" title="Clear filter" onClick={this.handleReset}>
@@ -64,9 +63,7 @@ DocumentsPage = React.createClass({
           </h1>
 
           <div className="pull-left m-t-sm m-l">
-            <button className="theme-color btn btn-inverted btn-sm" title="Insert new document" onClick={this.insertDocument}>
-              <i className="fa fa-plus" />
-            </button>
+            <InsertDocument.Modal className="nnn" title="Insert Document" icon="fa fa-plus" collection={collection}/>
             <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Collection dashboard">
               <i className="fa fa-cog" />
             </button>
@@ -117,20 +114,6 @@ DocumentsPage = React.createClass({
       sAlert.info('No filter set.')
     }
   },
-
-  insertDocument(event) {
-    const env = this.props.currentEnvironment;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-
-    // @TODO
-    // Session.set('DocumentInsertModal', {
-    //   connectionId: CurrentSession.connection._id,
-    //   databaseId: CurrentSession.database._id,
-    //   collectionId: CurrentSession.collection._id
-    // });
-    // $('#DocumentInsertModal').modal('show');
-  }
 
 });
 

@@ -132,7 +132,7 @@ TreeView.Document = React.createClass({
             </div>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
               <li><EditDocument.Modal className="nnn" title=" Edit" icon="fa fa-pencil" editProps={editProps} /></li>
-            </ul>
+            </ul> 
           </div>
         </td>
       </tr>
