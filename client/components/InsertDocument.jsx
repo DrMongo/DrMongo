@@ -46,7 +46,14 @@ InsertDocument.Modal = React.createClass({
   }, 
 
   handleInsert() {
-    const newDoc = $('#insert-document').val();
+    let newDoc = $('#insert-document').val();
+    newDoc = JSON.parse(newDoc);
     log(newDoc)
+
+    Meteor.call('insertDocument', this.props.collection._id, newDoc, (error, result) => {
+      log(error, result)
+      this.setState({showModal: false});
+      // refreshDocuments(); @TODO ako toto spravit?
+    });
   }
 });
