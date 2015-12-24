@@ -64,9 +64,7 @@ DocumentsPage = React.createClass({
 
           <div className="pull-left m-t-sm m-l">
             <InsertDocument.Modal className="nnn" title="Insert Document" icon="fa fa-plus" collection={collection}/>
-            <button className="theme-color btn btn-sm btn-inverted pull-right" disabled title="Collection dashboard">
-              <i className="fa fa-cog" />
-            </button>
+            <CollectionSettings.Modal className="nnn" title="Collection Settings" icon="fa fa-cog" collection={collection}/>
           </div>
 
 
