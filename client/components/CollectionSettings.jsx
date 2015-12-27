@@ -42,7 +42,7 @@ CollectionSettings.Modal = React.createClass({
   render() {
     return <span>
       <button className={this.props.className} title="Collection Settings" onClick={this.handleOpen}>
-        <i className="fa fa-cog" />
+        <i className="fa fa-cog" /> {this.props.text}
       </button>
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
