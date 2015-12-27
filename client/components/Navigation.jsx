@@ -144,14 +144,27 @@ NavigationCollectionsDropdown = ({selected, items}) => (
     </a>
     <ul className="dropdown-menu collection-dropdown">
 
-      {items.map((item) => {
-        const collectionIcon = item.icon() + ' after';
+      {items.map((collection) => {
+        // const collectionIcon = collection.icon() + ' after';
 
-        return <li key={item._id}>
-          <a href={RouterUtils.pathForDocuments(item)}>
-            <i className={collectionIcon} />
-            <div className="relative text-nowrap z1">{item.name}</div>
-          </a>
+        let savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+
+        if (savedFilters.length > 0) {
+          var submenu = <ul className="dropdown-menu">
+                {savedFilters.map((filterItem) => {
+                  log(filterItem)
+                  return <li className="menu-item"><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
+                })}
+              </ul>
+        } else {
+          var submenu = null;
+        }
+
+        return <li key={collection._id} className={submenu ? 'menu-item dropdown dropdown-submenu' : 'menu-item dropdown'}>
+              <a href={RouterUtils.pathForDocuments(collection)} className={submenu ? 'dropdown-toggle' : ''} data-toggle={submenu ? 'dropdown' : ''} onClick={(event) => {document.location = (event.currentTarget.href); return false;}}>
+              <div className="relative text-nowrap z1">{collection.name}</div>
+              </a>
+              {submenu}
         </li>
       })}
 
