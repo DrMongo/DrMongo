@@ -124,15 +124,8 @@ TreeView.Document = React.createClass({
           <span className="drm-index">{document.drMongoIndex}.</span> {document.keyValue} <small>{document.formattedValue}</small>
         </td>
         {pinnedColumns.map(item => (<td className="cell pinned" key={item.key}>{item.value}</td>))}
-        <td className="cell actions text-right">
-          <div className="dropdown inline-block" onClick={this.handleActionClick}>
-            <div className="dropdown-toggle" id="dropdownMenu1" data-toggle="dropdown">
-              actions <span className="caret" />
-            </div>
-            <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><EditDocument.Modal text=" Edit" icon="fa fa-pencil" editProps={editProps} /></li>
-            </ul>
-          </div>
+        <td className="cell actions text-right" onClick={this.handleActionClick}>
+          <EditDocument.Modal className="document-actions btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
         </td>
       </tr>
       <tr className="children hidden">
