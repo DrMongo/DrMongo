@@ -1,3 +1,15 @@
+let deleteHintTimeout = null;
+let showDeleteHint = (show = true) => {
+  // first stop previous timeout if exists
+  if(deleteHintTimeout) Meteor.clearTimeout(deleteHintTimeout);
+
+  if(show) {
+    deleteHintTimeout = Meteor.setTimeout(() => {
+      sAlert.info('Psst!! Hey you! Try double click...');
+    }, 300);
+  }
+};
+
 TreeView = React.createClass({
 
 
@@ -125,7 +137,12 @@ TreeView.Document = React.createClass({
         </td>
         {pinnedColumns.map(item => (<td className="cell pinned" key={item.key}>{item.value}</td>))}
         <td className="cell actions text-right" onClick={this.handleActionClick}>
-          <EditDocument.Modal className="document-actions btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
+          <EditDocument.Modal className="btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
+          <a className="btn btn-danger btn-soft btn-xs" href="" title="Remove document"
+             onClick={this.handleDeleteDocumentClick}
+             onDoubleClick={this.handleDeleteDocumentDoubleClick}>
+            <i className="fa fa-trash" />
+          </a>
         </td>
       </tr>
       <tr className="children hidden">
@@ -147,6 +164,21 @@ TreeView.Document = React.createClass({
   handleActionClick(event) {
     event.stopPropagation();
     event.nativeEvent.stopImmediatePropagation();
+  },
+
+  handleDeleteDocumentClick(event) {
+    event.stopPropagation();
+
+    showDeleteHint();
+  },
+
+  handleDeleteDocumentDoubleClick(event) {
+    event.stopPropagation();
+
+    showDeleteHint(false);
+    Meteor.call('removeDocument', this.props.collection._id, this.props.document.value._id, (error, result) => {
+      this.props.fetchNewData();
+    })
   }
 
 });

@@ -71,7 +71,7 @@ EditDocument.Modal = React.createClass({
     };
 
     return <span>
-      <a className={this.props.className} href="#" onClick={this.handleOpen}>{icon}{this.props.text}</a>
+      <a className={this.props.className} href="#" onClick={this.handleOpen} title="Edit document">{icon}{this.props.text}</a>
 
       <Modal show={this.state.showModal} onHide={this.handleClose} bsSize="lg">
         <Modal.Header closeButton>
