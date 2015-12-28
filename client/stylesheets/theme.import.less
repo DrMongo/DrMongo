@@ -76,5 +76,45 @@ body {
   &.btn-danger {
     .button-inverted-variant(@btn-danger-color; @btn-danger-bg; @btn-danger-border);
   }
+}
+
+.button-soft-variant(@color; @background; @border) {
+  color: lighten(@border, 13);
+  background-color: transparent;
+  border: none;
+  &:hover, &:focus {
+    color: @border;
+    background-color: @background;
+  }
+}
+
+.btn-soft {
+  &.btn-default {
+    .button-soft-variant(@btn-default-color; lighten(@btn-default-bg, 40); @btn-default-border);
+    color: @btn-default-color;
+    &:hover, &:focus {
+      background-color: #eee;
+    }
+  }
+
+  &.btn-primary {
+    .button-soft-variant(@btn-primary-color; lighten(@btn-primary-bg, 50); @btn-primary-border);
+  }
+
+  &.btn-success {
+    .button-soft-variant(@btn-success-color; lighten(@btn-success-bg, 40); @btn-success-border);
+  }
+
+  &.btn-info {
+    .button-soft-variant(@btn-info-color; lighten(@btn-info-bg, 35); @btn-info-border);
+  }
+
+  &.btn-warning {
+    .button-soft-variant(@btn-warning-color; lighten(@btn-warning-bg, 35); @btn-warning-border);
+  }
+
+  &.btn-danger {
+    .button-soft-variant(@btn-danger-color; lighten(@btn-danger-bg, 40); @btn-danger-border);
+  }
 
 }
