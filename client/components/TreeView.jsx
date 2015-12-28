@@ -1,12 +1,56 @@
 TreeView = React.createClass({
 
+
+  getInitialState() {
+    return {
+      documents: null,
+      totalCount: null
+    }
+  },
+
+  componentWillMount() {
+    this.fetchNewDocuments(this.props);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.fetchNewDocuments(nextProps);
+  },
+
+  fetchNewDocuments(nextProps) {
+    this.setState({
+      documents: null
+    });
+
+    const page = nextProps.page;
+    const collection = nextProps.collection;
+
+    Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
+      if (error || result == false || typeof result == 'undefined') {
+        sAlert.error('Connection failed or filter incorrect...');
+        return false;
+      }
+
+      const formattedRows = [];
+      result.docs.map(row => {
+        let key = row._id;
+        let info = TreeViewUtils.getRowInfo(typeof key == 'string' ? key : key._str, row, 0, '');
+        formattedRows.push(info);
+      });
+
+      this.setState({
+        documents: formattedRows,
+        totalCount: result.count
+      })
+    });
+  },
+
   componentDidMount() {
     // @TODO auto open first row
   },
 
   render() {
     const collection = this.props.collection;
-    const documents = this.props.documents;
+    const documents = this.state.documents;
 
     let pinnedColumns = [];
     if (collection.pinnedColumnsFormatted) {
@@ -23,7 +67,7 @@ TreeView = React.createClass({
     } else if (documents.length == 0) {
       return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
-      results = this.props.documents.map(item => (<TreeView.Document key={item.keyValue} document={item} collection={collection} />));
+      results = documents.map(item => (<TreeView.Document key={item.keyValue} document={item} collection={collection} fetchNewData={this.handleFetchNewData} />));
     }
 
     return <table className="table tree-view">
@@ -33,7 +77,7 @@ TreeView = React.createClass({
         {pinnedColumns.map(item => (<td className="cell pinned" key={item}>{item}</td>))}
         <td>
           <div className="pull-right">
-            <span className="m-r-sm">{this.props.totalCount}x</span>
+            <span className="m-r-sm">{this.state.totalCount}x</span>
             <TreeView.Pagination pageLimit={collection.paginationLimit}
                                  totalCount={this.props.totalCount}
                                  currentPage={this.props.currentPage}
@@ -44,62 +88,15 @@ TreeView = React.createClass({
       </thead>
       {results}
     </table>
+  },
+
+  handleFetchNewData() {
+    log('> handleFetchNewData');
+    this.fetchNewDocuments(this.props);
   }
 
 });
 
-TreeView.Pagination = React.createClass({
-
-  getDefaultProps() {
-    return {
-      pageLimit: 20,
-      currentPage: 1
-    }
-  },
-
-  render() {
-
-    const totalCount = parseInt(this.props.totalCount);
-    const currentPage = parseInt(this.props.currentPage);
-    const pagesCount = Math.ceil(totalCount / parseInt(this.props.pageLimit));
-    const groupClass = 'btn-group btn-group-sm';
-
-    const previousPage = currentPage == 1 ? currentPage : currentPage - 1;
-    const nextPage = currentPage == pagesCount ? currentPage : currentPage + 1;
-
-    const pages = [];
-    for (var i = 1; i < pagesCount; i++) {
-      pages.push({
-        index: i,
-        label: i + '. page'
-      });
-    }
-
-    return <div className={groupClass}>
-      <button className="btn btn-default" key="0" onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></button>
-      <button className="btn btn-default" key="1" onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></button>
-      <div className={groupClass}>
-        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <span key="1">{currentPage} </span><span key="2" className="caret" />
-        </button>
-        <ul className="dropdown-menu">
-          {pages.map(item => {
-            return <li key={item.index}><a href="#" onClick={this.handlePageChange.bind(this, item.index)}>{item.label}</a></li>
-          })}
-        </ul>
-      </div>
-      <button className="btn btn-default" key="2" onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></button>
-      <button className="btn btn-default" key="3" onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></button>
-    </div>
-  },
-
-  handlePageChange(page, event) {
-    event.preventDefault();
-    event.currentTarget.blur();
-    this.props.onPageChange(page);
-  }
-
-});
 
 TreeView.Document = React.createClass({
 
@@ -116,7 +113,9 @@ TreeView.Document = React.createClass({
     });
 
     const editProps = {
-      document: document
+      document: document,
+      collection: this.props.collection,
+      onSave: this.props.fetchNewData
     };
 
     return <tbody>
@@ -131,8 +130,8 @@ TreeView.Document = React.createClass({
               actions <span className="caret" />
             </div>
             <ul className="dropdown-menu" aria-labelledby="dropdownMenu1">
-              <li><EditDocument.Modal className="nnn" title=" Edit" icon="fa fa-pencil" editProps={editProps} /></li>
-            </ul> 
+              <li><EditDocument.Modal text=" Edit" icon="fa fa-pencil" editProps={editProps} /></li>
+            </ul>
           </div>
         </td>
       </tr>
@@ -236,6 +235,59 @@ TreeView.DocumentRow = React.createClass({
       Collections.update(collectionId, {$addToSet: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     }
 
+  }
+
+});
+
+TreeView.Pagination = React.createClass({
+
+  getDefaultProps() {
+    return {
+      pageLimit: 20,
+      currentPage: 1
+    }
+  },
+
+  render() {
+
+    const totalCount = parseInt(this.props.totalCount);
+    const currentPage = parseInt(this.props.currentPage);
+    const pagesCount = Math.ceil(totalCount / parseInt(this.props.pageLimit));
+    const groupClass = 'btn-group btn-group-sm';
+
+    const previousPage = currentPage == 1 ? currentPage : currentPage - 1;
+    const nextPage = currentPage == pagesCount ? currentPage : currentPage + 1;
+
+    const pages = [];
+    for (var i = 1; i < pagesCount; i++) {
+      pages.push({
+        index: i,
+        label: i + '. page'
+      });
+    }
+
+    return <div className={groupClass}>
+      <button className="btn btn-default" key="0" onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></button>
+      <button className="btn btn-default" key="1" onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></button>
+      <div className={groupClass}>
+        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span key="1">{currentPage} </span><span key="2" className="caret" />
+        </button>
+        <ul className="dropdown-menu">
+          {pages.map(item => {
+            return <li key={item.index}><a href="#" onClick={this.handlePageChange.bind(this, item.index)}>{item.label}</a></li>
+          })}
+        </ul>
+      </div>
+      <button className="btn btn-default" key="2" onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></button>
+      <button className="btn btn-default" key="3" onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></button>
+    </div>
+  },
+
+  handlePageChange(page, event) {
+    event.preventDefault();
+    event.currentTarget.blur();
+    this.props.onPageChange(page);
   }
 
 });

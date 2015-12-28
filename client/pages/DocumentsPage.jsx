@@ -159,66 +159,18 @@ DocumentsFilter = React.createClass({
 
 });
 
-DocumentsResult = React.createClass({
+DocumentsResult = ({collection, filter, page, onPageChange}) => {
 
-  getInitialState() {
-    return {
-      documentsReady: false,
-      documents: null,
-      totalCount: null
-    }
-  },
-
-  componentWillMount() {
-    this.fetchNewDocuments(this.props);
-  },
-
-  componentWillReceiveProps(nextProps) {
-    this.fetchNewDocuments(nextProps);
-  },
-
-  fetchNewDocuments(nextProps) {
-    this.setState({
-      documents: null
-    })
-
-    const page = nextProps.page;
-    const collection = nextProps.collection;
-
-    Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
-      if (error || result == false || typeof result == 'undefined') {
-        sAlert.error('Connection failed or filter incorrect...');
-        return false;
-      }
-
-      const formattedRows = [];
-      result.docs.map(row => {
-        let key = row._id;
-        let info = TreeViewUtils.getRowInfo(typeof key == 'string' ? key : key._str, row, 0, '');
-        formattedRows.push(info);
-      });
-
-      this.setState({
-        documents: formattedRows,
-        totalCount: result.count
-      })
-    });
-  },
-
-  render() {
-
-    return <div>
-      <div className="container">
-        <div className="bg-box m-t-sm">
-          <TreeView collection={this.props.collection}
-                    documents={this.state.documents}
-                    totalCount={this.state.totalCount}
-                    currentPage={this.props.page}
-                    onPageChange={this.props.onPageChange} />
-        </div>
+  return <div>
+    <div className="container">
+      <div className="bg-box m-t-sm">
+        <TreeView collection={collection}
+                  filter={filter}
+                  currentPage={page}
+                  onPageChange={onPageChange} />
       </div>
     </div>
-  }
-});
+  </div>
+};
 
 

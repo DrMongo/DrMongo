@@ -1,9 +1,51 @@
 EditDocument = React.createClass({
+  getDefaultProps() {
+    return {
+      editorId: 'edit'
+    }
+  },
+
   render() {
+    const value = EJSON.stringify(this.props.document.value, {indent: '\t'});
+
     return <div>
-      <h1>edit me!</h1>
-      <h3>{this.props.document.value._id}</h3>
+      <ReactAce
+        value={value}
+        mode="json"
+        theme="chrome"
+        name={this.props.editorId}
+        width="100%"
+        onLoad={this.handleLoad}
+        editorProps={{$blockScrolling: true}}
+      />
+      <div className="m-t clearfix">
+        <button className="btn btn-primary pull-right" onClick={this.handleSave}>Save</button>
+      </div>
     </div>
+  },
+
+  handleLoad(editor) {
+    editor.getSession().setUseWrapMode(true);
+    editor.gotoLine(1, 1);
+    editor.focus();
+  },
+
+  handleSave(event) {
+    event.preventDefault();
+
+    var data = ace.edit(this.props.editorId).getValue();
+    try {
+      data = EJSON.parse(data);
+    } catch (error) {
+      sAlert.error('Invalid JSON format!');
+      return false;
+    }
+
+    const documentData = this.props.document.value;
+    Meteor.call('updateDocument', this.props.collection._id, documentData._id, data, (error, result) => {
+      this.props.onSave();
+      // @TODO re-render new data
+    });
   }
 });
 
@@ -18,19 +60,26 @@ EditDocument.Modal = React.createClass({
 
     const icon = this.props.icon ? <i className={this.props.icon} /> : null;
 
-    return <span>
-      <a className={this.props.className} href="#" onClick={this.handleOpen}>{icon}{this.props.text}</a>
+    const editProps = this.props.editProps;
+    const onSave = editProps.onSave;
+    editProps.onSave = () => {
+      this.handleClose();
+      if(editProps.onSave) {
+        log('> editProps.onSave');
+        setTimeout(() => { onSave(); }, 100);
+      }
+    };
 
-      <Modal show={this.state.showModal} onHide={this.handleClose}>
+    return <span>
+      <a href="#" onClick={this.handleOpen}>{icon}{this.props.text}</a>
+
+      <Modal show={this.state.showModal} onHide={this.handleClose} bsSize="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Modal heading</Modal.Title>
+          <Modal.Title>Edit document</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditDocument {...this.props.editProps} />
+          <EditDocument {...editProps} />
         </Modal.Body>
-        <Modal.Footer>
-          <button className="btn btn-default" onClick={this.handleClose}>Close</button>
-        </Modal.Footer>
       </Modal>
     </span>
   },
