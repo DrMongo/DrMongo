@@ -188,7 +188,7 @@ TreeView.DocumentRow = React.createClass({
           </div>
         </div>
         <div className="col-xs-8 cell value">
-          {info.formattedValue}
+          {info.formattedValue}&nbsp;
           {info.isPruned ? <ViewDocument.Modal text={info.notPrunedString} className="view-value"/> : null}
 
         </div>

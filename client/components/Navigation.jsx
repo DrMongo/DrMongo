@@ -161,7 +161,7 @@ NavigationCollectionsDropdown = ({selected, items}) => (
         }
 
         return <li key={collection._id} className={submenu ? 'menu-item dropdown dropdown-submenu' : 'menu-item dropdown'}>
-              <a href={RouterUtils.pathForDocuments(collection)} className={submenu ? 'dropdown-toggle' : ''} data-toggle={submenu ? 'dropdown' : ''} onClick={(event) => {document.location = (event.currentTarget.href); return false;}}>
+              <a href={RouterUtils.pathForDocuments(collection)} className={submenu ? 'dropdown-toggle' : ''} data-toggle={submenu ? 'dropdown' : ''} onClick={(event) => {FlowRouter.go(RouterUtils.pathForDocuments(collection)); return false;}}>
               <div className="relative text-nowrap z1">{collection.name}</div>
               </a>
               {submenu}
