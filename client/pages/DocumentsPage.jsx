@@ -37,7 +37,7 @@ DocumentsPage = React.createClass({
     return <div>
       <div className="db-theme">
         <div className="container">
-          <div className="pull-right">
+          <div className="pull-right right-actions">
             <span className="dropdown" title="Saved views">
               <button type="button" className="theme-color btn btn-inverted btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <i className="fa fa-star" /> <span className="caret" />
