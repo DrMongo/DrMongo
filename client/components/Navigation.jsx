@@ -152,7 +152,6 @@ NavigationCollectionsDropdown = ({selected, items}) => (
         if (savedFilters.length > 0) {
           var submenu = <ul className="dropdown-menu">
                 {savedFilters.map((filterItem) => {
-                  log(filterItem)
                   return <li className="menu-item"><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
                 })}
               </ul>

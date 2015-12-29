@@ -43,6 +43,7 @@ TreeView = React.createClass({
       }
 
       const formattedRows = [];
+
       result.docs.map(row => {
         let key = row._id;
         let info = TreeViewUtils.getRowInfo(typeof key == 'string' ? key : key._str, row, 0, '');
@@ -71,7 +72,6 @@ TreeView = React.createClass({
       if (documents[0].value.name) pinnedColumns.push('name');
       if (documents[0].value.title) pinnedColumns.push('title');
     }
-
 
     let results;
     if (documents == null) {
@@ -103,7 +103,6 @@ TreeView = React.createClass({
   },
 
   handleFetchNewData() {
-    log('> handleFetchNewData');
     this.fetchNewDocuments(this.props);
   }
 
@@ -120,9 +119,12 @@ TreeView.Document = React.createClass({
 
     const pinnedColumns = [];
     let key = 0;
-    document.pinnedColumns.map(item => {
-      pinnedColumns.push({key: key++, value: item});
-    });
+
+    if (document.pinnedColumns) {
+      document.pinnedColumns.map(item => {
+        pinnedColumns.push({key: key++, value: item});
+      });
+    }
 
     const editProps = {
       document: document,

@@ -46,7 +46,7 @@ DocumentsPage = React.createClass({
                 <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
                 <li role="separator" className="divider" />
                 {savedFilters.map((item) => {
-                  return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a></li>
+                  return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name} <i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></a></li>
                 })}
               </ul>
             </span>
@@ -111,6 +111,13 @@ DocumentsPage = React.createClass({
     } else {
       sAlert.info('No filter set.')
     }
+  },
+
+  handleDeleteFilter(filterId, event) {
+    event.preventDefault();
+    event.nativeEvent.stopImmediatePropagation();
+
+    FilterHistory.update(filterId, {$set: {name: null}});
   },
 
 });
