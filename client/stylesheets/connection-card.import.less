@@ -1,21 +1,29 @@
 .connection-card {
   border-radius: 3px;
   padding: 20px;
-  background-color: #3c763d;
   color: #fcf8e3;
   margin-bottom: 20px;
+  position: relative;
+  min-height: 121px;
+
+  -webkit-transform-style: preserve-3d;
+  -moz-transform-style: preserve-3d;
+  transform-style: preserve-3d;
 
   a {
     color: #fcf8e3;
   }
 
   .connection-icon {
+    position: absolute;
     font-size: 5rem;
-    color: #569157;
+    top: 50%;
+    right: 5px;
+    transform: translateY(-50%);
   }
 
   .title {
-    .h3;
+    .h4;
   }
 }
 

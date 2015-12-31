@@ -8,7 +8,7 @@ Navigation = React.createClass({
     const env = this.props.currentEnvironment;
     const handle = Meteor.subscribe('navigationData', env.connectionId, env.databaseId);
     if (handle.ready()) {
-      data.connections = Connections.find({}).fetch();
+      data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
 
       if(env.connectionId) {
         data.databases = env.connection.databases();
@@ -32,7 +32,6 @@ Navigation = React.createClass({
 
   renderNavigation() {
     const env = this.props.currentEnvironment;
-    const selectedConnection = env.connectionId ? env.connection.name : 'Select connection';
     const selectedDatabase = env.databaseId ? env.database.name : 'Select database';
     const selectedCollection = env.collectionId ? env.collection.name : 'Select collection';
 
@@ -53,19 +52,23 @@ Navigation = React.createClass({
       </div>
       <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul className="nav navbar-nav">
-          <NavigationConnectionsDropdown selected={selectedConnection} items={this.data.connections} />
+          {env.connectionId ? <NavigationConnectionsDropdown selected={env.connection.name} items={this.data.connections} /> : null}
           {this.data.databases ? <NavigationDatabasesDropdown selected={selectedDatabase} items={this.data.databases} /> : null}
           {this.data.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.data.collections} /> : null}
         </ul>
 
-        <Formsy.Form className="navbar-form navbar-right db-theme-form" onSubmit={this.handleSearchSubmit}>
-          <div className="form-group">
-            <MyInput className="form-control" name="text" type="text" placeholder="Search by _id" autoComplete="off" />
-          </div>
-          <button className="btn btn-default hidden" type="submit">Submit</button>
-        </Formsy.Form>
+        {env.databaseId ? this.renderSearchForm() : null}
       </div>
     </div>
+  },
+
+  renderSearchForm() {
+    return <Formsy.Form className="navbar-form navbar-right db-theme-form" onSubmit={this.handleSearchSubmit}>
+      <div className="form-group">
+        <MyInput className="form-control" name="text" type="text" placeholder="Search by _id" autoComplete="off" />
+      </div>
+      <button className="btn btn-default hidden" type="submit">Submit</button>
+    </Formsy.Form>
   },
 
   handleSearchSubmit(values) {
