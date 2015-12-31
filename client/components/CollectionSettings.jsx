@@ -40,10 +40,10 @@ CollectionSettings.Modal = React.createClass({
   },
 
   render() {
+    const icon = this.props.icon ? <i className={this.props.icon} /> : null;
+
     return <span>
-      <button className={this.props.className} title="Collection Settings" onClick={this.handleOpen}>
-        <i className="fa fa-cog" /> {this.props.text}
-      </button>
+      <button className={this.props.className} title="Collection Settings" onClick={this.handleOpen}>{icon}{this.props.text}</button>
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
