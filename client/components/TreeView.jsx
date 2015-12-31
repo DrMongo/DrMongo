@@ -34,7 +34,7 @@ TreeView = React.createClass({
     });
 
     const page = nextProps.page;
-    const collection = nextProps.collection;
+    const collection = nextProps.env.collection;
 
     Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
       if (error || result == false || typeof result == 'undefined') {
@@ -62,7 +62,7 @@ TreeView = React.createClass({
   },
 
   render() {
-    const collection = this.props.collection;
+    const collection = this.props.env.collection;
     const documents = this.state.documents;
 
     let pinnedColumns = [];
@@ -79,7 +79,7 @@ TreeView = React.createClass({
     } else if (documents.length == 0) {
       return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
-      results = documents.map(item => (<TreeView.Document key={item.keyValue} document={item} collection={collection} fetchNewData={this.handleFetchNewData} />));
+      results = documents.map(item => (<TreeView.Document key={item.keyValue} document={item} env={this.props.env} refreshDocuments={this.handleRefreshDocuments} />));
     }
 
     return <table className="table tree-view">
@@ -102,7 +102,7 @@ TreeView = React.createClass({
     </table>
   },
 
-  handleFetchNewData() {
+  handleRefreshDocuments() {
     this.fetchNewDocuments(this.props);
   }
 
@@ -128,8 +128,8 @@ TreeView.Document = React.createClass({
 
     const editProps = {
       document: document,
-      collection: this.props.collection,
-      onSave: this.props.fetchNewData
+      collection: this.props.env.collection,
+      onSave: this.props.refreshDocuments
     };
 
     return <tbody>
@@ -154,7 +154,7 @@ TreeView.Document = React.createClass({
       <tr className="children hidden">
         <td colSpan={document.colspan}>
           {children.map(item => (
-            <TreeView.DocumentRow key={item.keyValue} info={item} collection={this.props.collection} />
+            <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
           ))}
         </td>
       </tr>
@@ -222,6 +222,14 @@ TreeView.DocumentRow = React.createClass({
       </div>;
     }
 
+
+    let formattedValue;
+    if(info.isId) {
+      formattedValue = <a href="#" onClick={this.handleFindById}>{info.formattedValue}</a>
+    } else {
+      formattedValue = info.formattedValue;
+    }
+
     return <div className="parent col-xs-12">
       <div className={parentRowClass} onClick={this.handleToggleChildren}>
         <div className="col-xs-4 cell key">
@@ -232,9 +240,8 @@ TreeView.DocumentRow = React.createClass({
           </div>
         </div>
         <div className="col-xs-8 cell value">
-          {info.formattedValue}&nbsp;
+          {formattedValue}&nbsp;
           {info.isPruned ? <ViewDocument.Modal text={info.notPrunedString} className="view-value"/> : null}
-
         </div>
       </div>
       {children ? this.renderRowChildren(children) : null}
@@ -272,13 +279,40 @@ TreeView.DocumentRow = React.createClass({
     pathFormatted = pathFormatted.replace(/\.([0-9]+)$/g, '[$1]');
     pathFormatted = pathFormatted.replace(/\.([0-9]+)\./g, '[$1].');
 
-    const collectionId = this.props.collection._id;
+    const collectionId = this.props.env.collectionId;
     var c = Collections.findOne(collectionId);
     if (c && c.pinnedColumns && _.contains(c.pinnedColumns, path)) {
       Collections.update(collectionId, {$pull: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     } else {
       Collections.update(collectionId, {$addToSet: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     }
+
+  },
+
+  handleFindById(event) {
+    event.preventDefault();
+
+    const databaseId = this.props.env.databaseId;
+    const id = this.props.info.idValue;
+
+    Meteor.call('findCollectionForDocumentId', databaseId, id, (error, result) => {
+      if (result === null) {
+        sAlert.warning('Document not found.');
+      }
+
+      let c = Collections.findOne({database_id: databaseId, name: result});
+      if (c) {
+        let filterId = FilterHistory.insert({
+          createdAt: new Date(),
+          collection_id: CurrentSession.collection._id,
+          name: null,
+          filter: id
+        });
+
+        RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
+      }
+    });
+
 
   }
 

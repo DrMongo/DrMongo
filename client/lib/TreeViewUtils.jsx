@@ -21,10 +21,11 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
   };
 
   if (resemblesId(value) || key == '_id') {
-    info['formattedValue'] = <a href="#" className="find-id">{value}</a>;
+    info['formattedValue'] = value;
     info['fieldClass'] = 'id';
     info['idValue'] = value;
     info['labelText'] = 'ID';
+    info['isId'] = true;
   } else if (_.isNumber(value)) {
     info['formattedValue'] = value;
     info['fieldClass'] = 'number';

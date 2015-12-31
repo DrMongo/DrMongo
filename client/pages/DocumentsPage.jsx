@@ -77,7 +77,7 @@ DocumentsPage = React.createClass({
       </div>
 
       {this.data.filterReady
-        ? <DocumentsResult collection={collection}
+        ? <DocumentsResult env={env}
                            filter={this.data.filter}
                            page={this.props.page}
                            seed={this.state.seed}
@@ -166,18 +166,23 @@ DocumentsFilter = React.createClass({
 
 });
 
-DocumentsResult = ({collection, filter, page, onPageChange}) => {
+DocumentsResult = React.createClass({
 
-  return <div>
-    <div className="container">
-      <div className="bg-box m-t-sm">
-        <TreeView collection={collection}
-                  filter={filter}
-                  currentPage={page}
-                  onPageChange={onPageChange} />
+
+  render() {
+    return <div>
+      <div className="container">
+        <div className="bg-box m-t-sm">
+          <TreeView env={this.props.env}
+                    filter={this.props.filter}
+                    currentPage={this.props.page}
+                    onPageChange={this.props.onPageChange}
+                    onFindById={this.handleFindById} />
+        </div>
       </div>
     </div>
-  </div>
-};
+  }
+
+}) ;
 
 
