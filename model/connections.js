@@ -46,5 +46,9 @@ Connections.helpers({
     delete uri.scheme;
     delete uri.options;
     return MongodbUriParser.format(uri);
+  },
+
+  getIcon() {
+    return 'fa fa-' + (this.icon || 'bolt');
   }
 });

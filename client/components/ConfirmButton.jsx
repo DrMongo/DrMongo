@@ -11,7 +11,9 @@ ConfirmButton = React.createClass({
     return <button className={this.props.className} onClick={this.handleClick}>{text}</button>
   },
 
-  handleClick() {
+  handleClick(event) {
+    event.preventDefault();
+
     if(!this.state.activated) {
       this.setState({activated: true});
     } else {

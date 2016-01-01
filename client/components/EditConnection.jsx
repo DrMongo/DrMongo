@@ -11,10 +11,9 @@ EditConnection = React.createClass({
       deleteButton = <ConfirmButton className="btn btn-danger btn-inverted" text="Delete" confirmText="Confirm delete action" onConfirm={this.handleDelete} />
     }
 
-
     return <div>
 
-      <Formsy.Form>
+      <Formsy.Form onSubmit={this.handleSubmit}>
         <div className="form-group">
           <label>Name</label>
           <div className="input-group">
@@ -35,9 +34,17 @@ EditConnection = React.createClass({
           </p>
         </div>
 
+        <div className="form-group">
+          <label>Icon</label>
+          <div className="input-group">
+            <div className="input-group-addon">fa fa-</div>
+            <MyInput className="form-control" name="icon" value={connection.icon} type="text" autoComplete="off" />
+          </div>
+        </div>
+
         <div className="m-t clearfix">
           {deleteButton}
-          <input className="btn btn-success btn-inverted pull-right" type="submit" value="Save" onClick={this.handleSave} />
+          <input className="btn btn-success btn-inverted pull-right" type="submit" value="Save" />
         </div>
       </Formsy.Form>
 
@@ -53,10 +60,12 @@ EditConnection = React.createClass({
       uri = {};
     }
 
+    log(values);
     const data = {
       name: values.name || 'New Connection',
       mongoUri: mongoUri || 'mongodb://localhost:27017',
-      database: uri.database || null
+      database: uri.database || null,
+      icon: values.icon || 'bolt'
     };
 
     let connectionId;
