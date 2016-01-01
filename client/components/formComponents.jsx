@@ -13,6 +13,7 @@ MyInput = React.createClass({
 
     let props = this.props;
     props.type = props.type || 'text';
+
     return (
       <input
         {...props}
