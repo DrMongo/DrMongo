@@ -78,8 +78,6 @@ EditConnection = React.createClass({
     if(this.props.connection) {
       Connections.remove(this.props.connection._id);
     }
-
-    this.props.onDelete();
   }
 });
 
@@ -103,7 +101,6 @@ EditConnection.Modal = React.createClass({
       }
     };
 
-    editProps.onDetele = this.handleClose;
 
     return <span>
       <a className={this.props.className} href="#" onClick={this.handleOpen} title="Edit connection">{icon}{this.props.text}</a>
