@@ -1,3 +1,8 @@
+.rowHoverShadow {
+  -webkit-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 -2px 6px 0px rgba(0, 0, 0, 0.16);
+  box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 -2px 6px 0px rgba(0, 0, 0, 0.16);
+}
+
 .tree-view {
   .toggle-children {
     cursor: pointer;
@@ -11,7 +16,18 @@
 
 
 
-  & > .parent:hover {background: #ddd}
+  & tbody > tr.parent:hover > td { .rowHoverShadow; }
+  & tbody > tr.parent:hover > td { position: relative; background-color: #fff; }
+  & tbody > tr.parent:hover > td:before {
+    content: "";
+    width: 8px;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    left: -4px;
+    top: 0;
+    z-index: 1;
+  }
 
   .parent {
     & > .toggle-children {
