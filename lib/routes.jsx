@@ -1,7 +1,7 @@
 FlowRouter.route('/', {
   name: 'Connections',
   action(params) {
-    ReactLayout.render(DefaultReactLayout, {content: <ConnectionsPage />});
+    ReactLayout.render(SimpleReactLayout, {content: <ConnectionsPage />});
   }
 });
 

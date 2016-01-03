@@ -12,11 +12,14 @@ ConnectionsPage = React.createClass({
   },
 
   render() {
-    return <div>
+    return <div id="connection-page">
       <div className="container">
+        <div className="m-t-lg m-b text-center color-white">
+          <h1><i className="fa fa-heartbeat" /> Dr. Mongo</h1>
+        </div>
         <div className="row p-t">
           <div className="col-sm-6 col-sm-push-3">
-            <div className="list">
+            <div className="connections-list list">
               {this.data.connections ? this.renderConnections() : <Loading />}
               <AddConnectionBlock />
             </div>

@@ -1,5 +1,8 @@
 @import "bootstrap/custom.bootstrap.import.less";
 
+@main-color: #2185D0;
+.color-white { color: #fff; }
+
 @import "helpers.import.less";
 @import "theme.import.less";
 @import "typography.import.less";
@@ -11,12 +14,18 @@
 @import "documents.import.less";
 @import "documents-filter.import.less";
 @import "tree-view.import.less";
-@import "connection-card.import.less";
+@import "connection-page.import.less";
 @import "console.import.less";
 @import "collections-lists.import.less";
 @import "db-themes.import.less";
 @import "footer.import.less";
 
+html, body, #react-root, #simple-layout {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .my-navbar {
   border-radius: 0;
