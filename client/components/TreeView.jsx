@@ -1,11 +1,11 @@
-let deleteHintTimeout = null;
-let showDeleteHint = (show = true) => {
-  // first stop previous timeout if exists
-  if(deleteHintTimeout) Meteor.clearTimeout(deleteHintTimeout);
+let hintTimeout = {};
+let showHint = (namespace, message = true) => {
+  // stop previous timeout if exists
+  if(hintTimeout[namespace]) Meteor.clearTimeout(hintTimeout[namespace]);
 
-  if(show) {
-    deleteHintTimeout = Meteor.setTimeout(() => {
-      sAlert.info('Psst!! Hey you! Try double click...');
+  if(message) {
+    hintTimeout[namespace] = Meteor.setTimeout(() => {
+      sAlert.info(message);
     }, 300);
   }
 };
@@ -140,17 +140,18 @@ TreeView.Document = React.createClass({
           <span className="drm-index">{document.drMongoIndex}.</span> {document.keyValue} <small>{document.formattedValue}</small>
         </td>
         {pinnedColumns.map(item => (<td className="cell pinned" key={item.key}>{item.value}</td>))}
-        <td className="cell actions text-right" onClick={this.handleActionClick}>
+        <td className="cell actions text-right">
           <EditDocument.Modal className="btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
-          <a className="btn btn-warning btn-soft btn-xs" href="#" title="Duplicate document"
-             onClick={this.handleDuplicateDocumentClick}>
+          <button className="btn btn-warning btn-soft btn-xs" title="Duplicate document"
+             onClick={this.handleDuplicateDocumentClick}
+             onDoubleClick={this.handleDuplicateDocumentDoubleClick}>
             <i className="fa fa-files-o" />
-          </a>
-          <a className="btn btn-danger btn-soft btn-xs" href="#" title="Remove document"
+          </button>
+          <button className="btn btn-danger btn-soft btn-xs" title="Remove document"
              onClick={this.handleDeleteDocumentClick}
              onDoubleClick={this.handleDeleteDocumentDoubleClick}>
             <i className="fa fa-trash" />
-          </a>
+          </button>
         </td>
       </tr>
       <tr className="children hidden">
@@ -169,18 +170,20 @@ TreeView.Document = React.createClass({
     $(event.currentTarget).next('.children').toggleClass('hidden');
   },
 
-  handleActionClick(event) { // to prevent row opening / closing
+  handleDuplicateDocumentClick(event) {
     event.stopPropagation();
-    event.nativeEvent.stopImmediatePropagation();
+
+    showHint('duplicate', 'Psst!! Hey you! Try double click...');
   },
 
-  handleDuplicateDocumentClick(event) {
+  handleDuplicateDocumentDoubleClick(event) {
     event.preventDefault();
 
-    Meteor.call('duplicateDocument', this.props.collection._id, this.props.document.value._id, (error, result) => {
+    showHint('duplicate', false);
+    Meteor.call('duplicateDocument', this.props.env.collectionId, this.props.document.value._id, (error, result) => {
       if (!error) {
         sAlert.success('Document duplicated.');
-        this.props.fetchNewData();
+        this.props.refreshDocuments();
       } else {
         sAlert.error('Could NOT duplicate document. Probably due to unique index.');
       }
@@ -191,15 +194,15 @@ TreeView.Document = React.createClass({
   handleDeleteDocumentClick(event) {
     event.stopPropagation();
 
-    showDeleteHint();
+    showHint('delete', 'Psst!! Hey you! Try double click...');
   },
 
   handleDeleteDocumentDoubleClick(event) {
     event.stopPropagation();
 
-    showDeleteHint(false);
-    Meteor.call('removeDocument', this.props.collection._id, this.props.document.value._id, (error, result) => {
-      this.props.fetchNewData();
+    showHint('delete', false);
+    Meteor.call('removeDocument', this.props.env.collectionId, this.props.document.value._id, (error, result) => {
+      this.props.refreshDocuments();
     })
   }
 
