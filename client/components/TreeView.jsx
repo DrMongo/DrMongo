@@ -33,7 +33,7 @@ TreeView = React.createClass({
       documents: null
     });
 
-    const page = nextProps.page;
+    const page = nextProps.currentPage;
     const collection = nextProps.env.collection;
 
     Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
@@ -68,30 +68,32 @@ TreeView = React.createClass({
     let pinnedColumns = [];
     if (collection.pinnedColumnsFormatted) {
       pinnedColumns = collection.pinnedColumnsFormatted;
-    } else if (documents && documents.length > 0) {
-      if (documents[0].value.name) pinnedColumns.push('name');
-      if (documents[0].value.title) pinnedColumns.push('title');
+    } else {
+      pinnedColumns.push('');
+      pinnedColumns.push('');
     }
 
     let results;
     if (documents == null) {
-      results = <tbody><tr><td colSpan="3"><Loading /></td></tr></tbody>;
+      results = <tbody><tr><td colSpan="4"><Loading /></td></tr></tbody>;
     } else if (documents.length == 0) {
       return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
-      results = documents.map(item => (<TreeView.Document key={item.keyValue} document={item} env={this.props.env} refreshDocuments={this.handleRefreshDocuments} />));
+      results = documents.map(item => {
+        return <TreeView.Document key={item.keyValue} document={item} env={this.props.env} refreshDocuments={this.handleRefreshDocuments} />
+      });
     }
 
     return <table className="table tree-view">
       <thead>
       <tr className="column-headers">
         <td className="cell key">#. _id</td>
-        {pinnedColumns.map(item => (<td className="cell pinned" key={item}>{item}</td>))}
+        {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>))}
         <td>
           <div className="pull-right">
             <span className="m-r-sm">{this.state.totalCount}x</span>
             <TreeView.Pagination pageLimit={collection.paginationLimit}
-                                 totalCount={this.props.totalCount}
+                                 totalCount={this.state.totalCount}
                                  currentPage={this.props.currentPage}
                                  onPageChange={this.props.onPageChange} />
           </div>
@@ -251,7 +253,7 @@ TreeView.DocumentRow = React.createClass({
   renderRowChildren(children) {
     return <div className="row children">
       {children.map(item => (
-        <TreeView.DocumentRow key={item.keyValue} info={item} />
+        <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
       ))}
     </div>
   },
@@ -332,22 +334,26 @@ TreeView.Pagination = React.createClass({
     const totalCount = parseInt(this.props.totalCount);
     const currentPage = parseInt(this.props.currentPage);
     const pagesCount = Math.ceil(totalCount / parseInt(this.props.pageLimit));
-    const groupClass = 'btn-group btn-group-sm';
+    const groupClass = 'btn-group btn-group-thin';
 
     const previousPage = currentPage == 1 ? currentPage : currentPage - 1;
     const nextPage = currentPage == pagesCount ? currentPage : currentPage + 1;
 
     const pages = [];
-    for (var i = 1; i < pagesCount; i++) {
+    for (var i = 1; i <= pagesCount; i++) {
       pages.push({
         index: i,
         label: i + '. page'
       });
     }
 
+    classForButton = (disabled) => {
+      return classNames('btn btn-default', {'disabled': disabled});
+    };
+
     return <div className={groupClass}>
-      <button className="btn btn-default" key="0" onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></button>
-      <button className="btn btn-default" key="1" onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></button>
+      <button className={classForButton(currentPage == 1)} key="0" onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></button>
+      <button className={classForButton(currentPage == 1)} key="1" onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></button>
       <div className={groupClass}>
         <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
           <span key="1">{currentPage} </span><span key="2" className="caret" />
@@ -358,8 +364,8 @@ TreeView.Pagination = React.createClass({
           })}
         </ul>
       </div>
-      <button className="btn btn-default" key="2" onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></button>
-      <button className="btn btn-default" key="3" onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></button>
+      <button className={classForButton(currentPage == pagesCount)} key="2" onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></button>
+      <button className={classForButton(currentPage == pagesCount)} key="3" onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></button>
     </div>
   },
 

@@ -80,13 +80,8 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
 
       })
     } else {
-      if (value.name) {
-        pinnedColumns.push(value.name);
-      } else if (value.title) {
-        pinnedColumns.push(value.title);
-      } else {
-        // pinnedColumns.push("");
-      }
+      pinnedColumns.push(value.name);
+      pinnedColumns.push(value.title);
     }
     if (pinnedColumns.length) {
       info.pinnedColumns = pinnedColumns;
