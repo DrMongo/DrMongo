@@ -18,7 +18,7 @@ ConnectionsPage = React.createClass({
           <h1><i className="fa fa-heartbeat" /> Dr. Mongo</h1>
         </div>
         <div className="row p-t">
-          <div className="col-sm-6 col-sm-push-3">
+          <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
             <div className="connections-list list">
               {this.data.connections ? this.renderConnections() : <Loading />}
               <AddConnectionBlock />
