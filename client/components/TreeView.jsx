@@ -45,8 +45,7 @@ TreeView = React.createClass({
       const formattedRows = [];
 
       result.docs.map(row => {
-        let key = row._id;
-        let info = TreeViewUtils.getRowInfo(typeof key == 'string' ? key : key._str, row, 0, '');
+        let info = TreeViewUtils.getRowInfo(stringifyMongoId(row._id), row, 0, '');
         formattedRows.push(info);
       });
 
@@ -80,6 +79,7 @@ TreeView = React.createClass({
       return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
       results = documents.map(item => {
+        log(item.keyValue);
         return <TreeView.Document key={item.keyValue} document={item} env={this.props.env} refreshDocuments={this.handleRefreshDocuments} />
       });
     }

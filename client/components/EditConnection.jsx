@@ -8,7 +8,7 @@ EditConnection = React.createClass({
       deleteButton = null;
     } else {
       connection = this.props.connection;
-      deleteButton = <ConfirmButton className="btn btn-danger btn-inverted" text="Delete" confirmText="Confirm delete action" onConfirm={this.handleDelete} />
+      deleteButton = <ConfirmButton className="btn btn-danger btn-inverted" type="button" text="Delete" confirmText="Confirm delete action" onConfirm={this.handleDelete} />
     }
 
     return <div>

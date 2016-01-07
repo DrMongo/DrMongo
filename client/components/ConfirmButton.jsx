@@ -8,7 +8,10 @@ ConfirmButton = React.createClass({
 
   render() {
     const text = this.state.activated ? this.props.confirmText : this.props.text;
-    return <button className={this.props.className} onClick={this.handleClick}>{text}</button>
+    const buttonProps = this.props;
+    delete buttonProps.text;
+    delete buttonProps.confirmText;
+    return <button className={this.props.className} onClick={this.handleClick} {...buttonProps}>{text}</button>
   },
 
   handleClick(event) {

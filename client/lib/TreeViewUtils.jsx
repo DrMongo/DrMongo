@@ -21,9 +21,11 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
   };
 
   if (resemblesId(value) || key == '_id') {
-    info['formattedValue'] = value;
+    let idString = stringifyMongoId(value);
+
+    info['formattedValue'] = idString;
     info['fieldClass'] = 'id';
-    info['idValue'] = value;
+    info['idValue'] = idString;
     info['labelText'] = 'ID';
     info['isId'] = true;
   } else if (_.isNumber(value)) {
@@ -34,7 +36,6 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
     info['formattedValue'] = s(value).prune(35).value();
     info['isPruned'] = value.length > 35;
     info['notPrunedString'] = value;
-
     info['labelText'] = '\" \"';
   } else if (_.isNull(value)) {
     info['formattedValue'] = 'null';
