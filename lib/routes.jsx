@@ -17,7 +17,7 @@ FlowRouter.route('/theme', {
 FlowRouter.route('/:connection', {
   name: 'ConnectionDashboard',
   action(params) {
-    ReactLayout.render(DefaultReactLayout, {content: <ConnectionDashboardPage {...params} />});
+    ReactLayout.render(SimpleReactLayout, {content: <ConnectionDashboardPage {...params} />});
   }
 });
 

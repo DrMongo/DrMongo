@@ -5,7 +5,6 @@ ConnectionsPage = React.createClass({
   getMeteorData() {
     let data = {};
 
-    // TODO subscribe to data?
     data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
 
     return data;
@@ -67,8 +66,6 @@ ConnectionsPage.NewVersionMessage = React.createClass({
 
 
 ConnectionBlock = ({connection}) => {
-  const uri = MongodbUriParser.parse(connection.mongoUri);
-
   const editProps = {
     connection: connection
   };

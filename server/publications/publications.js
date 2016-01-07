@@ -23,7 +23,6 @@ Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   check(databaseName, Match.OneOf(String, null));
   check(collectionName, Match.OneOf(String, null));
 
-  log('> layoutData', connectionSlug, databaseName, collectionName);
   let connectionsSelector = null;
   let databasesSelector = null;
   let collectionsSelector = null;
@@ -50,7 +49,6 @@ Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
     }
   }
 
-  log('> selectors', connectionsSelector, databasesSelector, collectionsSelector);
   const publish = [];
   if(connectionsSelector) publish.push(Connections.find(connectionsSelector));
   if(databasesSelector) publish.push(Databases.find(databasesSelector));
@@ -87,4 +85,16 @@ Meteor.publish('filterHistory', function(filterId) {
   check(filterId, String);
 
   return FilterHistory.find(filterId);
+});
+
+
+Meteor.publish('databases', function(connectionSlug) {
+  check(connectionSlug, String);
+
+  const connection = Connections.findOne({slug: connectionSlug});
+
+  return [
+    Connections.find(connection._id),
+    Databases.find({connection_id: connection._id})
+  ]
 });

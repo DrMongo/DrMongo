@@ -4,46 +4,54 @@ ConnectionDashboardPage = React.createClass({
 
   getMeteorData() {
     let data = {};
-    const env = this.props.currentEnvironment;
 
-    // TODO subscribe to data?
-    data.databases = env.connection.databases();
+    const connectionSlug = this.props.connection;
+    const handle = Meteor.subscribe('databases', connectionSlug);
+    if (handle.ready()) {
+      data.connection = Connections.findOne({slug: connectionSlug});
+    }
 
     return data;
   },
 
 
   render() {
-    const env = this.props.currentEnvironment;
-    const databases = this.data.databases;
+    const connection = this.data.connection;
+    if(!connection) return <Loading />;
 
-    return <div className="container">
-      <div className="bg-box m-t p-t">
-        <div className="p-x">
-          <h1 className="page-header"><i className="fa fa-bolt" /> {env.connection.name}</h1>
+    const databases = connection.databases();
+    let databasesList = databases.map((item, index) => {
+      return <DatabaseItem key={item._id} database={item} index={index} />
+    });
+
+    return <div id="connection-page">
+      <div className="container">
+        <div className="m-t-lg m-b text-center color-white">
+          <h1><i className="fa fa-heartbeat" /> Dr. Mongo</h1>
         </div>
-
-        {!databases ? <Loading /> : this.renderDatabases()}
+        <div className="row p-t">
+          <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
+            <div className="list box-shadow-3">
+              <div className="list-item">
+                <div className="h3">
+                  <i className={connection.getIcon()} /> {connection.name}
+                  <span className="pull-right">
+                    <a className="small" href="/">change</a>
+                  </span>
+                </div>
+              </div>
+              {connection ? databasesList : <Loading />}
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  },
-
-  renderDatabases() {
-    return <table className="table table-hover">
-      <tbody>
-        {this.data.databases.map((item, index) => {
-          return <DatabaseItem key={item._id} database={item} index={index} />
-        })}
-      </tbody>
-    </table>
   }
 });
 
 
 DatabaseItem = ({database, index}) => (
-  <tr>
-    <td>
-      {index+1}. <a href={RouterUtils.pathForDatabaseDashboard(database)}>{database.name}</a>
-    </td>
-  </tr>
+  <div className="list-item">
+    <a href={RouterUtils.pathForDatabaseDashboard(database)}>{database.name}</a>
+  </div>
 );
