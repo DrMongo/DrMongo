@@ -3,3 +3,8 @@ mongodump -h 127.0.0.1:3041 -d meteor -o meteor
 
 // Import on server
 mongorestore --host 192.168.4.62:27017 --db dummy-data --drop dummy-data
+
+
+cd /var/www/drmongo-homepage
+forever stop drmongo-homepage
+METEOR_SETTINGS='{"public": {"analyticsSettings": {"Google Analytics" : {"trackingId": "UA-70358240-1"},"Segment.io": {"apiKey": "EuvtmQ0a89XuXVsCl7eqyT4lQxPyDKtJ"}}}}' PORT=3010 ROOT_URL=http://www.drmongo.com MONGO_URL=mongodb://192.168.4.62:27017/drmongo-demo MONGO_OPLOG_URL=mongodb://192.168.4.62:27017/local LC_ALL="en_GB.UTF-8" forever -a --uid "drmongo-homepage" start bundle/main.js
