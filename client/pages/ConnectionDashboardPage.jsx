@@ -17,10 +17,14 @@ ConnectionDashboardPage = React.createClass({
     const env = this.props.currentEnvironment;
     const databases = this.data.databases;
 
-    return <div className="container bg-box m-t-md p-t">
-      <h1 className="page-header"><i className="fa fa-bolt" /> {env.connection.name}</h1>
+    return <div className="container">
+      <div className="bg-box m-t p-t">
+        <div className="p-x">
+          <h1 className="page-header"><i className="fa fa-bolt" /> {env.connection.name}</h1>
+        </div>
 
-      {!databases ? <Loading /> : this.renderDatabases()}
+        {!databases ? <Loading /> : this.renderDatabases()}
+      </div>
     </div>
   },
 
@@ -40,9 +44,6 @@ DatabaseItem = ({database, index}) => (
   <tr>
     <td>
       {index+1}. <a href={RouterUtils.pathForDatabaseDashboard(database)}>{database.name}</a>
-    </td>
-    <td>
-     <a className="theme-color btn btn-success btn-xs m-r pull-right" role="button" href={RouterUtils.pathForDatabaseDashboard(database)}>View collections</a>
     </td>
   </tr>
 );

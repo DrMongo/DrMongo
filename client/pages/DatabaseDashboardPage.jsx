@@ -34,16 +34,20 @@ DatabaseDashboardPage = React.createClass({
       return <a className={className} key={name} href="#" onClick={this.handleChangeTheme.bind(null, name)}><i className="fa fa-database db-theme-inverted"/></a>
     });
 
-    return <div className="container bg-box m-t-md p-t">
-      <div className="pull-right database-colors">{themes}</div>
-      <h1 className="page-header"><i className="fa fa-database" /> {env.database.name}</h1>
+    return <div className="container">
+      <div className="bg-box m-t p-t">
+        <div className="p-x">
+          <div className="pull-right database-colors">{themes}</div>
+          <h1 className="page-header"><i className="fa fa-database" /> {env.database.name}</h1>
+        </div>
 
-      {!collections ? <Loading /> : this.renderCollections()}
+        {!collections ? <Loading /> : this.renderCollections()}
+      </div>
     </div>
   },
 
   renderCollections() {
-    return <table className="collections-table table">
+    return <table className="table table-hover">
       <tbody>
         {this.data.collections.map((item, index) => {
           return <CollectionItem key={item._id} collection={item} index={index} />
