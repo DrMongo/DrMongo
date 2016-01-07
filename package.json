@@ -1,0 +1,23 @@
+{
+  "name": "DrMongo",
+  "version": "0.4.5",
+  "description": "Open-source MongoDB admin app build on MeteorJs.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DrMongo/DrMongo"
+  },
+  "keywords": [
+    "mongodb",
+    "meteorJS",
+    "reactJS"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrMongo/DrMongo/issues"
+  },
+  "homepage": "http://www.drmongo.com/"
+}

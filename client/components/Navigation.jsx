@@ -46,9 +46,7 @@ Navigation = React.createClass({
           <span className="icon-bar" />
           <span className="icon-bar" />
         </button>
-        <a className="navbar-brand" href="/" title="Home / Connections">
-          <i className="fa fa-heartbeat" /> Dr. Mongo
-        </a>
+        <Navigation.Logo />
       </div>
       <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul className="nav navbar-nav">
@@ -95,6 +93,39 @@ Navigation = React.createClass({
         RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
       }
     });
+  }
+});
+
+
+// -----------------------------------------------------------------------------
+// -----------------------------------------------------------------------------
+
+
+Navigation.Logo = React.createClass({
+
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
+    let data = {};
+
+    data.version = DrmVersion.findDocument();
+
+    return data;
+  },
+
+
+
+  render() {
+    let newVersion;
+    if(this.data.version && this.data.version.newVersionAvailable) {
+      newVersion = <span className="new-version-available" />
+    }
+
+    return (
+      <a className="navbar-brand" href="/" title="Home / Connections">
+        <i className="fa fa-heartbeat" /> Dr. Mongo{newVersion}
+      </a>
+    )
   }
 });
 

@@ -10,3 +10,11 @@ Migrations.add({
     });
   }
 });
+
+Migrations.add({
+  version: 2,
+  name: 'DRM version collection init',
+  up: function() {
+    DrmVersion.collection.insert({name: DrmVersion.documentName})
+  }
+});

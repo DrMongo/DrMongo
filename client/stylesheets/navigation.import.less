@@ -1,0 +1,14 @@
+.new-version-available {
+  border-radius: 50%;
+  width: 7px;
+  height: 7px;
+  background: #F7FF00;
+  -webkit-box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.5);
+  animation: pulse 3s infinite;
+  position: absolute;
+}
+
+@keyframes pulse {
+  50% { background-color: darken(#F7FF00, 8) }
+}

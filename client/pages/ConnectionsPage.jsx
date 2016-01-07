@@ -19,7 +19,8 @@ ConnectionsPage = React.createClass({
         </div>
         <div className="row p-t">
           <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
-            <div className="connections-list list">
+            <ConnectionsPage.NewVersionMessage />
+            <div className="list box-shadow-3">
               {this.data.connections ? this.renderConnections() : <Loading />}
               <AddConnectionBlock />
             </div>
@@ -35,6 +36,33 @@ ConnectionsPage = React.createClass({
     })
   }
 
+});
+
+ConnectionsPage.NewVersionMessage = React.createClass({
+
+  mixins: [ReactMeteorData],
+
+  getMeteorData() {
+    let data = {};
+
+    data.version = DrmVersion.findDocument();
+
+    return data;
+  },
+
+
+  render() {
+    if(this.data.version && this.data.version.newVersionAvailable) {
+      return (
+        <div className="alert alert-warning box-shadow-4">
+          <span>New version of Dr. Mongo is available! </span>
+          <a href="https://github.com/DrMongo/DrMongo/blob/master/README.md#update" target="_blank">read more</a>
+        </div>
+      );
+    } else {
+      return null;
+    }
+  }
 });
 
 
