@@ -79,7 +79,6 @@ TreeView = React.createClass({
       return <h2 className="text-center p-t-md p-b-md">No results.</h2>;
     } else {
       results = documents.map(item => {
-        log(item.keyValue);
         return <TreeView.Document key={item.keyValue} document={item} env={this.props.env} refreshDocuments={this.handleRefreshDocuments} />
       });
     }
@@ -119,13 +118,9 @@ TreeView.Document = React.createClass({
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
     const children = TreeViewUtils.getChildren(document);
 
-    const pinnedColumns = [];
-    let key = 0;
-
+    let pinnedColumns;
     if (document.pinnedColumns) {
-      document.pinnedColumns.map(item => {
-        pinnedColumns.push({key: key++, value: item});
-      });
+      pinnedColumns = document.pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>));
     }
 
     const editProps = {
@@ -139,7 +134,7 @@ TreeView.Document = React.createClass({
         <td className="cell key">
           <span className="drm-index">{document.drMongoIndex}.</span> {document.keyValue} <small>{document.formattedValue}</small>
         </td>
-        {pinnedColumns.map(item => (<td className="cell pinned" key={item.key}>{item.value}</td>))}
+        {pinnedColumns}
         <td className="cell actions text-right">
           <EditDocument.Modal className="btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
           <button className="btn btn-warning btn-soft btn-xs" title="Duplicate document"
