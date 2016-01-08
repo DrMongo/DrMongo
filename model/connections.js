@@ -1,4 +1,4 @@
-Connections = new Mongo.Collection(dr.collectionNamePrefix + 'connections');
+Connections = new Mongo.Collection(DRM.collectionNamePrefix + 'connections');
 
 
 Connections.clearAllRelations = (doc) => {

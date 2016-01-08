@@ -147,7 +147,7 @@ Meteor.methods({
 
     var index = options.skip + 1;
     docs.map(item => {
-      item[dr.documentIndex] = index++;
+      item[DRM.documentIndex] = index++;
     });
 
     db.close();

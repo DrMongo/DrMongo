@@ -1,6 +1,6 @@
 DrmVersion = {};
 
-DrmVersion.collection = new Mongo.Collection(dr.collectionNamePrefix + 'version');
+DrmVersion.collection = new Mongo.Collection(DRM.collectionNamePrefix + 'version');
 DrmVersion.documentName = 'version';
 
 DrmVersion.findDocument = () => {

@@ -1,5 +1,5 @@
 Migrations.config({
-  collectionName: dr.collectionNamePrefix + 'migrations'
+  collectionName: DRM.collectionNamePrefix + 'migrations'
 });
 
 Meteor.startup(function() {
