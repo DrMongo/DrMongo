@@ -1,4 +1,4 @@
-DefaultReactLayout = React.createClass({
+DefaultLayout = React.createClass({
 
   mixins: [ReactMeteorData],
 

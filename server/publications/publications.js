@@ -1,35 +1,20 @@
-//Meteor.publish(null, () => {
-//
-//  console.log(Collections);
-//  _.each(Collections, (value, key) => {
-//    console.log(key);
-//    Counts.publish(this, key + '_count', value.find({}), { noReady: true });
-//  });
-//  return [];
-//});
-
-Meteor.publish('connectionStructure', () => {
-  return [
-    Connections.find({}),
-    Databases.find({}),
-    Collections.find({}),
-    FilterHistory.find({})
-  ];
+Meteor.publish(null, () => {
+  return Connections.find();
 });
-
 
 Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   check(connectionSlug, Match.OneOf(String, null));
   check(databaseName, Match.OneOf(String, null));
   check(collectionName, Match.OneOf(String, null));
 
+  log(connectionSlug, databaseName, collectionName);
   let connectionsSelector = null;
   let databasesSelector = null;
   let collectionsSelector = null;
 
   let connection, database, collection;
   if (connectionSlug) {
-    connection = Databases.findOne({slug: connectionSlug});
+    connection = Connections.findOne({slug: connectionSlug});
     if(connection) {
       connectionsSelector = {_id: connectionSlug};
 

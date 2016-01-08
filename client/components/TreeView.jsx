@@ -45,7 +45,7 @@ TreeView = React.createClass({
       const formattedRows = [];
 
       result.docs.map(row => {
-        let info = TreeViewUtils.getRowInfo(stringifyMongoId(row._id), row, 0, '');
+        let info = TreeViewUtils.getRowInfo(stringifyMongoId(row._id), row, 0, '', collection);
         formattedRows.push(info);
       });
 
@@ -116,7 +116,7 @@ TreeView.Document = React.createClass({
     const document = this.props.document;
 
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
-    const children = TreeViewUtils.getChildren(document);
+    const children = TreeViewUtils.getChildren(document, this.props.env.collection);
 
     let pinnedColumns;
     if (document.pinnedColumns) {
@@ -213,7 +213,7 @@ TreeView.DocumentRow = React.createClass({
       'toggle-children': info.hasChildren
     }, info.fieldClass);
 
-    const children = TreeViewUtils.getChildren(info);
+    const children = TreeViewUtils.getChildren(info, this.props.env.collection);
 
     let pinButton;
     if(!info.hasChildren) {
@@ -304,7 +304,7 @@ TreeView.DocumentRow = React.createClass({
       if (c) {
         let filterId = FilterHistory.insert({
           createdAt: new Date(),
-          collection_id: CurrentSession.collection._id,
+          collection_id: c._id,
           name: null,
           filter: id
         });

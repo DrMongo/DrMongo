@@ -64,5 +64,8 @@ drmongo:mongo-helpers
 drmongo:icons
 
 
+# Debug
+# msavin:mongol
+
 
 

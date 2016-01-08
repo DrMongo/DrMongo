@@ -172,7 +172,7 @@ DocumentsResult = React.createClass({
   render() {
     return <div>
       <div className="container">
-        <div className="bg-box m-t-sm">
+        <div className="bg-box m-t-sm m-b">
           <TreeView env={this.props.env}
                     filter={this.props.filter}
                     currentPage={this.props.page}

@@ -1,6 +1,6 @@
 TreeViewUtils = {};
 
-TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
+TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
   let type = typeof value;
 
   let info = {
@@ -45,7 +45,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
     info['formattedValue'] = value ? 'true' : 'false';
     info['labelText'] = 'TF';
   } else if (_.isDate(value)) {
-    info['formattedValue'] = moment(value).format(Settings.dateFormat);
+    info['formattedValue'] = moment(value).format(DRM.dateFormat);
     info['fieldClass'] = 'date';
     info['labelText'] = <i className="fa fa-calendar" />;
   } else if (_.isArray(value)) {
@@ -61,15 +61,15 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
   }
 
   if (!info['hasChildren']) {
-    info['isPinned'] = _.contains(CurrentSession.collection.pinnedColumns, fullPath)
+    info['isPinned'] = _.contains(collection.pinnedColumns, fullPath)
   }
 
   info.fieldClass = 'field-' + info.fieldClass;
 
   if (level == 0) {
     let pinnedColumns = [];
-    if (CurrentSession.collection.pinnedColumnsFormatted && CurrentSession.collection.pinnedColumnsFormatted.length > 0) {
-      _.each(CurrentSession.collection.pinnedColumnsFormatted, (column) => {
+    if (collection.pinnedColumnsFormatted && collection.pinnedColumnsFormatted.length > 0) {
+      _.each(collection.pinnedColumnsFormatted, (column) => {
         try {
           // todo remove eval
           let t = eval('(value.' + column + ')');
@@ -96,7 +96,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath) => {
   return info;
 };
 
-TreeViewUtils.getChildren = (info) => {
+TreeViewUtils.getChildren = (info, collection) => {
   if (!info.hasChildren) return null;
   const value = info.value;
 
@@ -119,7 +119,7 @@ TreeViewUtils.getChildren = (info) => {
 
   let children = [];
   _.each(fields, (v) => {
-    children.push(TreeViewUtils.getRowInfo(v.key, v.value, info.level + 1, info.fullPath + '.' + v.key));
+    children.push(TreeViewUtils.getRowInfo(v.key, v.value, info.level + 1, info.fullPath + '.' + v.key, collection));
   });
 
   return children;

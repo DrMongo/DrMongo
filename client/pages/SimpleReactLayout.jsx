@@ -1,3 +1,3 @@
-SimpleReactLayout = ({content}) => (
+SimpleLayout = ({content}) => (
   <div id="simple-layout">{content}</div>
 );
