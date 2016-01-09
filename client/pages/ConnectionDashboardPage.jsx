@@ -50,8 +50,11 @@ ConnectionDashboardPage = React.createClass({
 });
 
 
-DatabaseItem = ({database, index}) => (
-  <div className="list-item">
-    <a href={RouterUtils.pathForDatabaseDashboard(database)}>{database.name}</a>
+DatabaseItem = ({database, index}) => {
+  const iconClass = 'list-item db-theme-' + database.getTheme();
+
+  return <div className={iconClass}>
+    <i className="fa fa-database db-theme-inverted" />
+    <a className="m-l" href={RouterUtils.pathForDatabaseDashboard(database)}>{database.name}</a>
   </div>
-);
+};

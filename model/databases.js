@@ -1,6 +1,10 @@
 Databases = new Mongo.Collection(DRM.collectionNamePrefix + 'databases');
 
 Databases.helpers({
+  getTheme() {
+    return this.theme ? this.theme : 'default';
+  },
+
   connection() {
     return Connections.findOne(this.connection_id);
   },
