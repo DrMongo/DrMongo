@@ -73,12 +73,11 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
         try {
           // todo remove eval
           let t = eval('(value.' + column + ')');
+          if(typeof t == 'undefined') t = '';
           pinnedColumns.push(`${t}`); // ensure string format
+        } catch (error) {
+          pinnedColumns.push('');
         }
-        catch (error) {
-          // do nothing
-        }
-
       })
     } else {
       pinnedColumns.push(value.name);
