@@ -72,7 +72,7 @@ ConnectionBlock = ({connection}) => {
 
   return <div className="list-item">
     <i className={connection.getIcon()} />
-    <a className="m-l" href={RouterUtils.pathForMainDatabase(connection)}>{connection.name}</a>
+    <a className="m-l" href={RouterUtils.pathForDefaultDatabase(connection)}>{connection.name}</a>
     <EditConnection.Modal className="small pull-right" icon="fa fa-pencil" editProps={editProps} />
   </div>
 };
@@ -92,7 +92,7 @@ AddConnectionBlock = React.createClass({
   handleSave(connectionId) {
     const connection = Connections.findOne(connectionId);
 
-    RouterUtils.redirect(RouterUtils.pathForMainDatabase(connection));
+    RouterUtils.redirect(RouterUtils.pathForDefaultDatabase(connection));
   }
 
 });
