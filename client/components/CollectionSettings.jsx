@@ -8,24 +8,29 @@ CollectionSettings = React.createClass({
           rawStats: JSON.stringify(stats, null, 2)
         });
       }
-    })
+    });
 
     return { };
   },
 
 
   handleDropAllDocuments() {
-    if (!confirm('Drop ALL documents in ' + this.props.collection.name + '?')) return false;
-
     Meteor.call('dropAllDocuments', this.props.collection._id, (error, stats) => {
-      // refreshDocuments();
+      if(error) {
+        sAlert.error('Error, sry :/');
+        log(error);
+      } else {
+        sAlert.success('Collection dropped');
+        // @TODO refresh documents
+      }
+      this.props.onCollectionDroped();
     });
   },
 
   render() {
     return <div>
       <h4>Actions</h4>
-      <button className="btn btn-danger" onClick={this.handleDropAllDocuments}>Drop all documents...</button>
+      <ConfirmButton className="btn btn-danger btn-inverted" type="button" text="Drop all documents" confirmText="Confirm: Drop all documents" onConfirm={this.handleDropAllDocuments} />
       <h4>Stats</h4>
       <pre>{this.state.rawStats}</pre>
     </div>
@@ -50,7 +55,7 @@ CollectionSettings.Modal = React.createClass({
           <Modal.Title>{this.props.collection.name} - Settings</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <CollectionSettings collection={this.props.collection}/>
+          <CollectionSettings collection={this.props.collection} onCollectionDroped={this.handleClose} />
         </Modal.Body>
         <Modal.Footer>
           <button className="btn btn-default" onClick={this.handleClose}>Close</button>
