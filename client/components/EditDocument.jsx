@@ -44,7 +44,6 @@ EditDocument = React.createClass({
     const documentData = this.props.document.value;
     Meteor.call('updateDocument', this.props.collection._id, documentData._id, data, (error, result) => {
       this.props.onSave();
-      // @TODO re-render new data
     });
   }
 });
