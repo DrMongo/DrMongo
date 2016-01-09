@@ -12,6 +12,16 @@ DatabaseDashboardPage = React.createClass({
     return data;
   },
 
+  componentDidMount() {
+    Meteor.call('stats.fetchCollectionsStats', this.props.currentEnvironment.databaseId, (error, result) => {
+      if(error) {
+        log(error);
+      } else {
+        // done
+      }
+    });
+  },
+
 
   render() {
     const env = this.props.currentEnvironment;
@@ -37,7 +47,7 @@ DatabaseDashboardPage = React.createClass({
     return <div className="container">
       <div className="bg-box m-t p-t">
         <div className="p-x">
-          <div className="pull-right database-colors">{themes}</div>
+          <div className="pull-right database-colors db-theme-shadow-box">{themes}</div>
           <h1 className="page-header"><i className="fa fa-database" /> {env.database.name}</h1>
         </div>
 
@@ -48,6 +58,15 @@ DatabaseDashboardPage = React.createClass({
 
   renderCollections() {
     return <table className="table table-hover">
+      <thead>
+        <tr>
+          <td />
+          <td>Documents</td>
+          <td>Indexes</td>
+          <td>Size</td>
+          <td />
+        </tr>
+      </thead>
       <tbody>
         {this.data.collections.map((item, index) => {
           return <CollectionItem key={item._id} collection={item} index={index} />
@@ -64,13 +83,21 @@ DatabaseDashboardPage = React.createClass({
 });
 
 
-CollectionItem = ({collection, index}) => (
-  <tr>
+CollectionItem = ({collection, index}) => {
+  const stats = collection.stats || {};
+
+  return <tr>
     <td>
-      {index+1}. <a href={RouterUtils.pathForDocuments(collection)}>{collection.name}</a>
+      {index + 1}. <a
+      href={RouterUtils.pathForDocuments(collection)}>{collection.name}</a>
     </td>
+    <td>{stats.documentsCount}</td>
+    <td>{stats.indexes ? stats.indexes.length : null}</td>
+    <td>{_.isNumber(stats.size) ? filesize(stats.size) : null}</td>
     <td>
-     <CollectionSettings.Modal className="btn btn-warning btn-xs btn-soft pull-right" icon="fa fa-cog" text=" Settings" collection={collection} />
+      <CollectionSettings.Modal
+        className="btn btn-warning btn-xs btn-soft pull-right" icon="fa fa-cog"
+        text=" Settings" collection={collection}/>
     </td>
   </tr>
-);
+};

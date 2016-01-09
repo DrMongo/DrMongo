@@ -157,9 +157,9 @@ NavigationDatabasesDropdown = ({selected, items}) => (
       {selected}
       <span className="caret" />
     </a>
-    <ul className="dropdown-menu">
+    <ul className="dropdown-menu db-theme-shadow-box">
       {items.map((item) => {
-        const dbTheme = 'db-theme-' + item.theme + ' db-theme-inverted';
+        const dbTheme = 'db-theme-' + item.getTheme() + ' db-theme-inverted';
         return <li key={item._id}>
           <a className={dbTheme} href={RouterUtils.pathForDatabaseDashboard(item)}>{item.name}</a>
         </li>

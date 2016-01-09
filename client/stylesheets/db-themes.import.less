@@ -7,7 +7,7 @@
       color: @color !important;
     }
 
-    .db-theme-inverted {
+    &.db-theme-inverted, .db-theme-inverted {
       color: @bg-color !important;
       background-color: inherit;
     }
@@ -99,9 +99,9 @@
     }
   }
 
-  .database-colors > .db-theme-@{theme} > .db-theme-inverted {
+  .db-theme-shadow-box .db-theme-@{theme} > .db-theme-inverted,
+  .db-theme-shadow-box .db-theme-@{theme}.db-theme-inverted {
     color: @bg-color !important;
-    background-color: inherit;
   }
 }
 
