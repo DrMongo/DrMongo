@@ -6,8 +6,11 @@ ConnectionsPage = React.createClass({
     let data = {};
 
     data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
-
     return data;
+  },
+
+  getInitialState: function() {
+    return {settings: DRM.settings};
   },
 
   render() {
@@ -25,6 +28,24 @@ ConnectionsPage = React.createClass({
             </div>
           </div>
         </div>
+
+        <div className="row p-t">
+          <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
+            <div className="list box-shadow-3">
+              <div className="list-item text-center">
+                <i className="fa fa-cog m-r" />
+                Global Settings
+              </div>
+              <div className="list-item text-center">
+                <input type="checkbox" value="1" name="open-first-document" id="open-first-document" checked={this.state.settings.openFirstDocument} onChange={this.handleOpenFirstDocument} className="m-r"/> Automtically expand first document
+              </div>
+              <div className="list-item text-center">
+                Number of documents per page:
+                <input type="text" value={this.state.settings.documentsPerPage} name="documents-per-page" id="documents-per-page" onChange={this.handleDocumentsPerPage} className="m-l"/> 
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   },
@@ -33,6 +54,26 @@ ConnectionsPage = React.createClass({
     return this.data.connections.map((item) => {
       return <ConnectionBlock key={item._id} connection={item} />
     })
+  },
+
+  handleOpenFirstDocument(event) {
+    let status = $(event.currentTarget).is(':checked');
+
+    DRM.settings.openFirstDocument = status;
+
+    let currentState = this.state;
+    currentState.settings.openFirstDocument = status;
+    this.setState(currentState);
+  }, 
+
+  handleDocumentsPerPage(event) {
+    let status = $(event.currentTarget).val();
+
+    DRM.settings.documentsPerPage = parseInt(status);
+
+    let currentState = this.state;
+    currentState.settings.documentsPerPage = parseInt(status);
+    this.setState(currentState);
   }
 
 });

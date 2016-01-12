@@ -57,7 +57,12 @@ TreeView = React.createClass({
   },
 
   componentDidMount() {
-    // @TODO auto open first row
+    if (DRM.settings.openFirstDocument == true) {
+      Meteor.setTimeout(function() {
+        log('tu som')
+        $('table.tree-view tbody tr:eq(0)').trigger('click');
+      }, 100);
+    }
   },
 
   render() {
