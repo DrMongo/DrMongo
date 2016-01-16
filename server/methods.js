@@ -97,7 +97,8 @@ Meteor.methods({
     let db = connectDatabase(collectionInfo.database_id);
     let collection = db.collection(collectionInfo.name);
 
-    collectionInfo.paginationLimit = collectionInfo.paginationLimit || 20;
+    let settings = new CurrentSettings();
+    collectionInfo.paginationLimit = parseInt(collectionInfo.paginationLimit || settings.global.documentsPerPage);
 
     if (resemblesId(filter)) {
       var selector = {_id: filter};

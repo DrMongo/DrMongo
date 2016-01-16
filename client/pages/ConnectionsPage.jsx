@@ -10,7 +10,8 @@ ConnectionsPage = React.createClass({
   },
 
   getInitialState: function() {
-    return {settings: DRM.settings};
+    this.currentSettings = new CurrentSettings();
+    return {settings: this.currentSettings.global};
   },
 
   render() {
@@ -59,7 +60,7 @@ ConnectionsPage = React.createClass({
   handleOpenFirstDocument(event) {
     let status = $(event.currentTarget).is(':checked');
 
-    DRM.settings.openFirstDocument = status;
+    this.currentSettings.setGlobal('openFirstDocument', status);
 
     let currentState = this.state;
     currentState.settings.openFirstDocument = status;
@@ -69,7 +70,7 @@ ConnectionsPage = React.createClass({
   handleDocumentsPerPage(event) {
     let status = $(event.currentTarget).val();
 
-    DRM.settings.documentsPerPage = parseInt(status);
+    this.currentSettings.setGlobal('documentsPerPage', parseInt(status));
 
     let currentState = this.state;
     currentState.settings.documentsPerPage = parseInt(status);

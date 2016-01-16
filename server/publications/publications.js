@@ -1,5 +1,8 @@
 Meteor.publish(null, () => {
-  return Connections.find();
+  return [
+    Connections.find(),
+    Settings.find()
+  ];
 });
 
 Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {

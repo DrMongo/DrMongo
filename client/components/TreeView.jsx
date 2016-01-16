@@ -326,8 +326,9 @@ TreeView.DocumentRow = React.createClass({
 TreeView.Pagination = React.createClass({
 
   getDefaultProps() {
+    let s = new CurrentSettings();
     return {
-      pageLimit: 20,
+      pageLimit: s.global.documentsPerPage,
       currentPage: 1
     }
   },
