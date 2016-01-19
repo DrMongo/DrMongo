@@ -30,6 +30,7 @@ Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   const publish = [];
   publish.push(Settings.find());
   publish.push(Connections.find());
+  publish.push(FilterHistory.find());
 
   if(databasesSelector) publish.push(Databases.find(databasesSelector));
   if(collectionsSelector) publish.push(Collections.find(collectionsSelector));
@@ -60,13 +61,6 @@ Meteor.publish('navigationData', (connectionId, databaseId) => {
 
   return publish;
 });
-
-Meteor.publish('filterHistory', function(filterId) {
-  check(filterId, String);
-
-  return FilterHistory.find(filterId);
-});
-
 
 Meteor.publish('databases', function(connectionSlug) {
   check(connectionSlug, String);

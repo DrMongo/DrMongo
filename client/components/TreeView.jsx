@@ -14,7 +14,6 @@ TreeView = React.createClass({
 
 
   getInitialState() {
-    log(this.props)
     return {
       documents: null,
       totalCount: null

@@ -20,13 +20,16 @@ DocumentsPage = React.createClass({
     };
 
     const filterId = this.props.filter;
-    if(filterId) {
-      const handle = Meteor.subscribe('filterHistory', filterId);
-      if(handle.ready()) {
-        const filter = FilterHistory.findOne(filterId);
+
+    if(this.props.filter) {
+      var filter = FilterHistory.findOne(filterId);
+    } else {
+      var filter = null;
+    }
+
+    if (filter) {
         data.filter = filter.filter || null;
         data.filterReady = true;
-      }
     } else {
       data.filter = null;
       data.filterReady = true;

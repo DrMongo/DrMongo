@@ -168,20 +168,23 @@ NavigationDatabasesDropdown = ({selected, items}) => (
   </li>
 );
 
-NavigationCollectionsDropdown = ({selected, items}) => (
-  <li className="dropdown">
+
+NavigationCollectionsDropdown = React.createClass({
+
+  render() {
+    return <li className="dropdown">
     <a href="#" className="dropdown-toggle" data-toggle="dropdown"
        role="button" aria-haspopup="true"
        aria-expanded="false" title="Select collection">
-      {selected}
+      {this.props.selected}
       <span className="caret" />
     </a>
     <ul className="dropdown-menu collection-dropdown">
 
-      {items.map((collection) => {
+      {this.props.items.map((collection) => {
         // const collectionIcon = collection.icon() + ' after';
 
-        let savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+        var savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
 
         if (savedFilters.length > 0) {
           var submenu = <ul className="dropdown-menu">
@@ -205,4 +208,5 @@ NavigationCollectionsDropdown = ({selected, items}) => (
       <li><a className="add-collection" href="#"><i className="fa fa-plus" /> Create collection @TODO</a></li>
     </ul>
   </li>
-);
+  }
+});
