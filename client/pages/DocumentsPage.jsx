@@ -35,14 +35,17 @@ DocumentsPage = React.createClass({
       data.filterReady = true;
     }
 
+    const env = this.props.currentEnvironment;
+    const collection = env.collection;
+
+    data.savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+
     return data;
   },
 
   render() {
     const env = this.props.currentEnvironment;
     const collection = env.collection;
-
-    let savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
 
     let currentSettings = new CurrentSettings();
 
@@ -56,27 +59,6 @@ DocumentsPage = React.createClass({
     return <div>
       <div className="db-theme">
         <div className="container">
-          <div className="pull-right right-actions">
-            <span className="dropdown" title="Saved views">
-              <button type="button" className="theme-color btn btn-inverted btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i className="fa fa-star" /> <span className="caret" />
-              </button>
-              <ul className="dropdown-menu pull-right" id="saved-filters">
-                <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
-                <li role="separator" className="divider" />
-                {savedFilters.map((item) => {
-                  return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name} <i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></a></li>
-                })}
-              </ul>
-            </span>
-            <button className="theme-color btn btn-sm btn-inverted pull-right" title="Clear filter" onClick={this.handleReset}>
-              <i className="fa fa-ban" />
-            </button>
-            <button className="theme-color btn btn-sm btn-inverted pull-right" title="Reload documents" onClick={this.handleReload}>
-              <i className="fa fa-refresh" />
-            </button>
-          </div>
-
           <h1 className="m-b pull-left">
             {collection.name}
           </h1>
@@ -89,6 +71,7 @@ DocumentsPage = React.createClass({
 
           {this.data.filterReady
             ? <DocumentsFilter collection={collection}
+                                savedFilters={this.data.savedFilters}
                                filter={this.data.filter}/>
             : <Loading />
           }
@@ -109,6 +92,76 @@ DocumentsPage = React.createClass({
 
   handlePageChange(page) {
     RouterUtils.setQueryParams({page: page});
+  },
+});
+
+
+DocumentsFilter = React.createClass({
+  getInitialState: function() {
+    return {filter: this.props.filter};
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({filter: nextProps.filter});
+  },
+
+  render() {
+    const collection = this.props.collection;
+    return <div>
+      <Formsy.Form className="documents-filter db-theme-form" onSubmit={this.handleSubmit}>
+        <div className="row">
+          <div className="col-xs-12">
+            <div className="form-group">
+              <div className="input-group">
+                <div className="input-group-addon">{collection.name}.find(</div>
+                <MyInput className="form-control" name="filter" value={this.state.filter} type="text" autoComplete="off" />
+                <div className="input-group-addon">);</div>
+                <div className="input-group-addon">
+                  <span className="dropdown" title="Saved views">
+                    <a className="theme-color btn btn-inverted btn-sm dropdown-toggle right-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                      <i className="fa fa-star" /> <span className="caret" />
+                    </a>
+                    <ul className="dropdown-menu pull-right" id="saved-filters">
+                      <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
+                      <li role="separator" className="divider" />
+                      {this.props.savedFilters.map((item) => {
+                        return <li><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name} <i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></a></li>
+                      })}
+                    </ul>
+                  </span>
+
+                </div>
+                <div className="input-group-addon">
+                  <a className="theme-color btn btn-sm btn-inverted pull-right right-action" title="Clear filter" onClick={this.handleReset}>
+                    <i className="fa fa-ban" />
+                  </a>
+                </div>
+                <div className="input-group-addon">
+                  <a className="theme-color btn btn-sm btn-inverted pull-right right-action" title="Reload documents" onClick={this.handleReload}>
+                    <i className="fa fa-refresh" />
+                  </a>
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+        <input className="hidden" type="submit" value="submit" />
+      </Formsy.Form>
+    </div>
+  },
+
+  handleSubmit(values) {
+    const collection = this.props.collection;
+    const filterId = FilterHistory.insert({
+      createdAt: new Date(),
+      collection_id: collection._id,
+      name: null,
+      filter: values.filter
+    });
+
+    RouterUtils.redirect(RouterUtils.pathForDocuments(collection, filterId))
   },
 
   handleReload(event) {
@@ -140,49 +193,6 @@ DocumentsPage = React.createClass({
     FilterHistory.update(filterId, {$set: {name: null}});
   },
 
-});
-
-
-DocumentsFilter = React.createClass({
-  getInitialState: function() {
-    return {filter: this.props.filter};
-  },
-
-  componentWillReceiveProps(nextProps) {
-    this.setState({filter: nextProps.filter});
-  },
-
-  render() {
-    const collection = this.props.collection;
-    return <div>
-      <Formsy.Form className="documents-filter db-theme-form" onSubmit={this.handleSubmit}>
-        <div className="row">
-          <div className="col-xs-12">
-            <div className="form-group">
-              <div className="input-group">
-                <div className="input-group-addon">{collection.name}.find(</div>
-                <MyInput className="form-control" name="filter" value={this.state.filter} type="text" autoComplete="off" />
-                <div className="input-group-addon">);</div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <input className="hidden" type="submit" value="submit" />
-      </Formsy.Form>
-    </div>
-  },
-
-  handleSubmit(values) {
-    const collection = this.props.collection;
-    const filterId = FilterHistory.insert({
-      createdAt: new Date(),
-      collection_id: collection._id,
-      name: null,
-      filter: values.filter
-    });
-
-    RouterUtils.redirect(RouterUtils.pathForDocuments(collection, filterId))
-  }
 
 });
 
