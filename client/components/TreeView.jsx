@@ -94,7 +94,7 @@ TreeView = React.createClass({
         {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>))}
         <td>
           <div className="pull-right">
-            <span className="m-r-sm">{this.state.totalCount}x</span>
+            <small className="m-r-sm">{this.state.totalCount}x</small>
             <TreeView.Pagination pageLimit={this.props.paginationLimit}
                                  totalCount={this.state.totalCount}
                                  currentPage={this.props.currentPage}
