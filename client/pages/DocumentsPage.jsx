@@ -31,7 +31,7 @@ DocumentsPage = React.createClass({
         data.filter = filter.filter || null;
         data.filterReady = true;
     } else {
-      data.filter = null;
+      data.filter = '{ }';
       data.filterReady = true;
     }
 
@@ -187,8 +187,6 @@ DocumentsFilter = React.createClass({
 });
 
 DocumentsResult = React.createClass({
-
-
   render() {
     return <div>
       <div className="container">
