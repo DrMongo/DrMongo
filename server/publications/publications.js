@@ -1,17 +1,9 @@
-Meteor.publish(null, () => {
-  return [
-    Connections.find(),
-    Settings.find()
-  ];
-});
-
 Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   check(connectionSlug, Match.OneOf(String, null));
   check(databaseName, Match.OneOf(String, null));
   check(collectionName, Match.OneOf(String, null));
 
   log(connectionSlug, databaseName, collectionName);
-  let connectionsSelector = null;
   let databasesSelector = null;
   let collectionsSelector = null;
 
@@ -19,8 +11,6 @@ Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   if (connectionSlug) {
     connection = Connections.findOne({slug: connectionSlug});
     if(connection) {
-      connectionsSelector = {_id: connectionSlug};
-
       if (databaseName) {
         database = Databases.findOne({connection_id: connection._id, name: databaseName});
         if(database) {
@@ -38,7 +28,9 @@ Meteor.publish('layoutData', (connectionSlug, databaseName, collectionName) => {
   }
 
   const publish = [];
-  if(connectionsSelector) publish.push(Connections.find(connectionsSelector));
+  publish.push(Settings.find());
+  publish.push(Connections.find());
+
   if(databasesSelector) publish.push(Databases.find(databasesSelector));
   if(collectionsSelector) publish.push(Collections.find(collectionsSelector));
 

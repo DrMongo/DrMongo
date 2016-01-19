@@ -14,6 +14,7 @@ TreeView = React.createClass({
 
 
   getInitialState() {
+    log(this.props)
     return {
       documents: null,
       totalCount: null
@@ -57,9 +58,8 @@ TreeView = React.createClass({
   },
 
   componentDidMount() {
-    if (DRM.settings.openFirstDocument == true) {
+    if (this.props.openFirstDocument == true) {
       Meteor.setTimeout(function() {
-        log('tu som')
         $('table.tree-view tbody tr:eq(0)').trigger('click');
       }, 100);
     }
@@ -96,7 +96,7 @@ TreeView = React.createClass({
         <td>
           <div className="pull-right">
             <span className="m-r-sm">{this.state.totalCount}x</span>
-            <TreeView.Pagination pageLimit={collection.paginationLimit}
+            <TreeView.Pagination pageLimit={this.props.paginationLimit}
                                  totalCount={this.state.totalCount}
                                  currentPage={this.props.currentPage}
                                  onPageChange={this.props.onPageChange} />
@@ -325,16 +325,7 @@ TreeView.DocumentRow = React.createClass({
 
 TreeView.Pagination = React.createClass({
 
-  getDefaultProps() {
-    let s = new CurrentSettings();
-    return {
-      pageLimit: s.global.documentsPerPage,
-      currentPage: 1
-    }
-  },
-
   render() {
-
     const totalCount = parseInt(this.props.totalCount);
     const currentPage = parseInt(this.props.currentPage);
     const pagesCount = Math.ceil(totalCount / parseInt(this.props.pageLimit));

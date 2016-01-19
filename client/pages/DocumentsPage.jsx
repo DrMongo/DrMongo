@@ -2,6 +2,13 @@ DocumentsPage = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  getDefaultProps() {
+    return {
+      page: 1
+    }
+  },
+
+
   getInitialState: function() {
     return {};
   },
@@ -33,6 +40,15 @@ DocumentsPage = React.createClass({
     const collection = env.collection;
 
     let savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+
+    let currentSettings = new CurrentSettings();
+
+    if (collection.paginationLimit) {
+      var paginationLimit = collection.paginationLimit;
+    } else {
+      var paginationLimit = currentSettings.global.documentsPerPage;
+    }
+
 
     return <div>
       <div className="db-theme">
@@ -79,6 +95,7 @@ DocumentsPage = React.createClass({
       {this.data.filterReady
         ? <DocumentsResult env={env}
                            filter={this.data.filter}
+                           paginationLimit={paginationLimit}
                            page={this.props.page}
                            seed={this.state.seed}
                            onPageChange={this.handlePageChange} />
@@ -176,6 +193,7 @@ DocumentsResult = React.createClass({
           <TreeView env={this.props.env}
                     filter={this.props.filter}
                     currentPage={this.props.page}
+                    paginationLimit={this.props.paginationLimit}
                     onPageChange={this.props.onPageChange}
                     onFindById={this.handleFindById} />
         </div>

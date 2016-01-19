@@ -38,7 +38,7 @@ ConnectionsPage = React.createClass({
                 Global Settings
               </div>
               <div className="list-item text-center">
-                <input type="checkbox" value="1" name="open-first-document" id="open-first-document" checked={this.state.settings.openFirstDocument} onChange={this.handleOpenFirstDocument} className="m-r"/> Automtically expand first document
+                <input type="checkbox" value="1" name="open-first-document" id="open-first-document" checked={this.state.settings.openFirstDocument} onChange={this.handleOpenFirstDocument} className="m-r"/> Automatically expand first document
               </div>
               <div className="list-item text-center">
                 Number of documents per page:

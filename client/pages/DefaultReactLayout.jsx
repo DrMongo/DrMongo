@@ -9,6 +9,7 @@ DefaultLayout = React.createClass({
     const databaseName = FlowRouter.getParam("database");
     const collectionName = FlowRouter.getParam("collection");
     const handle = Meteor.subscribe('layoutData', connectionSlug, databaseName, collectionName);
+
     if (handle.ready()) {
       const currentEnvironment = new CurrentEnvironment(); // TODO find suitable name for 'currentEnvironment'
       if(connectionSlug) {
