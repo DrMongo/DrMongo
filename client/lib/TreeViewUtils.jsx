@@ -48,6 +48,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     info['formattedValue'] = moment(value).format(DRM.dateFormat);
     info['fieldClass'] = 'date';
     info['labelText'] = <i className="fa fa-calendar" />;
+    info['copyValue'] = info['formattedValue']
   } else if (_.isArray(value)) {
     info['formattedValue'] = '[ ' + value.length + ' items ]';
     info['fieldClass'] = 'array';

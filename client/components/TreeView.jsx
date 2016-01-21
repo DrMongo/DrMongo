@@ -271,7 +271,8 @@ TreeView.DocumentRow = React.createClass({
     event.preventDefault();
     event.nativeEvent.stopImmediatePropagation();
 
-    copyText(EJSON.stringify(this.props.info.value));
+    let copyValue = this.props.info.copyValue || EJSON.stringify(this.props.info.value)
+    copyText(copyValue);
   },
 
   handlePin(event) {
