@@ -31,7 +31,7 @@ DocumentsPage = React.createClass({
         data.filter = filter.filter || null;
         data.filterReady = true;
     } else {
-      data.filter = '{ }';
+      data.filter = '{}';
       data.filterReady = true;
     }
 
@@ -40,12 +40,15 @@ DocumentsPage = React.createClass({
 
     data.savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
 
+
     return data;
   },
 
   render() {
     const env = this.props.currentEnvironment;
     const collection = env.collection;
+
+    seo.setTitleByEnvironment(env, this.data.filter, this.props.page)
 
     let currentSettings = new CurrentSettings();
 

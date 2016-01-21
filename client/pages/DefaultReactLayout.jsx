@@ -41,7 +41,7 @@ DefaultLayout = React.createClass({
 
       data.currentEnvironment = currentEnvironment;
     }
-
+    
     return data;
   },
 
