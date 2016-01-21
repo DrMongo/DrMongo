@@ -33,7 +33,11 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     info['fieldClass'] = 'number';
     info['labelText'] = '#';
   } else if (_.isString(value)) {
-    info['formattedValue'] = s(value).prune(35).value();
+    if (value == "") {
+      info['formattedValue'] = '" "';
+    } else {
+      info['formattedValue'] = s(value).prune(35).value();
+    }
     info['isPruned'] = value.length > 35;
     info['notPrunedString'] = value;
     info['labelText'] = '\" \"';
