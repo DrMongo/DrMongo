@@ -188,8 +188,8 @@ NavigationCollectionsDropdown = React.createClass({
 
         if (savedFilters.length > 0) {
           var submenu = <ul className="dropdown-menu">
-                {savedFilters.map((filterItem) => {
-                  return <li className="menu-item"><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
+                {savedFilters.map((filterItem, index) => {
+                  return <li className="menu-item" key={index}><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
                 })}
               </ul>
         } else {
