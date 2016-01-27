@@ -22,9 +22,11 @@ ConnectionsPage = React.createClass({
               {this.data.connections ? this.renderConnections() : <Loading />}
               <AddConnectionBlock />
             </div>
+            <div className="m-t text-right">
+              <EditGlobalSettings.Modal className="color-white" icon="fa fa-cogs" />
+            </div>
           </div>
         </div>
-        <SettingsBox />
       </div>
     </div>
   },
@@ -33,7 +35,7 @@ ConnectionsPage = React.createClass({
     return this.data.connections.map((item) => {
       return <ConnectionBlock key={item._id} connection={item} />
     })
-  },
+  }
 });
 
 ConnectionsPage.NewVersionMessage = React.createClass({
