@@ -1,4 +1,4 @@
-FilterHistory = new Mongo.Collection(dr.collectionNamePrefix + 'filterHistory');
+FilterHistory = new Mongo.Collection(DRM.collectionNamePrefix + 'filterHistory');
 
 FilterHistory.after.insert(function(userId, doc) {
   FilterHistory.find({name: null}, {sort: {createdAt: -1}, skip: 100}).forEach(function(item) {

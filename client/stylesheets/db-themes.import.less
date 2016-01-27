@@ -1,35 +1,18 @@
 .db-theme(@theme, @bg-color, @color, @color1, @color2, @color3) {
 
   .db-theme-@{theme} {
-    background-color: @bg-color !important;
-    color: @color !important;
 
-    &.collection-card, &.connection-card {
-      i { color: @color3; }
-      a i {color: @color; }
-    }
-  }
-
-  .db-theme-inverted-@{theme} {
-    color: @bg-color !important;
-    background-color: inherit;
-  }
-
-  .db-head-theme-@{theme} {
-    border-radius: 0;
-    border: none;
-    background-color: @bg-color !important;
-    color: @color !important;
-
-    a.dropdown-toggle, a.navbar-brand {
+    .db-theme {
+      background-color: @bg-color !important;
       color: @color !important;
     }
 
-    &.navbar-default .navbar-nav > .open > a {
-      background-color: @color1;
+    &.db-theme-inverted, .db-theme-inverted {
+      color: @bg-color !important;
+      background-color: inherit;
     }
 
-    form {
+    .db-theme-form {
       input {
         border: none;
         color: @color;
@@ -67,13 +50,25 @@
       .input-group-addon.inactive {
         color: @color2!important;
       }
-      .input-group-addon:not(.inactive):hover {
-        background-color: @color2;
-      }
 
       .total-count {
         border: 0 solid @bg-color;
         border-width: 0 1px;
+      }
+    }
+
+    .my-navbar {
+      border-radius: 0;
+      border: none;
+      background-color: @bg-color !important;
+      color: @color !important;
+
+      a.dropdown-toggle, a.navbar-brand {
+        color: @color !important;
+      }
+
+      &.navbar-default .navbar-nav > .open > a {
+        background-color: @color1;
       }
     }
 
@@ -89,6 +84,7 @@
 
   }
 
+
   .db-theme-documents-@{theme} {
     .tree-view {
       .column-headers {
@@ -103,10 +99,13 @@
     }
   }
 
+  .db-theme-shadow-box .db-theme-@{theme} > .db-theme-inverted,
+  .db-theme-shadow-box .db-theme-@{theme}.db-theme-inverted {
+    color: @bg-color !important;
+  }
 }
 
-//.db-theme(default, #000, #f8f8f8, #888888, #575757, #282828);
-.db-theme(default, #2185D0, lighten(#2185D0, 55), lighten(#2185D0, 15), lighten(#2185D0, 30), lighten(#2185D0, 5));
+.db-theme(default, @main-color, lighten(@main-color, 55), lighten(@main-color, 15), lighten(@main-color, 30), lighten(@main-color, 5));
 
 .db-theme(dark-blue, #2c3e50, lighten(#2c3e50, 67), lighten(#2c3e50, 15), lighten(#2c3e50, 30), lighten(#2c3e50, 5));
 .db-theme(dark-teal, #27637a, #E0E7E0, #518f8e, #86a7a0, #2E748E);
@@ -119,10 +118,5 @@
 .db-theme(purple, #6435C9, lighten(#6435C9, 55), lighten(#6435C9, 15), lighten(#6435C9, 30), lighten(#6435C9, 4));
 
 
-.database-colors {
-  a, a:hover, a:focus {
-    text-decoration: none;
-  }
-}
 
 

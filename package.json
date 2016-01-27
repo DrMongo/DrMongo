@@ -1,6 +1,6 @@
 {
   "name": "DrMongo",
-  "version": "0.2.6",
+  "version": "0.4.5",
   "description": "Open-source MongoDB admin app build on MeteorJs.",
   "main": "index.js",
   "scripts": {

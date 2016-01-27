@@ -1,21 +1,33 @@
 @import "bootstrap/custom.bootstrap.import.less";
 
+@main-color: #2185D0;
+.color-white { color: #fff; }
+
 @import "helpers.import.less";
 @import "theme.import.less";
 @import "typography.import.less";
+@import "lists.import.less";
+@import "table.import.less";
 
 
+@import "navigation.import.less";
 @import "collections-dashboard.import.less";
 @import "database-dashboard.import.less";
 @import "documents.import.less";
 @import "documents-filter.import.less";
 @import "tree-view.import.less";
-@import "connection-card.import.less";
+@import "connection-page.import.less";
 @import "console.import.less";
 @import "collections-lists.import.less";
 @import "db-themes.import.less";
 @import "footer.import.less";
 
+html, body, #react-root, #simple-layout {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
 
 .my-navbar {
   border-radius: 0;
@@ -56,4 +68,22 @@
     -ms-transform: rotate(45deg);
     -o-transform: rotate(45deg);
     transform: rotate(45deg);
+}
+
+
+////////////////////////////////////////////
+.dropdown-menu>li a {
+  display: block;
+  padding: 3px 20px;
+  clear: both;
+  font-weight: 400;
+  line-height: 1.42857143;
+  color: #333;
+  white-space: nowrap;
+
+  &:hover {
+    color: #262626;
+    text-decoration: none;
+    background-color: #f5f5f5;
+  }
 }

@@ -5,11 +5,28 @@
 
   .column-headers {
     border-bottom: 2px solid black;
+
+    td { vertical-align: middle; }
   }
 
+  & tbody > tr.children td { padding: 5px 0; }
 
 
-  & > .parent:hover {background: #ddd}
+  & tbody > tr.parent:hover > td {
+    -webkit-box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 -2px 6px 0px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 3px 6px 0px rgba(0, 0, 0, 0.16), 0 -2px 6px 0px rgba(0, 0, 0, 0.16);
+  }
+  & tbody > tr.parent:hover > td { position: relative; background-color: #fff; }
+  & tbody > tr.parent:hover > td:before {
+    content: "";
+    width: 8px;
+    height: 100%;
+    background-color: #fff;
+    position: absolute;
+    left: -4px;
+    top: 0;
+    z-index: 1;
+  }
 
   .parent {
     & > .toggle-children {
@@ -45,11 +62,15 @@
   .parent:hover > .head .control-icon { color: #337ab7;}
   .parent:hover > .head .control-icon:hover { background: #ddd;}
 
-  // L A Y O U T  +  D E S I G N
+  // ---------------------------------------------------------------------------
+  // L A Y O U T  +  D E S I G N -----------------------------------------------
+  // ---------------------------------------------------------------------------
   margin: 0;
 
   border: none;
   border-radius: 3px;
+
+  tbody + tbody { border: none; } // reset BS border
 
   .document {
     border-top: 1px solid #ccc;
@@ -57,6 +78,8 @@
   .document:first-child {
     border-top: none;
   }
+
+  .document > .cell.key { width: 33.33333333%; }
 
   .parent {
     .children {
@@ -92,7 +115,7 @@
       }
     }
     &.value {
-      padding-left: 0px;
+      padding-left: 5px;
     }
     &.actions {
       padding-right: 10px;
@@ -156,9 +179,4 @@
     // background: #fff;
     // box-shadow: 0px 0px 3px gray;
   }
-}
-
-h2.no-results {
-  text-align: center;
-  padding: 15px;
 }

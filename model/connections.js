@@ -1,4 +1,4 @@
-Connections = new Mongo.Collection(dr.collectionNamePrefix + 'connections');
+Connections = new Mongo.Collection(DRM.collectionNamePrefix + 'connections');
 
 
 Connections.clearAllRelations = (doc) => {
@@ -25,7 +25,7 @@ Connections.friendlySlugs(
 
 Connections.helpers({
   databases() {
-    return Databases.find({connection_id: this._id}, {sort: {name: 1}});
+    return Databases.find({connection_id: this._id}, {sort: {name: 1}}).fetch();
   },
 
   defaultDatabase() {
@@ -39,5 +39,16 @@ Connections.helpers({
     } else {
       return Databases.findOne({connection_id: this._id}, {sort: {name: 1}});
     }
+  },
+
+  shortMongoUri() {
+    let uri = MongodbUriParser.parse(this.mongoUri);
+    delete uri.scheme;
+    delete uri.options;
+    return MongodbUriParser.format(uri);
+  },
+
+  getIcon() {
+    return 'fa fa-' + (this.icon || 'bolt');
   }
 });
