@@ -74,7 +74,8 @@ DocumentsPage = React.createClass({
 
           {this.data.filterReady
             ? <DocumentsFilter collection={collection}
-                                savedFilters={this.data.savedFilters}
+                               savedFilters={this.data.savedFilters}
+                               onRefresh={this.handleRefresh}
                                filter={this.data.filter}/>
             : <Loading />
           }
@@ -96,6 +97,10 @@ DocumentsPage = React.createClass({
   handlePageChange(page) {
     RouterUtils.setQueryParams({page: page});
   },
+
+  handleRefresh() {
+    this.setState({seed: Random.id()});
+  }
 });
 
 
@@ -140,7 +145,7 @@ DocumentsFilter = React.createClass({
                   </a>
                 </div>
                 <div className="input-group-addon">
-                  <a className="theme-color btn btn-sm pull-right right-action" title="Reload documents" onClick={this.handleReload}>
+                  <a className="theme-color btn btn-sm pull-right right-action" title="Reload documents" onClick={this.props.onRefresh}>
                     <i className="fa fa-refresh" />
                   </a>
                 </div>
@@ -165,10 +170,6 @@ DocumentsFilter = React.createClass({
     });
 
     RouterUtils.redirect(RouterUtils.pathForDocuments(collection, filterId))
-  },
-
-  handleReload(event) {
-    this.setState({seed: Random.id()});
   },
 
   handleReset(event) {
