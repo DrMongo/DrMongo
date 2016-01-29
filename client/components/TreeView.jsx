@@ -116,6 +116,12 @@ TreeView = React.createClass({
 
 TreeView.Document = React.createClass({
 
+  getInitialState() {
+    return {
+      opened: false
+    }
+  },
+
   render() {
     const document = this.props.document;
 
@@ -132,6 +138,17 @@ TreeView.Document = React.createClass({
       collection: this.props.env.collection,
       onSave: this.props.refreshDocuments
     };
+
+    let childrenElement;
+    if(this.state.opened) {
+      childrenElement = <tr className="children">
+        <td colSpan={document.colspan}>
+          {children.map(item => (
+            <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
+          ))}
+        </td>
+      </tr>;
+    }
 
     return <tbody>
       <tr className={rowClass} onClick={this.handleToggleDocument}>
@@ -150,20 +167,14 @@ TreeView.Document = React.createClass({
           </button>
         </td>
       </tr>
-      <tr className="children hidden">
-        <td colSpan={document.colspan}>
-          {children.map(item => (
-            <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
-          ))}
-        </td>
-      </tr>
+      {childrenElement}
     </tbody>
   },
 
   handleToggleDocument(event) {
     event.preventDefault();
 
-    $(event.currentTarget).next('.children').toggleClass('hidden');
+    this.setState({opened: !this.state.opened});
   },
 
   handleDeleteDocumentClick(event) {
@@ -185,6 +196,13 @@ TreeView.Document = React.createClass({
 
 
 TreeView.DocumentRow = React.createClass({
+
+  getInitialState() {
+    return {
+      opened: false
+    }
+  },
+
 
   render() {
     const info = this.props.info;
@@ -224,7 +242,7 @@ TreeView.DocumentRow = React.createClass({
           {info.isPruned ? <ViewDocument.Modal text={info.notPrunedString} className="view-value"/> : null}
         </div>
       </div>
-      {children ? this.renderRowChildren(children) : null}
+      {children && this.state.opened ? this.renderRowChildren(children) : null}
     </div>
   },
 
@@ -241,6 +259,7 @@ TreeView.DocumentRow = React.createClass({
 
     event.preventDefault();
     $(event.currentTarget).parent('.parent').toggleClass('collapsed');
+    this.setState({opened: !this.state.opened});
   },
 
   handleCopyValue(event) {
