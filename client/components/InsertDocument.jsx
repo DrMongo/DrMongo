@@ -48,6 +48,10 @@ InsertDocument = React.createClass({
         sAlert.error('Error, sorry :(');
         log(error);
       } else {
+        if (result == false) {
+          sAlert.error('Insert FAILED. Probably UNIQUE key issue.');
+          return;
+        }
         let filterId = FilterHistory.insert({
           createdAt: new Date(),
           collection_id: this.props.collection._id,

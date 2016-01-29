@@ -173,10 +173,16 @@ Meteor.methods({
       });
     });
 
-    let insertResult = insertWrapper();
-    db.close();
+    try {
+      var insertResult = insertWrapper();
+      db.close();
+      return insertResult;
+    }
+    catch(error) {
+      db.close();
+      return false;
+    }
 
-    return insertResult;
   },
   updateDocument(collectionId, documentId, data) {
     let collection = Collections.findOne(collectionId);
