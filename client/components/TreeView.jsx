@@ -141,11 +141,8 @@ TreeView.Document = React.createClass({
         {pinnedColumns}
         <td className="cell actions text-right">
           <EditDocument.Modal className="btn btn-primary btn-soft btn-xs" icon="fa fa-pencil" editProps={editProps} />
-          <button className="btn btn-warning btn-soft btn-xs" title="Duplicate document"
-             onClick={this.handleDuplicateDocumentClick}
-             onDoubleClick={this.handleDuplicateDocumentDoubleClick}>
-            <i className="fa fa-files-o" />
-          </button>
+          <InsertDocument.Modal className="btn btn-warning btn-soft btn-xs" title="Duplicate document" icon="fa fa-files-o" collection={this.props.env.collection} value={document.value}/>
+
           <button className="btn btn-danger btn-soft btn-xs" title="Remove document"
              onClick={this.handleDeleteDocumentClick}
              onDoubleClick={this.handleDeleteDocumentDoubleClick}>
@@ -167,27 +164,6 @@ TreeView.Document = React.createClass({
     event.preventDefault();
 
     $(event.currentTarget).next('.children').toggleClass('hidden');
-  },
-
-  handleDuplicateDocumentClick(event) {
-    event.stopPropagation();
-
-    showHint('duplicate', 'Psst!! Hey you! Try double click...');
-  },
-
-  handleDuplicateDocumentDoubleClick(event) {
-    event.preventDefault();
-
-    showHint('duplicate', false);
-    Meteor.call('duplicateDocument', this.props.env.collectionId, this.props.document.value._id, (error, result) => {
-      if (!error) {
-        sAlert.success('Document duplicated.');
-        this.props.refreshDocuments();
-      } else {
-        sAlert.error('Could NOT duplicate document. Probably due to unique index.');
-      }
-    });
-
   },
 
   handleDeleteDocumentClick(event) {

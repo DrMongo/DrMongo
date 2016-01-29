@@ -67,7 +67,7 @@ DocumentsPage = React.createClass({
           </h1>
 
           <div className="pull-left m-t-sm m-l">
-            <InsertDocument.Modal className="nnn" title="Insert Document" icon="fa fa-plus" collection={collection}/>
+            <InsertDocument.Modal className="theme-color btn btn-inverted btn-sm" title="Insert Document" icon="fa fa-plus" collection={collection}/>
             <CollectionSettings.Modal className="theme-color btn btn-inverted btn-sm" title="Collection Settings" icon="fa fa-cog" collection={collection}/>
           </div>
 

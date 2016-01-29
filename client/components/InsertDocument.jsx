@@ -7,7 +7,7 @@ InsertDocument = React.createClass({
 
 
   render() {
-    const value = '{}';
+    const value = EJSON.stringify(this.props.value, {indent: '\t'}) || '{}';
 
     return <div>
       <h1>Insert new document: {this.props.collection.name}</h1>
@@ -45,10 +45,18 @@ InsertDocument = React.createClass({
 
     Meteor.call('insertDocument', this.props.collection._id, data, (error, result) => {
       if(error) {
-        sAlert.error('Error, sry :/');
+        sAlert.error('Error, sorry :(');
         log(error);
       } else {
-        sAlert.success('Document created!');
+        let filterId = FilterHistory.insert({
+          createdAt: new Date(),
+          collection_id: this.props.collection._id,
+          name: null,
+          filter: result.insertedId
+        });
+
+        let viewUrl = RouterUtils.pathForDocuments(this.props.collection, filterId);
+        sAlert.success('<p>Document created!<p><a class="btn btn-primary btn-small" href=' + viewUrl + '>View document</a>', {html: true});
       }
       this.props.onSave()
     });
@@ -66,14 +74,14 @@ InsertDocument.Modal = React.createClass({
     const icon = this.props.icon ? <i className={this.props.icon} /> : null;
 
     return <span>
-      <button className="theme-color btn btn-inverted btn-sm" title="Insert new document" onClick={this.handleOpen}>{icon}</button>
+      <button className={this.props.className} title="Insert new document" onClick={this.handleOpen}>{icon}</button>
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
           <Modal.Title>Insert new document</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <InsertDocument collection={this.props.collection} onSave={this.handleClose} />
+          <InsertDocument collection={this.props.collection} onSave={this.handleClose} value={this.props.value}/>
         </Modal.Body>
       </Modal>
     </span>

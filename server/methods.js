@@ -198,35 +198,6 @@ Meteor.methods({
 
     return updatedCount;
   },
-  duplicateDocument(collectionId, documentId) {
-    let collection = Collections.findOne(collectionId);
-    let database = collection.database();
-
-    var db = connectDatabase(database._id);
-    var dbCollection = db.collection(collection.name);
-
-    let findWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.findOne({_id: documentId}, (error, response) => {
-        cb(error, response);
-      });
-    });
-
-    let sourceDocument = findWrapper();
-    if (!sourceDocument) return false;
-
-    sourceDocument._id = Random.id();
-
-    let insertWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.insertOne(sourceDocument, (error, response) => {
-        cb(error, response);
-      });
-    });
-
-    insertWrapper();
-    db.close();
-
-    return;
-  },
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
