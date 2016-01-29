@@ -1,16 +1,16 @@
 CollectionSettings = React.createClass({
-  getInitialState() {
-    Meteor.call('stats.rawCollectionStats', this.props.collection._id, (error, stats) => {
-      if(error) {
-        log(error);
-      } else {
-        this.setState({
-          rawStats: JSON.stringify(stats, null, 2)
-        });
-      }
-    });
 
-    return { };
+  getInitialState() {
+    return {};
+  },
+
+  componentWillMount() {
+    this.updateStats(this.props);
+  },
+
+  componentWillUpdate(nextProps) {
+    log(nextProps)
+    this.updateStats(nextProps);
   },
 
 
@@ -29,11 +29,42 @@ CollectionSettings = React.createClass({
 
   render() {
     return <div>
-      <h4>Actions</h4>
-      <ConfirmButton className="btn btn-danger btn-inverted" type="button" text="Drop all documents" confirmText="Confirm: Drop all documents" onConfirm={this.handleDropAllDocuments} />
+      <h4>Indexes</h4>
+      <table className="table table-hover">
+        <tbody>
+          <tr>
+            <td>nieco</td>
+          </tr>
+        </tbody>
+      </table>
       <h4>Stats</h4>
       <pre>{this.state.rawStats}</pre>
+      <ConfirmButton className="btn btn-danger btn-inverted btn-xs" type="button" text="Drop all documents" confirmText="Confirm: Drop all documents" onConfirm={this.handleDropAllDocuments} />
     </div>
+  },
+
+  updateStats(props) {
+    Meteor.call('stats.rawCollectionStats', props.collection._id, (error, stats) => {
+      if(error) {
+        log(error);
+      } else {
+        this.setState({
+          rawStats: JSON.stringify(stats, null, 2)
+        });
+      }
+    });
+
+    Meteor.call('stats.fetchCollectionIndexes', props.collection._id, (error, stats) => {
+      log(stats)
+      if(error) {
+        log(error);
+      } else {
+        this.setState({
+          indexes: stats
+        });
+      }
+    });
+
   }
 });
 
@@ -52,7 +83,7 @@ CollectionSettings.Modal = React.createClass({
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{this.props.collection.name} - Settings</Modal.Title>
+          <Modal.Title>{this.props.collection.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CollectionSettings collection={this.props.collection} onCollectionDroped={this.handleClose} />

@@ -8,12 +8,33 @@ const wrapStatsCall = Meteor.wrapAsync((connection, collection, cb) => {
   });
 });
 
+const wrapIndexesCall = Meteor.wrapAsync((connection, collection, cb) => {
+  connection.collection(collection.name).listIndexes((error, stats) => {
+    if(error) {
+      throw new Meteor.Error('stats.collection.indexes', error.message);
+    } else {
+      cb(null, stats);
+    }
+  });
+});
+
 Meteor.methods({
   'stats.rawCollectionStats'(collectionId) {
     const collection = Collections.findOne(collectionId);
     const db = MongoHelpers.connectDatabase(collection.database_id);
 
     const stats = wrapStatsCall(db, collection);
+
+    db.close();
+    return stats;
+  },
+
+  'stats.fetchCollectionIndexes'(collectionId) {
+    log('tu som')
+    const collection = Collections.findOne(collectionId);
+    const db = MongoHelpers.connectDatabase(collection.database_id);
+
+    const stats = wrapIndexesCall(db, collection);
 
     db.close();
     return stats;
