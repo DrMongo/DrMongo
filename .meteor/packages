@@ -31,9 +31,7 @@ insecure                # Allow all DB writes from clients (for prototyping) !!!
 jquery
 kadira:flow-router
 kestanous:reactive-objects
-meteorhacks:npm
 momentjs:moment
-npm-container
 percolate:synced-cron
 random
 reactive-var

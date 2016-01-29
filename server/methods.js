@@ -198,7 +198,7 @@ Meteor.methods({
 
     return updatedCount;
   },
-  
+
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();

@@ -54,8 +54,6 @@ logging@1.0.8
 matb33:collection-hooks@0.8.1
 meteor@1.1.10
 meteor-base@1.0.1
-meteorhacks:async@1.0.0
-meteorhacks:npm@1.5.0
 minifiers@1.1.7
 minimongo@1.0.10
 mizzao:sharejs@0.7.5
@@ -69,7 +67,6 @@ mongo-livedata@1.0.9
 mousetrap:mousetrap@1.4.6_1
 nemo64:bootstrap@3.3.5_2
 nemo64:bootstrap-data@3.3.5
-npm-container@1.2.0
 npm-mongo@1.4.39_1
 observe-sequence@1.0.7
 ordered-dict@1.0.4
