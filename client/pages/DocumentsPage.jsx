@@ -121,7 +121,7 @@ DocumentsFilter = React.createClass({
                 <div className="input-group-addon">);</div>
                 <div className="input-group-addon">
                   <span className="dropdown" title="Saved views">
-                    <a className="theme-color btn btn-inverted btn-sm dropdown-toggle right-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <a className="theme-color btn btn-sm dropdown-toggle right-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i className="fa fa-star" /> <span className="caret" />
                     </a>
                     <ul className="dropdown-menu pull-right" id="saved-filters">
@@ -135,12 +135,12 @@ DocumentsFilter = React.createClass({
 
                 </div>
                 <div className="input-group-addon">
-                  <a className="theme-color btn btn-sm btn-inverted pull-right right-action" title="Clear filter" onClick={this.handleReset}>
+                  <a className="theme-color btn btn-sm pull-right right-action" title="Clear filter" onClick={this.handleReset}>
                     <i className="fa fa-ban" />
                   </a>
                 </div>
                 <div className="input-group-addon">
-                  <a className="theme-color btn btn-sm btn-inverted pull-right right-action" title="Reload documents" onClick={this.handleReload}>
+                  <a className="theme-color btn btn-sm pull-right right-action" title="Reload documents" onClick={this.handleReload}>
                     <i className="fa fa-refresh" />
                   </a>
                 </div>
