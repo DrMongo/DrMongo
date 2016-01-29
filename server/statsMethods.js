@@ -19,25 +19,18 @@ const wrapIndexesCall = Meteor.wrapAsync((connection, collection, cb) => {
 });
 
 Meteor.methods({
-  'stats.rawCollectionStats'(collectionId) {
+  'stats.getCollectionInfo'(collectionId) {
     const collection = Collections.findOne(collectionId);
     const db = MongoHelpers.connectDatabase(collection.database_id);
 
-    const stats = wrapStatsCall(db, collection);
-
+    const result = {};
+    log('0')
+    result.stats = wrapStatsCall(db, collection);
+    log('1')
+    result.indexes = wrapIndexesCall(db, collection);
+    log('2')
     db.close();
-    return stats;
-  },
-
-  'stats.fetchCollectionIndexes'(collectionId) {
-    log('tu som')
-    const collection = Collections.findOne(collectionId);
-    const db = MongoHelpers.connectDatabase(collection.database_id);
-
-    const stats = wrapIndexesCall(db, collection);
-
-    db.close();
-    return stats;
+    return result;
   },
 
   'stats.fetchCollectionsStats'(databaseId) {

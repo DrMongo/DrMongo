@@ -9,7 +9,6 @@ CollectionSettings = React.createClass({
   },
 
   componentWillUpdate(nextProps) {
-    log(nextProps)
     this.updateStats(nextProps);
   },
 
@@ -44,27 +43,17 @@ CollectionSettings = React.createClass({
   },
 
   updateStats(props) {
-    Meteor.call('stats.rawCollectionStats', props.collection._id, (error, stats) => {
+    Meteor.call('stats.getCollectionInfo', props.collection._id, (error, result) => {
+      log(error, result)
       if(error) {
         log(error);
       } else {
         this.setState({
-          rawStats: JSON.stringify(stats, null, 2)
+          rawStats: JSON.stringify(result.stats, null, 2),
+          indexes: result.indexes
         });
       }
     });
-
-    Meteor.call('stats.fetchCollectionIndexes', props.collection._id, (error, stats) => {
-      log(stats)
-      if(error) {
-        log(error);
-      } else {
-        this.setState({
-          indexes: stats
-        });
-      }
-    });
-
   }
 });
 
