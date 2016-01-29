@@ -7,6 +7,9 @@ Dr. Mongo is a stand-alone application allowing you to connect to several Mongo 
 
 Follow us on twitter [@drmongoapp](https://twitter.com/drmongoapp)
 
+## Help needed
+We would like to have a new logo for Dr. Mongo and would appreciate any designer's help. Credits will be given :) Thanks. Details here: https://github.com/DrMongo/DrMongo/issues/149
+
 ## Installation
 
 Dr. Mongo runs as a Meteor application, so you need to have Meteor installed, first.
