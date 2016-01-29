@@ -1,5 +1,4 @@
 let getConnection = (data, cb) => {
-  const connection = data.connection;
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
   if(data.database) {
     uri.database = data.database
@@ -21,8 +20,7 @@ let getConnection = (data, cb) => {
 MongoHelpers = {
 
   getDatabases(connection) {
-    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
-    let db = getConnectionWrapper({connection: connection});
+    let db = MongoHelpers.connect(connection);
     // Use the admin database for the operation
     var adminDb = db.admin();
 
@@ -53,8 +51,7 @@ MongoHelpers = {
   },
 
   getCollections(connection, database) {
-    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
-    let db = getConnectionWrapper({connection: connection, database: database});
+    let db = MongoHelpers.connect(connection, database);
     if (db === false) return false;
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
@@ -74,8 +71,7 @@ MongoHelpers = {
   },
 
   createCollection(database, collectionName) {
-    let getConnectionWrapper = Meteor.wrapAsync(getConnection);
-    let db = getConnectionWrapper({connection: database.connection(), database: database.name});
+    let db = MongoHelpers.connect(database.connection(), database.name);
     if (db === false) return false;
 
     let createCollectionWrapper = Meteor.wrapAsync((cb) => {
@@ -86,7 +82,18 @@ MongoHelpers = {
 
     let response = createCollectionWrapper();
 
+    db.close();
     return response;
+  },
+
+  connect(connection, database = null) {
+    const getConnectionWrapper = Meteor.wrapAsync(getConnection);
+    return getConnectionWrapper({connection, database});
+  },
+
+  connectDatabase(databaseId) {
+    const database = Databases.findOne(databaseId);
+    return MongoHelpers.connect(database.connection(), database.name);
   }
 
 };

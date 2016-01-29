@@ -11,7 +11,7 @@ const wrapStatsCall = Meteor.wrapAsync((connection, collection, cb) => {
 Meteor.methods({
   'stats.rawCollectionStats'(collectionId) {
     const collection = Collections.findOne(collectionId);
-    const db = connectDatabase(collection.database_id);
+    const db = MongoHelpers.connectDatabase(collection.database_id);
 
     const stats = wrapStatsCall(db, collection);
 
@@ -23,7 +23,7 @@ Meteor.methods({
     check(databaseId, String);
 
     const database = Databases.findOne(databaseId);
-    const connection = connectDatabase(databaseId);
+    const connection = MongoHelpers.connectDatabase(databaseId);
 
     database.collections().map(collection => {
       const stats = wrapStatsCall(connection, collection);
@@ -39,8 +39,10 @@ Meteor.methods({
           indexes
         }
       }});
+
     });
 
+    connection.close();
 
   }
 });
