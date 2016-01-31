@@ -34,7 +34,7 @@ CollectionSettings = React.createClass({
           <th>Name</th>
           <th>Key</th>
           <th>
-            <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right" type="button" text="Drop all indexes" confirmText="Confirm: Drop all indexes" onConfirm={this.handleDropAllIndexes} />
+            <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right hide" type="button" text="Drop all indexes" confirmText="Confirm: Drop all indexes" onConfirm={this.handleDropAllIndexes} />
         </th>
         </thead>
         <tbody>
@@ -43,7 +43,7 @@ CollectionSettings = React.createClass({
             <td>{item.name}</td>
             <td>{JSON.stringify(item.key)}</td>
             <td>
-              <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right" type="button" text="Drop" confirmText="Confirm: Drop index" onConfirm={this.handleDropIndex} />
+              <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right hide" type="button" text="Drop" confirmText="Confirm: Drop index" onConfirm={this.handleDropIndex} />
             </td>
           </tr>
           )) : ''}
@@ -57,7 +57,6 @@ CollectionSettings = React.createClass({
 
   updateStats(props) {
     Meteor.call('stats.getCollectionInfo', props.collection._id, (error, result) => {
-      log(error, result)
       if(error) {
         log(error);
       } else {
