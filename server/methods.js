@@ -185,6 +185,7 @@ Meteor.methods({
 
   },
   updateDocument(collectionId, documentId, data) {
+    log(data);
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
 

@@ -8,7 +8,7 @@ CollectionSettings = React.createClass({
     this.updateStats(this.props);
   },
 
-  componentWillUpdate(nextProps) {
+  componentWillReceiveProps(nextProps) {
     this.updateStats(nextProps);
   },
 
@@ -29,11 +29,24 @@ CollectionSettings = React.createClass({
   render() {
     return <div>
       <h4>Indexes</h4>
-      <table className="table table-hover">
+      <table className="table table-small">
+        <thead>
+          <th>Name</th>
+          <th>Key</th>
+          <th>
+            <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right" type="button" text="Drop all indexes" confirmText="Confirm: Drop all indexes" onConfirm={this.handleDropAllIndexes} />
+        </th>
+        </thead>
         <tbody>
+          {this.state.indexes ? this.state.indexes.map((item) => (
           <tr>
-            <td>nieco</td>
+            <td>{item.name}</td>
+            <td>{JSON.stringify(item.key)}</td>
+            <td>
+              <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right" type="button" text="Drop" confirmText="Confirm: Drop index" onConfirm={this.handleDropIndex} />
+            </td>
           </tr>
+          )) : ''}
         </tbody>
       </table>
       <h4>Stats</h4>
