@@ -1,16 +1,15 @@
 CollectionSettings = React.createClass({
-  getInitialState() {
-    Meteor.call('stats.rawCollectionStats', this.props.collection._id, (error, stats) => {
-      if(error) {
-        log(error);
-      } else {
-        this.setState({
-          rawStats: JSON.stringify(stats, null, 2)
-        });
-      }
-    });
 
-    return { };
+  getInitialState() {
+    return {};
+  },
+
+  componentWillMount() {
+    this.updateStats(this.props);
+  },
+
+  componentWillReceiveProps(nextProps) {
+    this.updateStats(nextProps);
   },
 
 
@@ -29,11 +28,44 @@ CollectionSettings = React.createClass({
 
   render() {
     return <div>
-      <h4>Actions</h4>
-      <ConfirmButton className="btn btn-danger btn-inverted" type="button" text="Drop all documents" confirmText="Confirm: Drop all documents" onConfirm={this.handleDropAllDocuments} />
+      <h4>Indexes</h4>
+      <table className="table table-small">
+        <thead>
+          <th>Name</th>
+          <th>Key</th>
+          <th>
+            <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right hide" type="button" text="Drop all indexes" confirmText="Confirm: Drop all indexes" onConfirm={this.handleDropAllIndexes} />
+        </th>
+        </thead>
+        <tbody>
+          {this.state.indexes ? this.state.indexes.map((item) => (
+          <tr>
+            <td>{item.name}</td>
+            <td>{JSON.stringify(item.key)}</td>
+            <td>
+              <ConfirmButton className="btn btn-danger btn-inverted btn-xs pull-right hide" type="button" text="Drop" confirmText="Confirm: Drop index" onConfirm={this.handleDropIndex} />
+            </td>
+          </tr>
+          )) : ''}
+        </tbody>
+      </table>
       <h4>Stats</h4>
       <pre>{this.state.rawStats}</pre>
+      <ConfirmButton className="btn btn-danger btn-inverted btn-xs" type="button" text="Drop all documents" confirmText="Confirm: Drop all documents" onConfirm={this.handleDropAllDocuments} />
     </div>
+  },
+
+  updateStats(props) {
+    Meteor.call('stats.getCollectionInfo', props.collection._id, (error, result) => {
+      if(error) {
+        log(error);
+      } else {
+        this.setState({
+          rawStats: JSON.stringify(result.stats, null, 2),
+          indexes: result.indexes
+        });
+      }
+    });
   }
 });
 
@@ -52,7 +84,7 @@ CollectionSettings.Modal = React.createClass({
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>
-          <Modal.Title>{this.props.collection.name} - Settings</Modal.Title>
+          <Modal.Title>{this.props.collection.name}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           <CollectionSettings collection={this.props.collection} onCollectionDroped={this.handleClose} />

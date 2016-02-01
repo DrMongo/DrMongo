@@ -11,7 +11,6 @@ Meteor.methods({
       keep: true
     });
   },
-
   updateConnectionStructure(connectionId) {
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
@@ -88,7 +87,6 @@ Meteor.methods({
     db.close();
     return foundCollection;
   },
-
   getDocuments(collectionId, filter, page) {
     page = page || 1;
 
@@ -159,7 +157,6 @@ Meteor.methods({
       count: docsCount // @TODO rename this to 'totalCount'
     }
   },
-
   insertDocument(collectionId, data) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
@@ -179,12 +176,13 @@ Meteor.methods({
       return insertResult;
     }
     catch(error) {
+      log(error)
       db.close();
       return false;
     }
-
   },
   updateDocument(collectionId, documentId, data) {
+    // log(collectionId, documentId, data);
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
 
@@ -204,7 +202,6 @@ Meteor.methods({
 
     return updatedCount;
   },
-
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();

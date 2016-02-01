@@ -8,15 +8,27 @@ const wrapStatsCall = Meteor.wrapAsync((connection, collection, cb) => {
   });
 });
 
+const wrapIndexesCall = Meteor.wrapAsync((connection, collection, cb) => {
+  connection.collection(collection.name).listIndexes().toArray((error, stats) => {
+    log(error, stats)
+    if(error) {
+      throw new Meteor.Error('stats.collection', error.message);
+    } else {
+      cb(null, stats);
+    }
+  });
+});
+
 Meteor.methods({
-  'stats.rawCollectionStats'(collectionId) {
+  'stats.getCollectionInfo'(collectionId) {
     const collection = Collections.findOne(collectionId);
     const db = MongoHelpers.connectDatabase(collection.database_id);
 
-    const stats = wrapStatsCall(db, collection);
-
+    const result = {};
+    result.stats = wrapStatsCall(db, collection);
+    result.indexes = wrapIndexesCall(db, collection);
     db.close();
-    return stats;
+    return result;
   },
 
   'stats.fetchCollectionsStats'(databaseId) {

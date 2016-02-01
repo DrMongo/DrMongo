@@ -61,9 +61,9 @@ DatabaseDashboardPage = React.createClass({
       <thead>
         <tr>
           <td />
-          <td>Documents</td>
-          <td>Indexes</td>
-          <td>Size</td>
+          <td className="text-right">Documents</td>
+          <td className="text-right">Indexes</td>
+          <td className="text-right">Size</td>
           <td />
         </tr>
       </thead>
@@ -91,9 +91,9 @@ CollectionItem = ({collection, index}) => {
       {index + 1}. <a
       href={RouterUtils.pathForDocuments(collection)}>{collection.name}</a>
     </td>
-    <td>{stats.documentsCount}</td>
-    <td>{stats.indexes ? stats.indexes.length : null}</td>
-    <td>{_.isNumber(stats.size) ? filesize(stats.size) : null}</td>
+    <td className="text-right">{stats.documentsCount}</td>
+    <td className="text-right">{stats.indexes ? stats.indexes.length : null}</td>
+    <td className="text-right">{_.isNumber(stats.size) ? filesize(stats.size) : null}</td>
     <td>
       <CollectionSettings.Modal
         className="btn btn-warning btn-xs btn-soft pull-right" icon="fa fa-cog"
