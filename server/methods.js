@@ -168,7 +168,7 @@ Meteor.methods({
     var dbCollection = db.collection(collection.name);
 
     let insertWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.insertOne(data, (error, response) => {
+      dbCollection.insert(data, (error, response) => {
         cb(error, response);
       });
     });
@@ -194,7 +194,7 @@ Meteor.methods({
     delete data._id;
 
     let updateWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.updateOne({_id: documentId}, data, (error, response) => {
+      dbCollection.update({_id: documentId}, data, (error, response) => {
         cb(error, response);
       });
     });
@@ -213,7 +213,7 @@ Meteor.methods({
     var dbCollection = db.collection(collection.name);
 
     let deleteWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.findOneAndDelete({_id: documentId}, (error, response) => {
+      dbCollection.findAndRemove({_id: documentId}, (error, response) => {
         cb(error, response);
       });
     });
@@ -231,7 +231,7 @@ Meteor.methods({
     var dbCollection = db.collection(collection.name);
 
     let wrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.deleteMany({}, (error, response) => {
+      dbCollection.remove({}, (error, response) => {
         cb(error, response);
       });
     });

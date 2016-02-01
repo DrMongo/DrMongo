@@ -1,3 +1,5 @@
+// mongo db 1.4 doc, http://mongodb.github.io/node-mongodb-native/1.4/contents.html
+
 let getConnection = (data, cb) => {
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
   if(data.database) {
