@@ -11,11 +11,17 @@ Meteor.methods({
       keep: true
     });
   },
+  updateAllConnectionsStructure() {
+    Connections.find({}).forEach(function(connection) {
+      Meteor.call('updateConnectionStructure', connection._id);
+    })
+  },
   updateConnectionStructure(connectionId) {
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
-
+    if (!databases) return false;
+    
     Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true});
     _.each(databases, (databaseName) => {
       Databases.upsert(

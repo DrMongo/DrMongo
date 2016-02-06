@@ -23,6 +23,7 @@ MongoHelpers = {
 
   getDatabases(connection) {
     let db = MongoHelpers.connect(connection);
+    if (!db) return false;
     // Use the admin database for the operation
     var adminDb = db.admin();
 
@@ -54,7 +55,7 @@ MongoHelpers = {
 
   getCollections(connection, database) {
     let db = MongoHelpers.connect(connection, database);
-    if (db === false) return false;
+    if (!db) return false;
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
       db.collectionNames((error, response) => {
@@ -74,7 +75,7 @@ MongoHelpers = {
 
   createCollection(database, collectionName) {
     let db = MongoHelpers.connect(database.connection(), database.name);
-    if (db === false) return false;
+    if (!db) return false;
 
     let createCollectionWrapper = Meteor.wrapAsync((cb) => {
       db.createCollection(collectionName, (error, response) => {
@@ -90,7 +91,13 @@ MongoHelpers = {
 
   connect(connection, database = null) {
     const getConnectionWrapper = Meteor.wrapAsync(getConnection);
-    return getConnectionWrapper({connection, database});
+    try {
+      var result = getConnectionWrapper({connection, database});
+    }
+    catch(error) {
+      var result = false;
+    }
+    return result;
   },
 
   connectDatabase(databaseId) {

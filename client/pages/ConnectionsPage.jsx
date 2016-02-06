@@ -2,6 +2,10 @@ ConnectionsPage = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  componentWillMount() {
+    updateAllConnectionsStructure();
+  },
+
   getMeteorData() {
     let data = {};
 
