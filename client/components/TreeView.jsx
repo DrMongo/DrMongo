@@ -118,7 +118,8 @@ TreeView.Document = React.createClass({
 
   getInitialState() {
     return {
-      opened: false
+      opened: false,
+      openChildren: false
     }
   },
 
@@ -144,14 +145,14 @@ TreeView.Document = React.createClass({
       childrenElement = <tr className="children">
         <td colSpan={document.colspan}>
           {children.map(item => (
-            <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
+            <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} open={this.state.openChildren} />
           ))}
         </td>
       </tr>;
     }
 
     return <tbody>
-      <tr className={rowClass} onClick={this.handleToggleDocument}>
+      <tr className={rowClass} onClick={this.handleToggleOpen}>
         <td className="cell key">
           <span className="drm-index">{document.drMongoIndex}.</span> {document.keyValue} <small>{document.formattedValue}</small>
         </td>
@@ -171,10 +172,14 @@ TreeView.Document = React.createClass({
     </tbody>
   },
 
-  handleToggleDocument(event) {
+  handleToggleOpen(event) {
     event.preventDefault();
 
-    this.setState({opened: !this.state.opened});
+    const newState = {opened: !this.state.opened};
+    if(event.metaKey) {
+      newState.openChildren = !this.state.opened;
+    }
+    this.setState(newState);
   },
 
   handleDeleteDocumentClick(event) {
@@ -199,7 +204,7 @@ TreeView.DocumentRow = React.createClass({
 
   getInitialState() {
     return {
-      opened: false
+      opened: this.props.open || false
     }
   },
 
@@ -220,6 +225,7 @@ TreeView.DocumentRow = React.createClass({
       </div>;
     }
 
+    log('this.state.opened', children && this.state.opened, children, this.state.opened)
 
     let formattedValue;
     if(info.isId) {
@@ -228,7 +234,9 @@ TreeView.DocumentRow = React.createClass({
       formattedValue = info.formattedValue;
     }
 
-    return <div className="parent col-xs-12">
+    const parentClass = classNames('parent col-xs-12', {collapsed: this.state.opened});
+
+    return <div className={parentClass}>
       <div className={parentRowClass} onClick={this.handleToggleChildren}>
         <div className="col-xs-4 cell key">
           {info.drMongoIndex} <span className="value-type-label">{info.labelText}</span> {info.keyValue}
@@ -249,7 +257,7 @@ TreeView.DocumentRow = React.createClass({
   renderRowChildren(children) {
     return <div className="row children">
       {children.map(item => (
-        <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} />
+        <TreeView.DocumentRow key={item.keyValue} info={item} env={this.props.env} open={this.props.open} />
       ))}
     </div>
   },
@@ -258,7 +266,6 @@ TreeView.DocumentRow = React.createClass({
     if ($(event.target).parent().is('.control-icon')) return true;
 
     event.preventDefault();
-    $(event.currentTarget).parent('.parent').toggleClass('collapsed');
     this.setState({opened: !this.state.opened});
   },
 
