@@ -4,4 +4,4 @@ Meteor.startup(function() {
 
 updateAllConnectionsStructure = _.throttle(function() {
     Meteor.call('updateAllConnectionsStructure');
-}, 10000, {leading: false});
+}, 10000, {trailing: false});

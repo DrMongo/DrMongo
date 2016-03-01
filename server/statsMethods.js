@@ -1,7 +1,8 @@
 const wrapStatsCall = Meteor.wrapAsync((connection, collection, cb) => {
   connection.collection(collection.name).stats((error, stats) => {
     if(error) {
-      throw new Meteor.Error('stats.collection', error.message);
+      cb(null, false);
+      // throw new Meteor.Error('stats.collection', error.message);
     } else {
       cb(null, stats);
     }
@@ -12,7 +13,8 @@ const wrapIndexesCall = Meteor.wrapAsync((connection, collection, cb) => {
   connection.collection(collection.name).listIndexes().toArray((error, stats) => {
     log(error, stats)
     if(error) {
-      throw new Meteor.Error('stats.collection', error.message);
+      cb(null, false);
+      // throw new Meteor.Error('stats.collection', error.message);
     } else {
       cb(null, stats);
     }
@@ -25,6 +27,7 @@ Meteor.methods({
     const db = MongoHelpers.connectDatabase(collection.database_id);
 
     const result = {};
+
     result.stats = wrapStatsCall(db, collection);
     result.indexes = wrapIndexesCall(db, collection);
     db.close();
@@ -38,6 +41,7 @@ Meteor.methods({
     const connection = MongoHelpers.connectDatabase(databaseId);
 
     database.collections().map(collection => {
+
       const stats = wrapStatsCall(connection, collection);
       const indexes = [];
       _.each(stats.indexSizes, (value, key) => {
