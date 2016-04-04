@@ -193,7 +193,13 @@ TreeView.Document = React.createClass({
 
     showHint('delete', false);
     Meteor.call('removeDocument', this.props.env.collectionId, this.props.document.value._id, (error, result) => {
-      this.props.refreshDocuments();
+      if(error) {
+        log(error);
+      } else {
+        log('Document deleted!', result);
+        sAlert.success('Document deleted');
+        this.props.refreshDocuments();
+      }
     })
   }
 
@@ -224,9 +230,7 @@ TreeView.DocumentRow = React.createClass({
         {info.isPinned ? <i className="fa fa-thumb-tack text-danger" /> : <i className="fa fa-thumb-tack" />}
       </div>;
     }
-
-    log('this.state.opened', children && this.state.opened, children, this.state.opened)
-
+    
     let formattedValue;
     if(info.isId) {
       formattedValue = <a href="#" onClick={this.handleFindById}>{info.formattedValue}</a>

@@ -78,7 +78,7 @@ InsertDocument.Modal = React.createClass({
     const icon = this.props.icon ? <i className={this.props.icon} /> : null;
 
     return <span>
-      <button className={this.props.className} title="Insert new document" onClick={this.handleOpen}>{icon}</button>
+      <button className={this.props.className} title={this.props.title} onClick={this.handleOpen}>{icon}</button>
 
       <Modal show={this.state.showModal} onHide={this.handleClose}>
         <Modal.Header closeButton>

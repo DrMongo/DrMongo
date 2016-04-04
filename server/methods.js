@@ -21,7 +21,7 @@ Meteor.methods({
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
     if (!databases) return false;
-    
+
     Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true});
     _.each(databases, (databaseName) => {
       Databases.upsert(
@@ -76,8 +76,8 @@ Meteor.methods({
 
     var c;
     let collectionFindWrapper = Meteor.wrapAsync((cb) => {
-      c.find(selector).toArray((error, response) => {
-        cb(error, response);
+      c.findOne(selector, (error, doc) => {
+        cb(error, doc);
       })
     });
 
@@ -86,8 +86,9 @@ Meteor.methods({
 
       c = db.collection(collection.name);
 
+      log(collection.name);
       let result = collectionFindWrapper(); // todo refactor this magic parameter passing
-      if (result.length == 1) foundCollection = collection.name;
+      if (result) foundCollection = collection.name;
     });
 
     db.close();
@@ -150,8 +151,13 @@ Meteor.methods({
 
     docs = collectionToArrayWrapper();
 
+
     var index = options.skip + 1;
     docs.map(item => {
+      if(typeof item._id == 'object') {
+        item._id = {_str: item._id.toString()}
+      }
+
       item[DRM.documentIndex] = index++;
     });
 
@@ -198,7 +204,7 @@ Meteor.methods({
     delete data._id;
 
     let updateWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.update({_id: documentId}, data, (error, response) => {
+      dbCollection.update({_id: objectifyMongoId(documentId)}, data, (error, response) => {
         cb(error, response);
       });
     });
@@ -216,12 +222,17 @@ Meteor.methods({
     var dbCollection = db.collection(collection.name);
 
     let deleteWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.findAndRemove({_id: documentId}, (error, response) => {
+      dbCollection.findAndRemove({_id: objectifyMongoId(documentId)}, (error, response) => {
+        if(!error && !response) {
+          error = new Meteor.Error('Document ' + stringifyMongoId(documentId) + ' not found');
+        }
+
         cb(error, response);
       });
     });
 
     let result = deleteWrapper();
+    log('result', result);
     db.close();
 
     return result;
