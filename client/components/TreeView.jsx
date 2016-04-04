@@ -230,7 +230,7 @@ TreeView.DocumentRow = React.createClass({
         {info.isPinned ? <i className="fa fa-thumb-tack text-danger" /> : <i className="fa fa-thumb-tack" />}
       </div>;
     }
-    
+
     let formattedValue;
     if(info.isId) {
       formattedValue = <a href="#" onClick={this.handleFindById}>{info.formattedValue}</a>
@@ -304,7 +304,7 @@ TreeView.DocumentRow = React.createClass({
     event.preventDefault();
 
     const databaseId = this.props.env.databaseId;
-    const id = this.props.info.idValue;
+    const id = this.props.info.value;
 
     Meteor.call('findCollectionForDocumentId', databaseId, id, (error, result) => {
       if (result === null) {
@@ -313,11 +313,12 @@ TreeView.DocumentRow = React.createClass({
 
       let c = Collections.findOne({database_id: databaseId, name: result});
       if (c) {
+        log(jsonifyMongoId(id));
         let filterId = FilterHistory.insert({
           createdAt: new Date(),
           collection_id: c._id,
           name: null,
-          filter: id
+          filter: JSON.stringify(jsonifyMongoId(id))
         });
 
         RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))

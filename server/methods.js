@@ -65,7 +65,7 @@ Meteor.methods({
 
     let foundCollection = null;
 
-    var selector = {_id: documentId};
+    var selector = {_id: objectifyMongoId(documentId)};
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
       db.listCollections().toArray((error, response) => {
@@ -86,7 +86,6 @@ Meteor.methods({
 
       c = db.collection(collection.name);
 
-      log(collection.name);
       let result = collectionFindWrapper(); // todo refactor this magic parameter passing
       if (result) foundCollection = collection.name;
     });
@@ -105,9 +104,17 @@ Meteor.methods({
     let settings = new CurrentSettings();
     collectionInfo.paginationLimit = parseInt(collectionInfo.paginationLimit || settings.global.documentsPerPage);
 
-    if (resemblesId(filter)) {
-      var selector = {_id: filter};
-      var options = {};
+    let filterObject, selector, options;
+    if(/^{"_str":"[a-z0-9]+"}$/.test(filter)) {
+      filterObject = JSON.parse(filter);
+    } else {
+      filterId = filter;
+    }
+
+    if (resemblesId(filterObject)) {
+      log('filter', filterObject);
+      selector = {_id: objectifyMongoId(filterObject)};
+      options = {};
     } else {
       try {
         filter = eval('([' + filter + '])');
@@ -117,8 +124,8 @@ Meteor.methods({
         return false;
       }
 
-      var selector = filter[0] || {};
-      var options = filter[1] || {};
+      selector = filter[0] || {};
+      options = filter[1] || {};
     }
 
     let collectionCountWrapper = Meteor.wrapAsync((cb) => {
@@ -154,9 +161,7 @@ Meteor.methods({
 
     var index = options.skip + 1;
     docs.map(item => {
-      if(typeof item._id == 'object') {
-        item._id = {_str: item._id.toString()}
-      }
+      item._id = jsonifyMongoId(item._id);
 
       item[DRM.documentIndex] = index++;
     });
