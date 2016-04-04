@@ -77,7 +77,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
       _.each(collection.pinnedColumnsFormatted, (column) => {
         try {
           // todo remove eval
-          let t = eval('(value.' + column + ')');
+          let t = eval('(value["' + column + '"])');
           if(typeof t == 'undefined') t = '';
           pinnedColumns.push(`${t}`); // ensure string format
         } catch (error) {
