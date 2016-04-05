@@ -61,7 +61,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     info['labelText'] = '[ ]';
   } else if (_.isObject(value)) {
     let size = _.size(value);
-    if(level == 0) size = size - 1;
+    if(level == 0) size = size - 1; // because of __proto__ property
     info['formattedValue'] = `{ ${size} fields }`;
     info['fieldClass'] = 'object';
     info['hasChildren'] = true;

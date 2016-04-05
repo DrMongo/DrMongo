@@ -20,3 +20,12 @@ Migrations.add({
     DrmVersion.collection.insert({name: DrmVersion.documentName})
   }
 });
+
+
+Migrations.add({
+  version: 3,
+  name: 'showFullId set to false',
+  up: function() {
+    Collections.update({}, {$set: {showFullId: false}}, {multi: true});
+  }
+});

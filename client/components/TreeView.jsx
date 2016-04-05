@@ -35,6 +35,7 @@ TreeView = React.createClass({
 
     const page = nextProps.currentPage;
     const collection = nextProps.env.collection;
+    log(collection._id);
 
     Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
       if (error || result == false || typeof result == 'undefined') {
@@ -68,12 +69,10 @@ TreeView = React.createClass({
     const collection = this.props.env.collection;
     const documents = this.state.documents;
 
-    let pinnedColumns = [];
-    if (collection.pinnedColumnsFormatted) {
-      pinnedColumns = collection.pinnedColumnsFormatted;
-    } else {
-      pinnedColumns.push('');
-      pinnedColumns.push('');
+    const pinnedColumns = collection.pinnedColumnsFormatted || [];
+    if (!pinnedColumns.length) {
+      pinnedColumns.push(''); // for .name
+      pinnedColumns.push(''); // for .title
     }
 
     let results;
@@ -90,7 +89,12 @@ TreeView = React.createClass({
     return <table className="table tree-view">
       <thead>
       <tr className="column-headers">
-        <td className="cell key">#. _id</td>
+        <td className="cell key">
+          #. _id
+          <div className="btn btn-soft btn-xs" onClick={this.handleToggleIdLength}>
+            {collection.showFullId ? <i className="fa fa-toggle-off" /> : <i className="fa fa-toggle-on" />}
+          </div>
+        </td>
         {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>))}
         <td>
           <div className="pull-right">
@@ -109,6 +113,14 @@ TreeView = React.createClass({
 
   handleRefreshDocuments() {
     this.fetchNewDocuments(this.props);
+  },
+
+  handleToggleIdLength(event) {
+    event.preventDefault();
+    event.nativeEvent.stopImmediatePropagation();
+    const collection = this.props.env.collection;
+    const current = !!collection.showFullId;
+    Collections.update(collection._id, {$set: {showFullId: !current}});
   }
 
 });
@@ -125,6 +137,8 @@ TreeView.Document = React.createClass({
 
   render() {
     const document = this.props.document;
+    const collection = this.props.env.collection;
+
     log(document);
 
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
@@ -152,10 +166,15 @@ TreeView.Document = React.createClass({
       </tr>;
     }
 
+    let keyValue = document.keyValue;
+    if(!collection.showFullId) {
+      keyValue = '...' + keyValue.substr(keyValue.length - 5, 5);
+    }
+
     return <tbody>
       <tr className={rowClass} onClick={this.handleToggleOpen}>
         <td className="cell key">
-          <span className="drm-index">{document.drMongoIndex}.</span> {document.keyValue} <small>{document.formattedValue}</small>
+          <span className="drm-index">{document.drMongoIndex}.</span> {keyValue} <small>{document.formattedValue}</small>
         </td>
         {pinnedColumns}
         <td className="cell actions text-right">
@@ -218,6 +237,7 @@ TreeView.DocumentRow = React.createClass({
 
   render() {
     const info = this.props.info;
+
     const parentRowClass = classNames({
       'row head': true,
       'toggle-children': info.hasChildren
@@ -226,8 +246,8 @@ TreeView.DocumentRow = React.createClass({
     const children = TreeViewUtils.getChildren(info, this.props.env.collection);
 
     let pinButton;
-    if(!info.hasChildren) {
-      pinButton = <div className="btn btn-link btn-xs control-icon pin-column" data-full-path={info.fullPath} onClick={this.handlePin}>
+    if(!info.hasChildren && !info.isId) {
+      pinButton = <div className="btn btn-primary btn-soft btn-xs control-icon pin-column" data-full-path={info.fullPath} onClick={this.handlePin}>
         {info.isPinned ? <i className="fa fa-thumb-tack text-danger" /> : <i className="fa fa-thumb-tack" />}
       </div>;
     }
@@ -244,9 +264,8 @@ TreeView.DocumentRow = React.createClass({
     return <div className={parentClass}>
       <div className={parentRowClass} onClick={this.handleToggleChildren}>
         <div className="col-xs-4 cell key">
-          {info.drMongoIndex} <span className="value-type-label">{info.labelText}</span> {info.keyValue}
-          {pinButton}
-          <div className="btn btn-link btn-xs copy-value control-icon pull-right" onClick={this.handleCopyValue}>
+          {info.drMongoIndex} <span className="value-type-label">{info.labelText}</span> {info.keyValue} {pinButton}
+          <div className="btn btn-primary btn-soft btn-xs copy-value control-icon pull-right" onClick={this.handleCopyValue}>
             <i className="fa fa-clipboard" />
           </div>
         </div>

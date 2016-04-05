@@ -1,5 +1,9 @@
 Collections = new Mongo.Collection(DRM.collectionNamePrefix + 'collections');
 
+Collections.before.insert(function(userId, doc) {
+  doc.showFullId = false;
+});
+
 Collections.helpers({
   icon() {
     return Icons.forCollection(this.name);
