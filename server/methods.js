@@ -113,7 +113,6 @@ Meteor.methods({
     }
 
     if (resemblesId(filterId)) {
-      log('filter', filterId);
       selector = {_id: objectifyMongoId(filterId)};
       options = {};
     } else {

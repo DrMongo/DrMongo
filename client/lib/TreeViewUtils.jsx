@@ -20,6 +20,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     colspan: 2
   };
 
+
   if (resemblesId(value) || key == '_id') {
     let idString = stringifyMongoId(value);
 
@@ -59,7 +60,9 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     info['hasChildren'] = true;
     info['labelText'] = '[ ]';
   } else if (_.isObject(value)) {
-    info['formattedValue'] = '{ ' + Object.keys(value).length + ' fields }';
+    let size = _.size(value);
+    if(level == 0) size = size - 1;
+    info['formattedValue'] = `{ ${size} fields }`;
     info['fieldClass'] = 'object';
     info['hasChildren'] = true;
     info['labelText'] = '{ }';
@@ -79,14 +82,16 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
           // todo remove eval
           let t = eval('(value["' + column + '"])');
           if(typeof t == 'undefined') t = '';
+          if(_.isObject(t)) t = t.toString();
           pinnedColumns.push(`${t}`); // ensure string format
         } catch (error) {
           pinnedColumns.push('');
         }
       })
     } else {
-      pinnedColumns.push(value.name);
-      pinnedColumns.push(value.title);
+      const print = (v) => (!_.isObject(v) && !_.isUndefined(v));
+      pinnedColumns.push(print(value.name) ? `${value.name}` : '');
+      pinnedColumns.push(print(value.title) ? `${value.title}` : '');
     }
     if (pinnedColumns.length) {
       info.pinnedColumns = pinnedColumns;

@@ -125,6 +125,7 @@ TreeView.Document = React.createClass({
 
   render() {
     const document = this.props.document;
+    log(document);
 
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
     const children = TreeViewUtils.getChildren(document, this.props.env.collection);
@@ -313,7 +314,6 @@ TreeView.DocumentRow = React.createClass({
 
       let c = Collections.findOne({database_id: databaseId, name: result});
       if (c) {
-        log(id, resemblesId(id));
         let filterId = FilterHistory.insert({
           createdAt: new Date(),
           collection_id: c._id,
