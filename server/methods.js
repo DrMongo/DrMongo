@@ -104,16 +104,17 @@ Meteor.methods({
     let settings = new CurrentSettings();
     collectionInfo.paginationLimit = parseInt(collectionInfo.paginationLimit || settings.global.documentsPerPage);
 
-    let filterObject, selector, options;
+    let filterObject, filterId, selector, options;
     if(/^{"_str":"[a-z0-9]+"}$/.test(filter)) {
       filterObject = JSON.parse(filter);
+      filterId = stringifyMongoId(filterObject);
     } else {
       filterId = filter;
     }
 
-    if (resemblesId(filterObject)) {
-      log('filter', filterObject);
-      selector = {_id: objectifyMongoId(filterObject)};
+    if (resemblesId(filterId)) {
+      log('filter', filterId);
+      selector = {_id: objectifyMongoId(filterId)};
       options = {};
     } else {
       try {

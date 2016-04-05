@@ -313,12 +313,12 @@ TreeView.DocumentRow = React.createClass({
 
       let c = Collections.findOne({database_id: databaseId, name: result});
       if (c) {
-        log(jsonifyMongoId(id));
+        log(id, resemblesId(id));
         let filterId = FilterHistory.insert({
           createdAt: new Date(),
           collection_id: c._id,
           name: null,
-          filter: JSON.stringify(jsonifyMongoId(id))
+          filter: resemblesId(id) ? id : JSON.stringify(jsonifyMongoId(id))
         });
 
         RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
