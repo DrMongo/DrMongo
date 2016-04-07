@@ -69,7 +69,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
   }
 
   if (!info['hasChildren']) {
-    info['isPinned'] = _.contains(collection.pinnedColumns, fullPath)
+    info['isPinned'] = _.indexOf(collection.pinnedColumns, fullPath) >= 0
   }
 
   info.fieldClass = 'field-' + info.fieldClass;
@@ -77,10 +77,9 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
   if (level == 0) {
     let pinnedColumns = [];
     if (collection.pinnedColumnsFormatted && collection.pinnedColumnsFormatted.length > 0) {
-      _.each(collection.pinnedColumnsFormatted, (column) => {
+      _.map(collection.pinnedColumnsFormatted, (column) => {
         try {
-          // todo remove eval
-          let t = eval('(value["' + column + '"])');
+          let t = lodash.get(value, column.split('.'));
           if(typeof t == 'undefined') t = '';
           if(_.isObject(t)) t = t.toString();
           pinnedColumns.push(`${t}`); // ensure string format
@@ -111,7 +110,7 @@ TreeViewUtils.getChildren = (info, collection) => {
 
   let fields = [];
   let id = null;
-  _.each(value, (v, k) => {
+  _.map(value, (v, k) => {
     if (k == '_id') {
       id = v;
       return;
@@ -127,7 +126,7 @@ TreeViewUtils.getChildren = (info, collection) => {
   if (id) fields.unshift({key: '_id', value: id});
 
   let children = [];
-  _.each(fields, (v) => {
+  _.map(fields, (v) => {
     children.push(TreeViewUtils.getRowInfo(v.key, v.value, info.level + 1, info.fullPath + '.' + v.key, collection));
   });
 

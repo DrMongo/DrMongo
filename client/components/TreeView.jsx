@@ -35,7 +35,6 @@ TreeView = React.createClass({
 
     const page = nextProps.currentPage;
     const collection = nextProps.env.collection;
-    log(collection._id);
 
     Meteor.call('getDocuments', collection._id, nextProps.filter, page, (error, result) => {
       if (error || result == false || typeof result == 'undefined') {
@@ -138,9 +137,7 @@ TreeView.Document = React.createClass({
   render() {
     const document = this.props.document;
     const collection = this.props.env.collection;
-
-    log(document);
-
+    
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
     const children = TreeViewUtils.getChildren(document, this.props.env.collection);
 
@@ -312,7 +309,7 @@ TreeView.DocumentRow = React.createClass({
 
     const collectionId = this.props.env.collectionId;
     var c = Collections.findOne(collectionId);
-    if (c && c.pinnedColumns && _.contains(c.pinnedColumns, path)) {
+    if (c && c.pinnedColumns && _.indexOf(c.pinnedColumns, path) >= 0) {
       Collections.update(collectionId, {$pull: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});
     } else {
       Collections.update(collectionId, {$addToSet: {pinnedColumns: path, pinnedColumnsFormatted: pathFormatted}});

@@ -40,6 +40,7 @@ tomwasd:flow-router-autoscroll
 tracker
 underscore
 underscorestring:underscore.string
+stevezhu:lodash
 
 # UI components
 blaze-html-templates

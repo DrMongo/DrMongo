@@ -89,6 +89,7 @@ shadyendless:react-bootstrap@0.0.4
 spacebars@1.0.7
 spacebars-compiler@1.0.7
 standard-minifiers@1.0.2
+stevezhu:lodash@4.6.1
 templating@1.1.5
 templating-tools@1.0.0
 tmeasday:publish-counts@0.7.3

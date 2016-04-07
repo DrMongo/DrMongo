@@ -3,7 +3,7 @@ ConnectionDashboardPage = React.createClass({
   mixins: [ReactMeteorData],
 
   componentWillMount() {
-    updateAllConnectionsStructure()
+    updateConnectionStructure(this.props.connectionId)
   },
 
   getMeteorData() {

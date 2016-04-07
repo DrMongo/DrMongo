@@ -23,7 +23,7 @@ Meteor.methods({
     if (!databases) return false;
 
     Databases.update({connection_id: connectionId}, {$set: {keep: false}}, {multi: true});
-    _.each(databases, (databaseName) => {
+    _.map(databases, (databaseName) => {
       Databases.upsert(
         {connection_id: connectionId, name: databaseName},
         {
@@ -43,7 +43,7 @@ Meteor.methods({
       let collections = MongoHelpers.getCollections(connection, databaseName);
       if (collections === false) return false;
 
-      _.each(collections, (collectionName) => {
+      _.map(collections, (collectionName) => {
         Collections.upsert(
           {database_id: database._id, name: collectionName},
           {
@@ -81,7 +81,7 @@ Meteor.methods({
       })
     });
 
-    _.each(collections, function(collection) {
+    _.map(collections, function(collection) {
       if (foundCollection) return false;
 
       c = db.collection(collection.name);

@@ -44,7 +44,7 @@ Meteor.methods({
 
       const stats = wrapStatsCall(connection, collection);
       const indexes = [];
-      _.each(stats.indexSizes, (value, key) => {
+      _.map(stats.indexSizes, (value, key) => {
         indexes.push(key);
       });
 

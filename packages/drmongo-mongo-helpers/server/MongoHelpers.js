@@ -45,7 +45,7 @@ MongoHelpers = {
     db.close();
 
     let databaseNames = [];
-    _.each(databasesList, (value) => {
+    _.map(databasesList, (value) => {
       if (value.name == 'local' || value.name == 'admin') return false;
       databaseNames.push(value.name)
     });
@@ -66,7 +66,7 @@ MongoHelpers = {
 
     db.close();
     let collectionNames = [];
-    _.each(collections, (value) => {
+    _.map(collections, (value) => {
       if (value.name == 'system.indexes') return false;
       collectionNames.push(value.name)
     });
