@@ -97,7 +97,7 @@ TreeView = React.createClass({
         {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>))}
         <td>
           <div className="pull-right">
-            <small className="m-r-sm">{this.state.totalCount}x</small>
+            <small className="m-r-sm">{this.state.totalCount} items</small>
             <TreeView.Pagination pageLimit={this.props.paginationLimit}
                                  totalCount={this.state.totalCount}
                                  currentPage={this.props.currentPage}
@@ -137,7 +137,7 @@ TreeView.Document = React.createClass({
   render() {
     const document = this.props.document;
     const collection = this.props.env.collection;
-    
+
     const rowClass = 'parent document' + (document.hasChildren ? ' toggle-children' : '');
     const children = TreeViewUtils.getChildren(document, this.props.env.collection);
 
@@ -352,38 +352,41 @@ TreeView.Pagination = React.createClass({
     const totalCount = parseInt(this.props.totalCount);
     const currentPage = parseInt(this.props.currentPage);
     const pagesCount = Math.ceil(totalCount / parseInt(this.props.pageLimit));
-    const groupClass = 'btn-group btn-group-thin';
+
+    if(pagesCount == 1) return <div></div>;
 
     const previousPage = currentPage == 1 ? currentPage : currentPage - 1;
     const nextPage = currentPage == pagesCount ? currentPage : currentPage + 1;
 
-    const pages = [];
-    for (var i = 1; i <= pagesCount; i++) {
-      pages.push({
-        index: i,
-        label: i + '. page'
-      });
+    let count = 4;
+    let quotient = (pagesCount - 1) / count;
+
+    let pages = _.range(_.max([1, currentPage - 3]), _.min([pagesCount, currentPage + 3]));
+    for (let i = 0; i <= count; i++) {
+      pages.push(Math.round(quotient * i) + 1);
     }
 
+    pages = Array.from(new Set(pages));
+    pages.sort((a,b) => a-b);
+
     classForButton = (disabled) => {
-      return classNames('btn btn-default', {'disabled': disabled});
+      return classNames({'disabled': disabled});
     };
 
-    return <div className={groupClass}>
-      <button className={classForButton(currentPage == 1)} key="0" onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></button>
-      <button className={classForButton(currentPage == 1)} key="1" onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></button>
-      <div className={groupClass}>
-        <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown">
-          <span key="1">{currentPage} </span><span key="2" className="caret" />
-        </button>
-        <ul className="dropdown-menu">
-          {pages.map(item => {
-            return <li key={item.index}><a href="#" onClick={this.handlePageChange.bind(this, item.index)}>{item.label}</a></li>
-          })}
-        </ul>
-      </div>
-      <button className={classForButton(currentPage == pagesCount)} key="2" onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></button>
-      <button className={classForButton(currentPage == pagesCount)} key="3" onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></button>
+    classForPage = (disabled) => {
+      return classNames({'disabled': disabled});
+    };
+
+    return <div className="pagination-wrapper">
+      <ul className="pagination">
+        <li key="first" className={classForButton(currentPage == 1)}><a onClick={this.handlePageChange.bind(this, 1)} ><i className="fa fa-angle-double-left" /></a></li>
+        <li key="prev" className={classForButton(currentPage == 1)}><a onClick={this.handlePageChange.bind(this, previousPage)} ><i className="fa fa-angle-left" /></a></li>
+        {pages.map(page => {
+          return <li key={page} className={classForPage(currentPage == page)}><a href="#" onClick={this.handlePageChange.bind(this, page)}>{page}</a></li>
+        })}
+        <li key="next" className={classForButton(currentPage == pagesCount)}><a onClick={this.handlePageChange.bind(this, nextPage)} ><i className="fa fa-angle-right" /></a></li>
+        <li key="last" className={classForButton(currentPage == pagesCount)}><a onClick={this.handlePageChange.bind(this, pagesCount)}><i className="fa fa-angle-double-right" /></a></li>
+      </ul>
     </div>
   },
 

@@ -195,7 +195,7 @@ DocumentsFilter = React.createClass({
     event.nativeEvent.stopImmediatePropagation();
 
     FilterHistory.update(filterId, {$set: {name: null}});
-  },
+  }
 
 
 });
@@ -204,7 +204,7 @@ DocumentsResult = React.createClass({
   render() {
     return <div>
       <div className="container">
-        <div className="bg-box m-t-sm m-b">
+        <div className="bg-box m-t-sm m-b-lg">
           <TreeView env={this.props.env}
                     filter={this.props.filter}
                     currentPage={this.props.page}
