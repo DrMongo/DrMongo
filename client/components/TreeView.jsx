@@ -167,10 +167,14 @@ TreeView.Document = React.createClass({
     if(!collection.showFullId) {
       keyValue = '...' + keyValue.substr(keyValue.length - 5, 5);
     }
+    let keyClass = classNames('cell key', {
+      shorten: !collection.showFullId
+    });
+
 
     return <tbody>
       <tr className={rowClass} onClick={this.handleToggleOpen}>
-        <td className="cell key">
+        <td className={keyClass}>
           <span className="drm-index">{document.drMongoIndex}.</span> {keyValue} <small>{document.formattedValue}</small>
         </td>
         {pinnedColumns}
