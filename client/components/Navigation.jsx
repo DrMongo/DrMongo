@@ -52,7 +52,7 @@ Navigation = React.createClass({
         <ul className="nav navbar-nav">
           {env.connectionId ? <NavigationConnectionsDropdown selected={env.connection.name} items={this.data.connections} /> : null}
           {this.data.databases ? <NavigationDatabasesDropdown selected={selectedDatabase} items={this.data.databases} /> : null}
-          {this.data.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.data.collections} /> : null}
+          {this.data.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.data.collections} env={this.props.currentEnvironment} /> : null}
         </ul>
 
         {env.databaseId ? this.renderSearchForm() : null}
@@ -173,40 +173,67 @@ NavigationCollectionsDropdown = React.createClass({
 
   render() {
     return <li className="dropdown">
-    <a href="#" className="dropdown-toggle" data-toggle="dropdown"
-       role="button" aria-haspopup="true"
-       aria-expanded="false" title="Select collection">
-      {this.props.selected}
-      <span className="caret" />
-    </a>
-    <ul className="dropdown-menu collection-dropdown">
+        <a href="#" className="dropdown-toggle" data-toggle="dropdown"
+           role="button" aria-haspopup="true"
+           aria-expanded="false" title="Select collection">
+          {this.props.selected}
+          <span className="caret" />
+        </a>
+        <ul className="dropdown-menu collection-dropdown">
 
-      {this.props.items.map((collection) => {
-        // const collectionIcon = collection.icon() + ' after';
+          {this.props.items.map((collection) => {
+            // const collectionIcon = collection.icon() + ' after';
 
-        var savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+            var savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
 
-        if (savedFilters.length > 0) {
-          var submenu = <ul className="dropdown-menu">
-                {savedFilters.map((filterItem, index) => {
-                  return <li className="menu-item" key={index}><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
-                })}
-              </ul>
+            if (savedFilters.length > 0) {
+              var submenu = <ul className="dropdown-menu">
+                    {savedFilters.map((filterItem, index) => {
+                      return <li className="menu-item" key={index}><a href={RouterUtils.pathForDocuments(collection, filterItem._id)}>{filterItem.name}</a></li>
+                    })}
+                  </ul>
+            } else {
+              var submenu = null;
+            }
+
+            return <li key={collection._id} className={submenu ? 'menu-item dropdown dropdown-submenu' : 'menu-item dropdown'}>
+                  <a href={RouterUtils.pathForDocuments(collection)} className={submenu ? 'dropdown-toggle' : ''} data-toggle={submenu ? 'dropdown' : ''} onClick={(event) => {FlowRouter.go(RouterUtils.pathForDocuments(collection)); return false;}}>
+                  <div className="relative text-nowrap z1">{collection.name}</div>
+                  </a>
+                  {submenu}
+            </li>
+          })}
+
+          <li className="divider" />
+          <li><a href="#" onClick={this.handleCreateCollection}><i className="fa fa-plus" /> Create collection</a></li>
+        </ul>
+      </li>
+  },
+
+  handleCreateCollection(event) {
+    event.preventDefault();
+
+    var collectionName = prompt("Please enter collection name", "");
+
+    if (collectionName != null) {
+      const database = this.props.env.database;
+      Meteor.call('createCollection', database._id, collectionName, (error , response) => {
+        if(error) {
+          log(error);
+          sAlert.error('Oh snap!');
         } else {
-          var submenu = null;
+          const data = {
+            collection: collectionName,
+            database: database.name,
+            connection: database.connection().slug,
+            filter: null,
+            page: null
+          };
+
+          FlowRouter.go('Documents', data);
         }
+      });
+    }
 
-        return <li key={collection._id} className={submenu ? 'menu-item dropdown dropdown-submenu' : 'menu-item dropdown'}>
-              <a href={RouterUtils.pathForDocuments(collection)} className={submenu ? 'dropdown-toggle' : ''} data-toggle={submenu ? 'dropdown' : ''} onClick={(event) => {FlowRouter.go(RouterUtils.pathForDocuments(collection)); return false;}}>
-              <div className="relative text-nowrap z1">{collection.name}</div>
-              </a>
-              {submenu}
-        </li>
-      })}
-
-      <li className="divider" />
-      <li><a className="add-collection" href="#"><i className="fa fa-plus" /> Create collection @TODO</a></li>
-    </ul>
-  </li>
   }
 });
