@@ -79,7 +79,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
     if (collection.pinnedColumnsFormatted && collection.pinnedColumnsFormatted.length > 0) {
       _.map(collection.pinnedColumnsFormatted, (column) => {
         try {
-          let t = lodash.get(value, column.split('.'));
+          let t = lodash.get(value, column);
           if(typeof t == 'undefined') t = '';
           if(_.isObject(t)) t = t.toString();
           pinnedColumns.push(`${t}`); // ensure string format
