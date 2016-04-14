@@ -61,11 +61,14 @@ Meteor.methods({
     return true;
   },
   findCollectionForDocumentId(databaseId, documentId) {
+    check(databaseId, String);
+    check(documentId, String);
+
     var db = MongoHelpers.connectDatabase(databaseId);
 
     let foundCollection = null;
 
-    var selector = {_id: objectifyMongoId(documentId)};
+    let selector = {_id: objectId(documentId) || documentId};
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
       db.listCollections().toArray((error, response) => {
@@ -104,16 +107,10 @@ Meteor.methods({
     let settings = new CurrentSettings();
     collectionInfo.paginationLimit = parseInt(collectionInfo.paginationLimit || settings.global.documentsPerPage);
 
-    let filterObject, filterId, selector, options;
-    if(/^{"_str":"[a-z0-9]+"}$/.test(filter)) {
-      filterObject = JSON.parse(filter);
-      filterId = stringifyMongoId(filterObject);
-    } else {
-      filterId = filter;
-    }
+    let selector, options;
 
-    if (resemblesId(filterId)) {
-      selector = {_id: objectifyMongoId(filterId)};
+    if (resemblesId(filter)) {
+      selector = {_id: objectId(filter) || filter};
       options = {};
     } else {
       try {
