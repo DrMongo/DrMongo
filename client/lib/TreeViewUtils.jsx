@@ -22,11 +22,9 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
 
 
   if (resemblesId(value) || key == '_id') {
-    let idString = stringifyMongoId(value);
-
-    info['formattedValue'] = typeof value == 'object' ? `ObjectId('${idString}')` : idString;
+    info['formattedValue'] = `${value}`;
     info['fieldClass'] = 'id';
-    info['idValue'] = idString;
+    info['idValue'] = getId(value);
     info['labelText'] = 'ID';
     info['isId'] = true;
   } else if (_.isNumber(value)) {

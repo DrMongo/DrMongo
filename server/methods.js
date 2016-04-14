@@ -11,11 +11,13 @@ Meteor.methods({
       keep: true
     });
   },
+
   updateAllConnectionsStructure() {
     Connections.find({}).forEach(function(connection) {
       Meteor.call('updateConnectionStructure', connection._id);
     })
   },
+
   updateConnectionStructure(connectionId) {
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
@@ -60,15 +62,16 @@ Meteor.methods({
     Databases.remove({connection_id: connectionId, keep: false});
     return true;
   },
+
   findCollectionForDocumentId(databaseId, documentId) {
     check(databaseId, String);
-    check(documentId, String);
+    check(documentId, Match.OneOf(String, ObjectId));
 
     var db = MongoHelpers.connectDatabase(databaseId);
 
     let foundCollection = null;
 
-    let selector = {_id: objectId(documentId) || documentId};
+    let selector = {_id: objectifyMongoId(documentId)};
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
       db.listCollections().toArray((error, response) => {
@@ -96,6 +99,7 @@ Meteor.methods({
     db.close();
     return foundCollection;
   },
+
   getDocuments(collectionId, filter, page) {
     page = page || 1;
 
@@ -110,7 +114,7 @@ Meteor.methods({
     let selector, options;
 
     if (resemblesId(filter)) {
-      selector = {_id: objectId(filter) || filter};
+      selector = {_id: objectifyMongoId(filter)};
       options = {};
     } else {
       try {
@@ -158,7 +162,9 @@ Meteor.methods({
 
     var index = options.skip + 1;
     docs.map(item => {
-      item._id = jsonifyMongoId(item._id);
+      if(typeof item._id == 'object' && item._id._bsontype == 'ObjectID') {
+        item._id = new ObjectId(item._id.toString());
+      }
 
       item[DRM.documentIndex] = index++;
     });
@@ -171,6 +177,7 @@ Meteor.methods({
       count: docsCount // @TODO rename this to 'totalCount'
     }
   },
+
   insertDocument(collectionId, data) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
@@ -195,6 +202,7 @@ Meteor.methods({
       return false;
     }
   },
+
   updateDocument(collectionId, documentId, data) {
     // log(collectionId, documentId, data);
     let collection = Collections.findOne(collectionId);
@@ -216,6 +224,7 @@ Meteor.methods({
 
     return updatedCount;
   },
+
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
@@ -226,7 +235,7 @@ Meteor.methods({
     let deleteWrapper = Meteor.wrapAsync((cb) => {
       dbCollection.findAndRemove({_id: objectifyMongoId(documentId)}, (error, response) => {
         if(!error && !response) {
-          error = new Meteor.Error('Document ' + stringifyMongoId(documentId) + ' not found');
+          error = new Meteor.Error('Document ' + getId(documentId) + ' not found');
         }
 
         cb(error, response);
@@ -239,6 +248,7 @@ Meteor.methods({
 
     return result;
   },
+
   dropAllDocuments(collectionId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();

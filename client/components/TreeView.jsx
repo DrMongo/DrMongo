@@ -45,7 +45,7 @@ TreeView = React.createClass({
       const formattedRows = [];
 
       result.docs.map(row => {
-        let info = TreeViewUtils.getRowInfo(stringifyMongoId(row._id), row, 0, '', collection);
+        let info = TreeViewUtils.getRowInfo(getId(row._id), row, 0, '', collection);
         formattedRows.push(info);
       });
 
@@ -328,6 +328,11 @@ TreeView.DocumentRow = React.createClass({
     const id = this.props.info.value;
 
     Meteor.call('findCollectionForDocumentId', databaseId, id, (error, result) => {
+      if(error) {
+        log(error);
+        return;
+      }
+
       if (result === null) {
         sAlert.warning('Document not found.');
       }
@@ -338,7 +343,7 @@ TreeView.DocumentRow = React.createClass({
           createdAt: new Date(),
           collection_id: c._id,
           name: null,
-          filter: resemblesId(id) ? id : JSON.stringify(jsonifyMongoId(id))
+          filter: getId(id)
         });
 
         RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
