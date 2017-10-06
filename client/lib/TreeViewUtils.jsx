@@ -74,6 +74,7 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
 
   if (level == 0) {
     let pinnedColumns = [];
+
     if (collection.pinnedColumnsFormatted && collection.pinnedColumnsFormatted.length > 0) {
       _.map(collection.pinnedColumnsFormatted, (column) => {
         try {

@@ -69,6 +69,7 @@ DocumentsPage = React.createClass({
           <div className="pull-left m-t-sm m-l">
             <InsertDocument.Modal className="theme-color btn btn-inverted btn-sm" title="Insert Document" icon="fa fa-plus" collection={collection}/>
             <CollectionSettings.Modal className="theme-color btn btn-inverted btn-sm" title="Collection Settings" icon="fa fa-cog" collection={collection}/>
+            <a href="#" id="autofilter" onClick={this.handleAutofilter} className="theme-color btn btn-inverted btn-sm" title="Automatically search by these fields if selector is string."><i className="fa fa-bolt"></i> {collection.autofilter}</a>
           </div>
 
 
@@ -100,7 +101,19 @@ DocumentsPage = React.createClass({
 
   handleRefresh() {
     this.setState({seed: Random.id()});
+  },
+
+  handleAutofilter(event) {
+    event.preventDefault();
+
+    const collection = this.props.currentEnvironment.collection;
+    
+    let autofilter = prompt('Give fields for automatically finding documents. "_id" is default. Example: "slug,name,author.name":', collection.autofilter);
+    if (autofilter) {
+      Collections.update(collection._id, {$set: {autofilter: autofilter}});
+    }
   }
+
 });
 
 
@@ -162,11 +175,12 @@ DocumentsFilter = React.createClass({
 
   handleSubmit(values) {
     const collection = this.props.collection;
+    const processedFilter = processFilter(values.filter);
     const filterId = FilterHistory.insert({
       createdAt: new Date(),
       collection_id: collection._id,
       name: null,
-      filter: values.filter
+      filter: processedFilter
     });
 
     RouterUtils.redirect(RouterUtils.pathForDocuments(collection, filterId))

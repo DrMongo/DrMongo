@@ -111,23 +111,54 @@ Meteor.methods({
     let settings = new CurrentSettings();
     collectionInfo.paginationLimit = parseInt(collectionInfo.paginationLimit || settings.global.documentsPerPage);
 
-    let selector, options;
-
-    if (resemblesId(filter)) {
-      selector = {_id: objectifyMongoId(filter)};
-      options = {};
-    } else {
-      try {
-        filter = eval('([' + filter + '])');
-      }
-
-      catch(error) {
-        return false;
-      }
-
-      selector = filter[0] || {};
-      options = filter[1] || {};
+    let selector = {}
+    let options = {};
+    let evaledFilter = null;
+    
+    filter = filter || '{}';
+    
+    try {
+      evaledFilter = eval('([' + filter + '])');
+      log(evaledFilter)
     }
+
+    catch(error) {
+      evaledFilter = null;
+    }
+
+    if (evaledFilter && _.isObject(evaledFilter[0])) {
+        selector = evaledFilter[0] || {};
+        options = evaledFilter[1] || {};
+    } else {
+      if (evaledFilter) evaledFilter = evaledFilter[0];
+      if (resemblesId(filter)) {
+        selector = {_id: objectifyMongoId(filter)};
+        options = {};
+      } else {
+        if (collectionInfo.autofilter) {
+          let autofilter = collectionInfo.autofilter.split(',');
+          let or = [];
+          _.each(autofilter, function(field) {
+            let t = {}; 
+            if (/^[0-9\.]+$/.test(filter)) {
+              t[field] = parseFloat(filter);
+            } else {
+              t[field] = new RegExp(filter, 'i');
+            }
+            or.push(t)
+          });
+
+          if (or.length > 0) {
+            selector = {$or: or}
+          }
+          
+          selector = selector || {};
+          options = {};
+        }
+      }
+    }
+
+    log(selector, options);
 
     let collectionCountWrapper = Meteor.wrapAsync((cb) => {
       collection.find(selector, options).count((error, response) => {

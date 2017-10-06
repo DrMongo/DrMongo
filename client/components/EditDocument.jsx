@@ -34,6 +34,8 @@ EditDocument = React.createClass({
     event.preventDefault();
 
     var data = ace.edit(this.props.editorId).getValue();
+    data = processJson(data);
+  
     try {
       data = EJSON.parse(data);
     } catch (error) {

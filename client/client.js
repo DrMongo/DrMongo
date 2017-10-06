@@ -1,5 +1,5 @@
 Meteor.startup(function() {
-	updateAllConnectionsStructure();
+	// updateAllConnectionsStructure();
 });
 
 updateAllConnectionsStructure = _.throttle(function() {

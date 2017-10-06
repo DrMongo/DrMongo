@@ -95,6 +95,7 @@ MongoHelpers = {
       var result = getConnectionWrapper({connection, database});
     }
     catch(error) {
+      log('ERROR: ' + JSON.stringify(error))
       var result = false;
     }
     return result;

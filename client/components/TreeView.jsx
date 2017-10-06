@@ -70,8 +70,9 @@ TreeView = React.createClass({
 
     const pinnedColumns = collection.pinnedColumnsFormatted || [];
     if (!pinnedColumns.length) {
-      pinnedColumns.push(''); // for .name
-      pinnedColumns.push(''); // for .title
+      pinnedColumns.push('name / title'); // for .name
+      pinnedColumns.push('name / title'); // for .name
+      
     }
 
     let results;
@@ -91,10 +92,10 @@ TreeView = React.createClass({
         <td className="cell key">
           #. _id
           <div className="btn btn-soft btn-xs" onClick={this.handleToggleIdLength}>
-            {collection.showFullId ? <i className="fa fa-toggle-off" /> : <i className="fa fa-toggle-on" />}
+            {collection.showFullId ? <i className="fa fa-toggle-on" /> : <i className="fa fa-toggle-off" />}
           </div>
         </td>
-        {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item}</td>))}
+        {pinnedColumns.map((item, index) => (<td className="cell pinned" key={index}>{item} <a href="#" onClick={()=>{this.handleUnpinColumn(item); return false;}}><i className="fa fa-close"/></a></td>))}
         <td>
           <div className="pull-right">
             <small className="m-r-sm">{this.state.totalCount} items</small>
@@ -120,6 +121,18 @@ TreeView = React.createClass({
     const collection = this.props.env.collection;
     const current = !!collection.showFullId;
     Collections.update(collection._id, {$set: {showFullId: !current}});
+  },
+
+  handleUnpinColumn(path, event) {
+    const collection = this.props.env.collection;
+    const collectionId = this.props.env.collectionId;
+    var c = Collections.findOne(collectionId);
+    
+    let pathFormatted = path.replace(/^\./, '');
+    pathFormatted = pathFormatted.replace(/\.([0-9]+)$/g, '[$1]');
+    pathFormatted = pathFormatted.replace(/\.([0-9]+)\./g, '[$1].');
+
+    Collections.update(collectionId, {$pull: {pinnedColumns: '.' + path, pinnedColumnsFormatted: pathFormatted}});
   }
 
 });
@@ -165,7 +178,9 @@ TreeView.Document = React.createClass({
 
     let keyValue = document.keyValue;
     if(!collection.showFullId) {
-      keyValue = '...' + keyValue.substr(keyValue.length - 5, 5);
+      keyValue = '...<b>' + keyValue.substr(keyValue.length - 3, 3) + '</b>';
+    } else {
+      keyValue = '<small>' + keyValue.substring(0, keyValue.length - 3) + '</small><b>'+keyValue.substr(-3, 3)+'</b>'
     }
     let keyClass = classNames('cell key', {
       shorten: !collection.showFullId
@@ -175,7 +190,7 @@ TreeView.Document = React.createClass({
     return <tbody>
       <tr className={rowClass} onClick={this.handleToggleOpen}>
         <td className={keyClass}>
-          <span className="drm-index">{document.drMongoIndex}.</span> {keyValue} <small>{document.formattedValue}</small>
+          <span className="drm-index">{document.drMongoIndex}.</span> <span dangerouslySetInnerHTML={{__html: keyValue}}></span> <small>{document.formattedValue}</small>
         </td>
         {pinnedColumns}
         <td className="cell actions text-right">
@@ -247,7 +262,7 @@ TreeView.DocumentRow = React.createClass({
     const children = TreeViewUtils.getChildren(info, this.props.env.collection);
 
     let pinButton;
-    if(!info.hasChildren && !info.isId) {
+    if(!info.hasChildren && info.keyValue != '_id') {
       pinButton = <div className="btn btn-primary btn-soft btn-xs control-icon pin-column" data-full-path={info.fullPath} onClick={this.handlePin}>
         {info.isPinned ? <i className="fa fa-thumb-tack text-danger" /> : <i className="fa fa-thumb-tack" />}
       </div>;
