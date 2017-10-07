@@ -256,6 +256,38 @@ Meteor.methods({
     return updatedCount;
   },
 
+  updateDocuments(collectionId, filter, updateJson) {
+    // log(collectionId, filter, updateJson);
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = MongoHelpers.connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    var evaledFilter = null;
+
+    try {
+      evaledFilter = eval('([' + filter + '])');
+    }
+    catch(error) {
+      evaledFilter = null;
+    }
+
+    if (!evaledFilter || !evaledFilter[0]) {
+      return false;
+    }
+    let updateWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.update(evaledFilter[0], updateJson, (error, response) => {
+        cb(error, response);
+      });
+    });
+
+    let updatedCount = updateWrapper();
+    db.close();
+
+    return updatedCount;
+  },
+
   removeDocument(collectionId, documentId) {
     let collection = Collections.findOne(collectionId);
     let database = collection.database();
@@ -267,6 +299,43 @@ Meteor.methods({
       dbCollection.findAndRemove({_id: objectifyMongoId(documentId)}, (error, response) => {
         if(!error && !response) {
           error = new Meteor.Error('Document ' + getId(documentId) + ' not found');
+        }
+
+        cb(error, response);
+      });
+    });
+
+    let result = deleteWrapper();
+    log('result', result);
+    db.close();
+
+    return result;
+  },
+
+  deleteDocuments(collectionId, filter) {
+    let collection = Collections.findOne(collectionId);
+    let database = collection.database();
+
+    var db = MongoHelpers.connectDatabase(database._id);
+    var dbCollection = db.collection(collection.name);
+
+    var evaledFilter = null;
+
+    try {
+      evaledFilter = eval('([' + filter + '])');
+    }
+    catch(error) {
+      evaledFilter = null;
+    }
+
+    if (!evaledFilter || !evaledFilter[0]) {
+      return false;
+    }
+
+    let deleteWrapper = Meteor.wrapAsync((cb) => {
+      dbCollection.remove(evaledFilter[0], (error, response) => {
+        if(error) {
+          error = new Meteor.Error('Document selector error');
         }
 
         cb(error, response);

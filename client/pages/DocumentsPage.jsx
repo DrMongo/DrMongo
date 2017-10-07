@@ -128,6 +128,14 @@ DocumentsFilter = React.createClass({
 
   render() {
     const collection = this.props.collection;
+
+    const updateProps = {
+      document: document,
+      collection: this.props.collection,
+      filter: this.state.filter,
+      onSave: this.props.onRefresh
+    };
+
     return <div>
       <Formsy.Form className="documents-filter db-theme-form" onSubmit={this.handleSubmit}>
         <div className="row">
@@ -136,6 +144,11 @@ DocumentsFilter = React.createClass({
               <div className="input-group">
                 <div className="input-group-addon">{collection.name}.find(</div>
                 <MyInput className="form-control" name="filter" value={this.state.filter} type="text" autoComplete="off" />
+                <div className="input-group-addon clear">
+                  <a className="theme-color btn btn-sm pull-right right-action" title="Clear filter" onClick={this.handleReset}>
+                    <i className="fa fa-times" />
+                  </a>
+                </div>
                 <div className="input-group-addon">);</div>
                 <div className="input-group-addon">
                   <span className="dropdown" title="Saved views">
@@ -153,10 +166,16 @@ DocumentsFilter = React.createClass({
 
                 </div>
                 <div className="input-group-addon">
-                  <a className="theme-color btn btn-sm pull-right right-action" title="Clear filter" onClick={this.handleReset}>
-                    <i className="fa fa-ban" />
+                  <UpdateDocuments.Modal className="theme-color btn btn-sm pull-right right-action" icon="fa fa-pencil" updateProps={updateProps} />
+                </div>
+
+
+                <div className="input-group-addon">
+                  <a className="theme-color btn btn-sm pull-right right-action" title="Delete filtered documents" onClick={this.handleDelete}>
+                    <i className="fa fa-trash" />
                   </a>
                 </div>
+
                 <div className="input-group-addon">
                   <a className="theme-color btn btn-sm pull-right right-action" title="Reload documents" onClick={this.props.onRefresh}>
                     <i className="fa fa-refresh" />
@@ -190,6 +209,18 @@ DocumentsFilter = React.createClass({
     var t = FlowRouter.current().params;
     t.filter = null;
     RouterUtils.setParams(t);
+  },
+
+  handleDelete(event) {
+    if (confirm('Do you really want to delete the filtered documents?')) {
+      Meteor.call('deleteDocuments', this.props.collection._id, this.props.filter, (error, result) => {
+        sAlert.success('Documents deleted: ' + result);
+        this.props.onRefresh();
+      });
+
+    }
+
+
   },
 
   handleSaveFilter(event) {

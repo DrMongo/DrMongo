@@ -1,4 +1,4 @@
-EditDocument = React.createClass({
+UpdateDocuments = React.createClass({
   getDefaultProps() {
     return {
       editorId: 'edit'
@@ -6,7 +6,7 @@ EditDocument = React.createClass({
   },
 
   render() {
-    const value = EJSON.stringify(this.props.document.value, {indent: '\t'});
+    const value = EJSON.stringify({$set: {}}, {indent: '\t'});
 
     return <div>
       <ReactAce
@@ -19,7 +19,7 @@ EditDocument = React.createClass({
         editorProps={{$blockScrolling: true}}
       />
       <div className="m-t clearfix">
-        <button className="btn btn-primary pull-right" onClick={this.handleSave}>Save</button>
+        <button className="btn btn-primary pull-right" onClick={this.handleSubmit}>Update</button>
       </div>
     </div>
   },
@@ -30,7 +30,7 @@ EditDocument = React.createClass({
     editor.focus();
   },
 
-  handleSave(event) {
+  handleSubmit(event) {
     event.preventDefault();
 
     var data = ace.edit(this.props.editorId).getValue();
@@ -44,14 +44,15 @@ EditDocument = React.createClass({
     }
     const documentData = this.props.document.value;
 
-    Meteor.call('updateDocument', this.props.collection._id, documentData._id, data, (error, result) => {
+    Meteor.call('updateDocuments', this.props.collection._id, this.props.filter, data, (error, result) => {
+      sAlert.success('Documents updated: ' + result);
       this.props.onSave();
     });
   }
 });
 
 
-EditDocument.Modal = React.createClass({
+UpdateDocuments.Modal = React.createClass({
 
   getInitialState() {
     return { showModal: false };
@@ -61,26 +62,26 @@ EditDocument.Modal = React.createClass({
 
     const icon = this.props.icon ? <i className={this.props.icon} /> : null;
 
-    const editProps = this.props.editProps;
-    
-    const onSave = editProps.onSave;
-    editProps.onSave = () => {
+    const updateProps = this.props.updateProps;
+    const onSave = updateProps.onSave;
+    updateProps.onSave = () => {
       this.handleClose();
-      if(editProps.onSave) {
-        log('> editProps.onSave');
+      if(updateProps.onSave) {
+        log('> updateProps.onSave');
         setTimeout(() => { onSave(); }, 100);
       }
     };
 
     return <span>
-      <a className={this.props.className} href="#" onClick={this.handleOpen} title="Edit document">{icon}{this.props.text}</a>
+      <a className={this.props.className} href="#" onClick={this.handleOpen} title="Update filtered documents">{icon}{this.props.text}</a>
 
       <Modal show={this.state.showModal} onHide={this.handleClose} bsSize="lg">
         <Modal.Header closeButton>
-          <Modal.Title>Edit document</Modal.Title>
+          <Modal.Title>Update filtered documents</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <EditDocument {...editProps} />
+          <p><b>Filter:</b> {updateProps.filter}</p>
+          <UpdateDocuments {...updateProps} />
         </Modal.Body>
       </Modal>
     </span>
