@@ -86,10 +86,6 @@ TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {
           pinnedColumns.push('');
         }
       })
-    } else {
-      const print = (v) => (!_.isObject(v) && !_.isUndefined(v));
-      pinnedColumns.push(print(value.name) ? `${value.name}` : '');
-      pinnedColumns.push(print(value.title) ? `${value.title}` : '');
     }
     if (pinnedColumns.length) {
       info.pinnedColumns = pinnedColumns;

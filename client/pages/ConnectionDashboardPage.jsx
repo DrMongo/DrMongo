@@ -3,7 +3,10 @@ ConnectionDashboardPage = React.createClass({
   mixins: [ReactMeteorData],
 
   componentWillMount() {
-    updateConnectionStructure(this.props.connectionId)
+    this.setState({searching: true});
+    updateConnectionStructure(this.props.connectionId, function() {
+      this.setState({searching: false});     
+    })
   },
 
   getMeteorData() {
@@ -39,6 +42,8 @@ ConnectionDashboardPage = React.createClass({
               <div className="list-item">
                 <div className="h3">
                   <i className={connection.getIcon()} /> {connection.name}
+                  &nbsp; {this.state.searching ? <i className="fa fa-spinner fa-spin"></i> : ''}
+
                   <span className="pull-right">
                     <a className="small" href="/">change</a>
                   </span>

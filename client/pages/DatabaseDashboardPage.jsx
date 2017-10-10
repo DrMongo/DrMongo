@@ -3,7 +3,11 @@ DatabaseDashboardPage = React.createClass({
   mixins: [ReactMeteorData],
 
   componentWillMount() {
-    updateConnectionStructure(this.props.currentEnvironment.connectionId);
+    this.setState({searching: true});
+    var self = this;
+    updateConnectionStructure(this.props.currentEnvironment.connectionId, function() {
+      self.setState({searching: false});     
+    })
   },
 
   getMeteorData() {
@@ -52,7 +56,11 @@ DatabaseDashboardPage = React.createClass({
       <div className="bg-box m-t p-t">
         <div className="p-x">
           <div className="pull-right database-colors db-theme-shadow-box">{themes}</div>
+          <div className="pull-right">
+            {this.state.searching ? <span><i className="fa fa-spinner fa-spin"></i> updating DB structure</span> : ''}
+          </div>
           <h1 className="page-header"><i className="fa fa-database" /> {env.database.name}</h1>
+
         </div>
 
         {!collections ? <Loading /> : this.renderCollections()}

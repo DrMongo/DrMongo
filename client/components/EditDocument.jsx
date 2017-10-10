@@ -35,6 +35,11 @@ EditDocument = React.createClass({
 
     var data = ace.edit(this.props.editorId).getValue();
     data = processJson(data);
+
+    if (data === false) {
+      sAlert.error('Error parsing JSON!');
+      return false;
+    }
   
     try {
       data = EJSON.parse(data);

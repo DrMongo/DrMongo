@@ -69,11 +69,6 @@ TreeView = React.createClass({
     const documents = this.state.documents;
 
     const pinnedColumns = collection.pinnedColumnsFormatted || [];
-    if (!pinnedColumns.length) {
-      pinnedColumns.push('name / title'); // for .name
-      pinnedColumns.push('name / title'); // for .name
-      
-    }
 
     let results;
     if (documents == null) {

@@ -12,13 +12,14 @@ Meteor.methods({
     });
   },
 
-  updateAllConnectionsStructure() {
-    Connections.find({}).forEach(function(connection) {
-      Meteor.call('updateConnectionStructure', connection._id);
-    })
-  },
+  // updateAllConnectionsStructure() {
+  //   Connections.find({}).forEach(function(connection) {
+  //     Meteor.call('updateConnectionStructure', connection._id);
+  //   })
+  // },
 
   updateConnectionStructure(connectionId) {
+    log('updateConnectionStructure', connectionId)
     let connection = Connections.findOne(connectionId);
     if (!connection) return false;
     let databases = MongoHelpers.getDatabases(connection);
@@ -277,7 +278,7 @@ Meteor.methods({
       return false;
     }
     let updateWrapper = Meteor.wrapAsync((cb) => {
-      dbCollection.update(evaledFilter[0], updateJson, (error, response) => {
+      dbCollection.update(evaledFilter[0], updateJson, {multi: true}, (error, response) => {
         cb(error, response);
       });
     });

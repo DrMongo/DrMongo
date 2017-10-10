@@ -19,7 +19,7 @@ UpdateDocuments = React.createClass({
         editorProps={{$blockScrolling: true}}
       />
       <div className="m-t clearfix">
-        <button className="btn btn-primary pull-right" onClick={this.handleSubmit}>Update</button>
+        <button className="btn btn-primary pull-right" onClick={this.handleSubmit}>Update all documents</button>
       </div>
     </div>
   },
@@ -35,6 +35,11 @@ UpdateDocuments = React.createClass({
 
     var data = ace.edit(this.props.editorId).getValue();
     data = processJson(data);
+
+    if (data === false) {
+      sAlert.error('Error parsing JSON!');
+      return false;
+    }
   
     try {
       data = EJSON.parse(data);
@@ -80,7 +85,8 @@ UpdateDocuments.Modal = React.createClass({
           <Modal.Title>Update filtered documents</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <p><b>Filter:</b> {updateProps.filter}</p>
+          <div className="alert alert-warning" role="alert">Updates all documents matching the filter. This could be more than you currently see, due to pagination.</div>
+          <div className="alert alert-info" role="alert"><b>Filter:</b> {updateProps.filter}</div>
           <UpdateDocuments {...updateProps} />
         </Modal.Body>
       </Modal>

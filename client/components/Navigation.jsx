@@ -2,6 +2,10 @@ Navigation = React.createClass({
 
   mixins: [ReactMeteorData],
 
+  componentDidMount() {
+    this.setState({searching: false});
+  },
+
   getMeteorData() {
     let data = {};
 
@@ -63,6 +67,7 @@ Navigation = React.createClass({
   renderSearchForm() {
     return <Formsy.Form className="navbar-form navbar-right db-theme-form" onSubmit={this.handleSearchSubmit}>
       <div className="form-group">
+        {this.state.searching ? <i className="fa fa-spinner fa-spin"></i> : ''}&nbsp;
         <MyInput className="form-control" name="text" type="text" placeholder="Search by _id" autoComplete="off" />
       </div>
       <button className="btn btn-default hidden" type="submit">Submit</button>
@@ -77,21 +82,24 @@ Navigation = React.createClass({
 
     const databaseId = this.props.currentEnvironment.databaseId;
 
+    this.setState({searching: true});
     Meteor.call('findCollectionForDocumentId', databaseId, values.text, (error, result) => {
       if (result === null) {
         sAlert.warning('Document not found.');
-      }
-      let c = Collections.findOne({database_id: databaseId, name: result});
-      if (c) {
-        const filterId = FilterHistory.insert({
-          createdAt: new Date(),
-          collection_id: c._id,
-          name: null,
-          filter: values.text
-        });
+      } else {
+        let c = Collections.findOne({database_id: databaseId, name: result});
+        if (c) {
+          const filterId = FilterHistory.insert({
+            createdAt: new Date(),
+            collection_id: c._id,
+            name: null,
+            filter: values.text
+          });
 
-        RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
+          RouterUtils.redirect(RouterUtils.pathForDocuments(c, filterId))
+        }
       }
+      this.setState({searching: false});
     });
   }
 });
