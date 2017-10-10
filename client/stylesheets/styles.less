@@ -73,18 +73,25 @@ html, body, #react-root, #simple-layout {
 
 
 ////////////////////////////////////////////
-.dropdown-menu>li a {
+.dropdown-menu>li a, .dropdown-menu>li i {
   display: block;
-  padding: 3px 20px;
-  clear: both;
+  padding: 3px 23px;
   font-weight: 400;
   line-height: 1.42857143;
-  color: #333;
   white-space: nowrap;
+}
+.dropdown-menu>li a {
+  color: #333;
+  float: left;
 
   &:hover {
     color: #262626;
     text-decoration: none;
     background-color: #f5f5f5;
   }
+}
+
+.dropdown-menu>li i {
+  float: right;
+  cursor: pointer;
 }

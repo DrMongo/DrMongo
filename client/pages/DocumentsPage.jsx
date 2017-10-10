@@ -133,7 +133,7 @@ DocumentsFilter = React.createClass({
                       <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
                       <li role="separator" className="divider" />
                       {this.props.savedFilters.map((item, index) => {
-                        return <li key={index}><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name} <i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></a></li>
+                        return <li key={index}><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a><i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></li>
                       })}
                     </ul>
                   </span>
