@@ -107,7 +107,7 @@ DocumentsPage = React.createClass({
     event.preventDefault();
 
     const collection = this.props.currentEnvironment.collection;
-    
+
     let autofilter = prompt('Give fields for automatically finding documents. "_id" is default. Example: "slug,name,author.name":', collection.autofilter);
     if (autofilter) {
       Collections.update(collection._id, {$set: {autofilter: autofilter}});
@@ -155,11 +155,13 @@ DocumentsFilter = React.createClass({
                     <a className="theme-color btn btn-sm dropdown-toggle right-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i className="fa fa-star" /> <span className="caret" />
                     </a>
-                    <ul className="dropdown-menu pull-right" id="saved-filters">
+                    <ul className="dropdown-menu pull-right inline" id="saved-filters">
                       <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
                       <li role="separator" className="divider" />
                       {this.props.savedFilters.map((item, index) => {
-                        return <li key={index}><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name} <i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></a></li>
+                        return <li key={index}><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a>
+                        <span className=""><i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></span>
+                        </li>
                       })}
                     </ul>
                   </span>
