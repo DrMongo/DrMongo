@@ -73,20 +73,27 @@ html, body, #react-root, #simple-layout {
 
 
 ////////////////////////////////////////////
+.dropdown-menu {
+  padding: 5px 15px;
+}
 .dropdown-menu>li a {
-  display: block;
-  padding: 3px 20px;
+  display: inline-block;
+  padding: 3px 0;
   clear: both;
   font-weight: 400;
   line-height: 1.42857143;
   color: #333;
   white-space: nowrap;
+  margin-right: 15px;
 
   &:hover {
     color: #262626;
     text-decoration: none;
     background-color: #f5f5f5;
   }
+}
+.dropdown-menu>li i {
+  cursor: pointer;
 }
 
 .modal-open {
