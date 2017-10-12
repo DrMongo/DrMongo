@@ -1,21 +1,18 @@
-SimpleLayout = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
+const Layout = ({leading, content}) => {
+  if(leading) return <Loading />;
 
-  getMeteorData() {
-    let data = {};
+  return <div id="simple-layout">{content}</div>
+};
 
-    const handle = Meteor.subscribe('layoutData', null, null, null);
-    
-    data.ready = handle.ready();
 
-    return data;
-  },
+SimpleLayout = withTracker(props => {
+  const handle = Meteor.subscribe('layoutData', null, null, null);
 
-  render() {
-    if(!this.data.ready) return <Loading />;
-
-    return <div id="simple-layout">{this.props.content}</div>
+  return {
+    loading: !handle.ready()
   }
+})(Layout);
 
-});

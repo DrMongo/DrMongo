@@ -1,3 +1,5 @@
+import React from 'react';
+
 ThemePage = React.createClass({
   render() {
     return <div className="container">

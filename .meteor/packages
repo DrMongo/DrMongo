@@ -4,58 +4,53 @@
 # 'meteor add' and 'meteor remove' will edit this file for you,
 # but you can also edit it by hand.
 
-meteor-base
+meteor-base@1.1.0
 
 
 # Build system
-ecmascript
-es5-shim
-standard-minifiers
+ecmascript@0.8.3
+es5-shim@4.6.15
 
 
 # Collections
 dburles:collection-helpers
 dburles:mongo-collection-instances
 matb33:collection-hooks
-mongo
+mongo@1.2.2
 percolate:migrations
 tmeasday:publish-counts
 todda00:friendly-slugs
 
 # Utilities
 bojicas:inflections
-check
-ejson
-http
-insecure                # Allow all DB writes from clients (for prototyping) !!!!!!!!!!
-jquery
+check@1.2.5
+ejson@1.0.14
+http@1.2.12
+insecure@1.0.7                # Allow all DB writes from clients (for prototyping) !!!!!!!!!!
+jquery@1.11.10
 kadira:flow-router
 kestanous:reactive-objects
 momentjs:moment
 percolate:synced-cron
-random
-reactive-var
-session
+random@1.0.10
+reactive-var@1.0.11
+session@1.1.7
 tomwasd:flow-router-autoscroll
-tracker
-underscore
+tracker@1.1.3
+underscore@1.0.10
 underscorestring:underscore.string
 stevezhu:lodash
+react-meteor-data
 
 # UI components
-blaze-html-templates
 flemay:less-autoprefixer
 fortawesome:fontawesome
 juliancwirko:s-alert
-kadira:blaze-layout
 kadira:dochead
-kadira:react-layout
-mizzao:sharejs-ace@1.1.9
-mobile-experience
+mizzao:sharejs-ace
+mobile-experience@1.0.5
 mousetrap:mousetrap
 nemo64:bootstrap
-react
-shadyendless:react-bootstrap
 
 
 # Dr Mongo
@@ -68,3 +63,7 @@ drmongo:icons
 
 
 
+standard-minifier-css
+standard-minifier-js
+shell-server
+dynamic-import

@@ -3,3 +3,4 @@ drmongo-demo.tar.gz
 
 .meteor/local
 .meteor/meteorite
+node_modules

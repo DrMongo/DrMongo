@@ -1,36 +1,37 @@
-Navigation = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
+
+Navigation = withTracker(props => {
+  let data = {};
+
+  const env = props.currentEnvironment;
+  const handle = Meteor.subscribe('navigationData', env.connectionId, env.databaseId);
+  if (handle.ready()) {
+    data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
+
+    if(env.connectionId) {
+      data.databases = env.connection.databases();
+
+      if(env.databaseId) {
+        data.collections = env.database.collections();
+      }
+    }
+
+    data.ready = true;
+  }
+
+  return data;
+})(React.createClass({
+
 
   componentDidMount() {
     this.setState({searching: false});
   },
 
-  getMeteorData() {
-    let data = {};
-
-    const env = this.props.currentEnvironment;
-    const handle = Meteor.subscribe('navigationData', env.connectionId, env.databaseId);
-    if (handle.ready()) {
-      data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
-
-      if(env.connectionId) {
-        data.databases = env.connection.databases();
-
-        if(env.databaseId) {
-          data.collections = env.database.collections();
-        }
-      }
-
-      data.ready = true;
-    }
-
-    return data;
-  },
-
   render() {
     return <div className="navbar navbar-default my-navbar db-theme">
-      {this.data.ready ? this.renderNavigation() : <Loading />}
+      {this.props.ready ? this.renderNavigation() : <Loading />}
     </div>
   },
 
@@ -54,9 +55,9 @@ Navigation = React.createClass({
       </div>
       <div className="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <ul className="nav navbar-nav">
-          {env.connectionId ? <NavigationConnectionsDropdown selected={env.connection.name} items={this.data.connections} /> : null}
-          {this.data.databases ? <NavigationDatabasesDropdown selected={selectedDatabase} items={this.data.databases} /> : null}
-          {this.data.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.data.collections} env={this.props.currentEnvironment} /> : null}
+          {env.connectionId ? <NavigationConnectionsDropdown selected={env.connection.name} items={this.props.connections} /> : null}
+          {this.props.databases ? <NavigationDatabasesDropdown selected={selectedDatabase} items={this.props.databases} /> : null}
+          {this.props.collections ? <NavigationCollectionsDropdown selected={selectedCollection} items={this.props.collections} env={this.props.currentEnvironment} /> : null}
         </ul>
 
         {env.databaseId ? this.renderSearchForm() : null}
@@ -102,30 +103,25 @@ Navigation = React.createClass({
       this.setState({searching: false});
     });
   }
-});
+}));
 
 
 // -----------------------------------------------------------------------------
 // -----------------------------------------------------------------------------
 
 
-Navigation.Logo = React.createClass({
+Navigation.Logo = withTracker(props => {
+  let data = {};
 
-  mixins: [ReactMeteorData],
+  data.version = DrmVersion.findDocument();
 
-  getMeteorData() {
-    let data = {};
+  return data;
 
-    data.version = DrmVersion.findDocument();
-
-    return data;
-  },
-
-
+})(React.createClass({
 
   render() {
     let newVersion;
-    if(this.data.version && this.data.version.newVersionAvailable) {
+    if(this.props.version && this.props.version.newVersionAvailable) {
       newVersion = <span className="new-version-available" />
     }
 
@@ -135,7 +131,7 @@ Navigation.Logo = React.createClass({
       </a>
     )
   }
-});
+}));
 
 
 // -----------------------------------------------------------------------------

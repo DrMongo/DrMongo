@@ -1,3 +1,5 @@
+import React from 'react';
+
 TreeViewUtils = {};
 
 TreeViewUtils.getRowInfo = (key, value, level, fullPath, collection) => {

@@ -1,6 +1,15 @@
-ConnectionDashboardPage = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
+ConnectionDashboardPage = withTracker(props => {
+  const connectionSlug = props.connection;
+  const handle = Meteor.subscribe('databases', connectionSlug);
+
+  return {
+    loading: !handle.ready(),
+    connection: Connections.findOne({slug: connectionSlug})
+  }
+})(React.createClass({
 
   componentWillMount() {
     this.setState({searching: true});
@@ -9,22 +18,9 @@ ConnectionDashboardPage = React.createClass({
     })
   },
 
-  getMeteorData() {
-    let data = {};
-
-    const connectionSlug = this.props.connection;
-    const handle = Meteor.subscribe('databases', connectionSlug);
-    if (handle.ready()) {
-      data.connection = Connections.findOne({slug: connectionSlug});
-    }
-
-    return data;
-  },
-
-
   render() {
-    const connection = this.data.connection;
-    if(!connection) return <Loading />;
+    if(this.props.loading) return <Loading />;
+    const connection = this.props.connection;
 
     const databases = connection.databases();
     let databasesList = databases.map((item, index) => {
@@ -42,7 +38,7 @@ ConnectionDashboardPage = React.createClass({
               <div className="list-item">
                 <div className="h3">
                   <i className={connection.getIcon()} /> {connection.name}
-                  &nbsp; {this.state.searching ? <i className="fa fa-spinner fa-spin"></i> : ''}
+                  &nbsp; {this.state.searching ? <i className="fa fa-spinner fa-spin" /> : ''}
 
                   <span className="pull-right">
                     <a className="small" href="/">change</a>
@@ -56,7 +52,7 @@ ConnectionDashboardPage = React.createClass({
       </div>
     </div>
   }
-});
+}));
 
 
 DatabaseItem = ({database, index}) => {

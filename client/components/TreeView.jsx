@@ -1,3 +1,5 @@
+import React from 'react';
+
 let hintTimeout = {};
 let showHint = (namespace, message = true) => {
   // stop previous timeout if exists

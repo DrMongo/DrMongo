@@ -4,6 +4,7 @@
   "description": "Open-source MongoDB admin app build on MeteorJs.",
   "main": "index.js",
   "scripts": {
+    "start": "meteor -p 3040",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -19,5 +20,13 @@
   "bugs": {
     "url": "https://github.com/DrMongo/DrMongo/issues"
   },
-  "homepage": "http://www.drmongo.com/"
+  "homepage": "http://www.drmongo.com/",
+  "dependencies": {
+    "filesize": "^3.5.10",
+    "react": "^15.6.2",
+    "react-addons-pure-render-mixin": "^15.6.2",
+    "react-bootstrap": "^0.31.3",
+    "react-dom": "^15.6.2",
+    "react-mounter": "^1.2.0"
+  }
 }

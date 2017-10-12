@@ -1,6 +1,17 @@
-DatabaseDashboardPage = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
+import filesize from 'filesize'
 
-  mixins: [ReactMeteorData],
+DatabaseDashboardPage = withTracker(props => {
+  let data = {};
+  const env = props.currentEnvironment;
+
+  // TODO subscribe to data?
+  data.collections = env.database.collections();
+
+  return data;
+
+})(React.createClass({
 
   componentWillMount() {
     this.setState({searching: true});
@@ -10,15 +21,6 @@ DatabaseDashboardPage = React.createClass({
     })
   },
 
-  getMeteorData() {
-    let data = {};
-    const env = this.props.currentEnvironment;
-
-    // TODO subscribe to data?
-    data.collections = env.database.collections();
-
-    return data;
-  },
 
   componentDidMount() {
     Meteor.call('stats.fetchCollectionsStats', this.props.currentEnvironment.databaseId, (error, result) => {
@@ -33,7 +35,7 @@ DatabaseDashboardPage = React.createClass({
 
   render() {
     const env = this.props.currentEnvironment;
-    const collections = this.data.collections;
+    const collections = this.props.collections;
 
     let themes = [
       'dark-blue',
@@ -80,7 +82,7 @@ DatabaseDashboardPage = React.createClass({
         </tr>
       </thead>
       <tbody>
-        {this.data.collections.map((item, index) => {
+        {this.props.collections.map((item, index) => {
           return <CollectionItem key={item._id} collection={item} index={index} />
         })}
       </tbody>
@@ -92,7 +94,7 @@ DatabaseDashboardPage = React.createClass({
 
     Databases.update(this.props.currentEnvironment.databaseId, {$set: {theme: name}});
   }
-});
+}));
 
 
 CollectionItem = ({collection, index}) => {

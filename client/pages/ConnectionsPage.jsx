@@ -1,58 +1,51 @@
-ConnectionsPage = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
+ConnectionsPage = withTracker(props => {
+  return {
+    connections: Connections.find({}, {sort: {name: 1}}).fetch()
+  }
+})(
+  React.createClass({
 
-  getMeteorData() {
-    let data = {};
-
-    data.connections = Connections.find({}, {sort: {name: 1}}).fetch();
-    return data;
-  },
-
-  render() {
-    return <div id="connection-page">
-      <div className="container">
-        <div className="m-t-lg m-b text-center color-white">
-          <h1><i className="fa fa-heartbeat" /> Dr. Mongo</h1>
-        </div>
-        <div className="row p-t">
-          <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
-            <ConnectionsPage.NewVersionMessage />
-            <div className="list box-shadow-3">
-              {this.data.connections ? this.renderConnections() : <Loading />}
-              <AddConnectionBlock />
-            </div>
-            <div className="m-t text-right">
-              <EditGlobalSettings.Modal className="color-white" icon="fa fa-cogs" />
+    render() {
+      return <div id="connection-page">
+        <div className="container">
+          <div className="m-t-lg m-b text-center color-white">
+            <h1><i className="fa fa-heartbeat" /> Dr. Mongo</h1>
+          </div>
+          <div className="row p-t">
+            <div className="col-sm-8 col-sm-push-2 col-md-6 col-md-push-3 col-lg-4 col-lg-push-4">
+              <NewVersionMessage />
+              <div className="list box-shadow-3">
+                {this.props.connections ? this.renderConnections() : <Loading />}
+                <AddConnectionBlock />
+              </div>
+              <div className="m-t text-right">
+                <EditGlobalSettings.Modal className="color-white" icon="fa fa-cogs" />
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  },
+    },
 
-  renderConnections() {
-    return this.data.connections.map((item) => {
-      return <ConnectionBlock key={item._id} connection={item} />
-    })
+    renderConnections() {
+      return this.props.connections.map((item) => {
+        return <ConnectionBlock key={item._id} connection={item} />
+      })
+    }
+  })
+);
+
+NewVersionMessage = withTracker(props => {
+  return {
+    version: DrmVersion.findDocument()
   }
-});
-
-ConnectionsPage.NewVersionMessage = React.createClass({
-
-  mixins: [ReactMeteorData],
-
-  getMeteorData() {
-    let data = {};
-
-    data.version = DrmVersion.findDocument();
-
-    return data;
-  },
-
+})(React.createClass({
 
   render() {
-    if(this.data.version && this.data.version.newVersionAvailable) {
+    if(this.props.version && this.props.version.newVersionAvailable) {
       return (
         <div className="alert alert-warning box-shadow-4">
           <span>New version of Dr. Mongo is available! </span>
@@ -63,7 +56,7 @@ ConnectionsPage.NewVersionMessage = React.createClass({
       return null;
     }
   }
-});
+}));
 
 
 ConnectionBlock = ({connection}) => {

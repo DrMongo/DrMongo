@@ -1,3 +1,6 @@
+import React from 'react';
+
+
 ReactAce = class ReactAce extends React.Component {
   constructor(props) {
     super(props);

@@ -1,3 +1,6 @@
+import React from 'react';
+import { Modal } from 'react-bootstrap';
+
 ViewDocument = React.createClass({
   render() {
     return <div>

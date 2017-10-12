@@ -1,6 +1,38 @@
-DocumentsPage = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
+
+DocumentsPage = withTracker(props => {
+  const data = {
+    filterReady: false,
+    filter: null
+  };
+
+  const filterId = props.filter;
+
+  let filter;
+  if(props.filter) {
+    filter = FilterHistory.findOne(filterId);
+  } else {
+    filter = null;
+  }
+
+  if (filter) {
+    data.filter = filter.filter || null;
+    data.filterReady = true;
+  } else {
+    data.filter = '{}';
+    data.filterReady = true;
+  }
+
+  const env = props.currentEnvironment;
+  const collection = env.collection;
+
+  data.savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
+
+
+  return data;
+})(React.createClass({
 
   getDefaultProps() {
     return {
@@ -13,42 +45,11 @@ DocumentsPage = React.createClass({
     return {};
   },
 
-  getMeteorData() {
-    const data = {
-      filterReady: false,
-      filter: null
-    };
-
-    const filterId = this.props.filter;
-
-    if(this.props.filter) {
-      var filter = FilterHistory.findOne(filterId);
-    } else {
-      var filter = null;
-    }
-
-    if (filter) {
-        data.filter = filter.filter || null;
-        data.filterReady = true;
-    } else {
-      data.filter = '{}';
-      data.filterReady = true;
-    }
-
-    const env = this.props.currentEnvironment;
-    const collection = env.collection;
-
-    data.savedFilters = FilterHistory.find({name: {$ne: null}, collection_id: collection._id}).fetch();
-
-
-    return data;
-  },
-
   render() {
     const env = this.props.currentEnvironment;
     const collection = env.collection;
 
-    seo.setTitleByEnvironment(env, this.data.filter, this.props.page)
+    seo.setTitleByEnvironment(env, this.props.filter, this.props.page)
 
     let currentSettings = new CurrentSettings();
 
@@ -73,19 +74,19 @@ DocumentsPage = React.createClass({
           </div>
 
 
-          {this.data.filterReady
+          {this.props.filterReady
             ? <DocumentsFilter collection={collection}
-                               savedFilters={this.data.savedFilters}
+                               savedFilters={this.props.savedFilters}
                                onRefresh={this.handleRefresh}
-                               filter={this.data.filter}/>
+                               filter={this.props.filter}/>
             : <Loading />
           }
         </div>
       </div>
 
-      {this.data.filterReady
+      {this.props.filterReady
         ? <DocumentsResult env={env}
-                           filter={this.data.filter}
+                           filter={this.props.filter}
                            paginationLimit={paginationLimit}
                            page={this.props.page}
                            seed={this.state.seed}
@@ -114,7 +115,7 @@ DocumentsPage = React.createClass({
     }
   }
 
-});
+}));
 
 
 DocumentsFilter = React.createClass({

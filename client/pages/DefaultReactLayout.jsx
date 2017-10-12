@@ -1,52 +1,54 @@
-DefaultLayout = React.createClass({
+import React from 'react';
+import { withTracker } from 'meteor/react-meteor-data';
 
-  mixins: [ReactMeteorData],
 
-  getMeteorData() {
-    let data = {};
+DefaultLayout = withTracker(props => {
+  let data = {};
 
-    const connectionSlug = FlowRouter.getParam("connection");
-    const databaseName = FlowRouter.getParam("database");
-    const collectionName = FlowRouter.getParam("collection");
-    const handle = Meteor.subscribe('layoutData', connectionSlug, databaseName, collectionName);
+  const connectionSlug = FlowRouter.getParam("connection");
+  const databaseName = FlowRouter.getParam("database");
+  const collectionName = FlowRouter.getParam("collection");
+  const handle = Meteor.subscribe('layoutData', connectionSlug, databaseName, collectionName);
 
-    if (handle.ready()) {
-      const currentEnvironment = new CurrentEnvironment(); // TODO find suitable name for 'currentEnvironment'
-      if(connectionSlug) {
-        const connection = Connections.findOne({slug: connectionSlug});
-        if(connection) {
-          currentEnvironment.connection = connection;
+  if (handle.ready()) {
+    const currentEnvironment = new CurrentEnvironment(); // TODO find suitable name for 'currentEnvironment'
+    if(connectionSlug) {
+      const connection = Connections.findOne({slug: connectionSlug});
+      if(connection) {
+        currentEnvironment.connection = connection;
 
-          if(databaseName) {
-            const database = Databases.findOne({connection_id: connection._id, name: databaseName});
-            if(database) {
-              currentEnvironment.database = database;
+        if(databaseName) {
+          const database = Databases.findOne({connection_id: connection._id, name: databaseName});
+          if(database) {
+            currentEnvironment.database = database;
 
-              if(collectionName) {
-                const collection = Collections.findOne({database_id: database._id, name: collectionName});
-                if(collection) {
-                  currentEnvironment.collection = collection;
-                } else {
-                  RouterUtils.redirect(RouterUtils.pathForDatabaseDashboard(database));
-                }
+            if(collectionName) {
+              const collection = Collections.findOne({database_id: database._id, name: collectionName});
+              if(collection) {
+                currentEnvironment.collection = collection;
+              } else {
+                RouterUtils.redirect(RouterUtils.pathForDatabaseDashboard(database));
               }
-            } else {
-              RouterUtils.redirect(RouterUtils.pathForConnectionDashboard(connection));
             }
+          } else {
+            RouterUtils.redirect(RouterUtils.pathForConnectionDashboard(connection));
           }
-        } else {
-          RouterUtils.redirect('Connections');
         }
+      } else {
+        RouterUtils.redirect('Connections');
       }
-
-      data.currentEnvironment = currentEnvironment;
     }
-    
-    return data;
-  },
+
+    data.currentEnvironment = currentEnvironment;
+  }
+
+  return data;
+
+})(React.createClass({
+
 
   render() {
-    var currentEnvironment = this.data.currentEnvironment;
+    var currentEnvironment = this.props.currentEnvironment;
     if(!currentEnvironment) return <Loading />;
 
     // https://github.com/kadirahq/meteor-react-layout/issues/42
@@ -61,4 +63,4 @@ DefaultLayout = React.createClass({
   }
 
 
-});
+}));

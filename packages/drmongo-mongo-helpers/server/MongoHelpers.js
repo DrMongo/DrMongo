@@ -1,4 +1,5 @@
 // mongo db 1.4 doc, http://mongodb.github.io/node-mongodb-native/1.4/contents.html
+// mongo db 2.2 doc, http://mongodb.github.io/node-mongodb-native/2.2/api
 
 let getConnection = (data, cb) => {
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
@@ -28,12 +29,14 @@ MongoHelpers = {
     var adminDb = db.admin();
 
     // Get all the available databases
-    let listDatabasesWrapper = Meteor.wrapAsync(adminDb.listDatabases);
+    let listDatabasesWrapper = Meteor.wrapAsync((cb) => {
+      adminDb.listDatabases().then((result) => cb(null, result))
+    });
     let databases = listDatabasesWrapper();
 
     let databasesList;
-    if(databases.ok == 0) {
-      if(databases.code == 13 && connection.database) {
+    if(databases.ok === 0) {
+      if(databases.code === 13 && connection.database) {
         databasesList = [{name: connection.database}]
       } else {
         throw new Meteor.Error(databases.code, databases.errmsg);
@@ -46,7 +49,7 @@ MongoHelpers = {
 
     let databaseNames = [];
     _.map(databasesList, (value) => {
-      if (value.name == 'local' || value.name == 'admin') return false;
+      if (value.name === 'local' || value.name === 'admin') return false;
       databaseNames.push(value.name)
     });
 
@@ -58,7 +61,7 @@ MongoHelpers = {
     if (!db) return false;
 
     let collectionNamesWrapper = Meteor.wrapAsync((cb) => {
-      db.collectionNames((error, response) => {
+      db.collections((error, response) => {
         cb(error, response);
       })
     });
@@ -66,10 +69,11 @@ MongoHelpers = {
 
     db.close();
     let collectionNames = [];
-    _.map(collections, (value) => {
-      if (value.name == 'system.indexes') return false;
-      collectionNames.push(value.name)
+    collections.map(value => {
+      if (value.name === 'system.indexes') return false;
+      collectionNames.push(value.s.name)
     });
+
     return collectionNames;
   },
 

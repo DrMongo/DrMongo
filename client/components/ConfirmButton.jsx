@@ -1,3 +1,5 @@
+import React from 'react';
+
 ConfirmButton = React.createClass({
 
   getInitialState() {
