@@ -156,12 +156,12 @@ DocumentsFilter = React.createClass({
                     <a className="theme-color btn btn-sm dropdown-toggle right-action" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                       <i className="fa fa-star" /> <span className="caret" />
                     </a>
-                    <ul className="dropdown-menu pull-right inline" id="saved-filters">
+                    <ul className="filter-dropdown dropdown-menu pull-right inline" id="saved-filters">
                       <li><a href="#" id="save-filter" onClick={this.handleSaveFilter}>Save current view</a></li>
                       <li role="separator" className="divider" />
                       {this.props.savedFilters.map((item, index) => {
                         return <li key={index}><a href={RouterUtils.pathForDocuments(collection, item._id)}>{item.name}</a>
-                        <span className=""><i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)}></i></span>
+                        <span className=""><i className="fa fa-trash text-danger" onClick={this.handleDeleteFilter.bind(this, item._id)} /></span>
                         </li>
                       })}
                     </ul>
