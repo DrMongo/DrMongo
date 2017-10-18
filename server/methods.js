@@ -253,8 +253,7 @@ Meteor.methods({
 
     let updatedCount = updateWrapper();
     db.close();
-
-    return updatedCount;
+    return updatedCount.result ? (updatedCount.result.nModified || 1) : 1  ;
   },
 
   updateDocuments(collectionId, filter, updateJson) {

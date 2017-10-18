@@ -51,9 +51,10 @@ EditDocument = React.createClass({
       return false;
     }
     const documentData = this.props.document.value;
-
-    Meteor.call('updateDocument', this.props.collection._id, documentData._id, data, (error, result) => {
-      this.props.onSave();
+    
+    var self = this;
+    Meteor.call('updateDocument', this.props.collection._id, documentData._id, data, function(error, result) {
+      self.props.onSave();
     });
   }
 });
