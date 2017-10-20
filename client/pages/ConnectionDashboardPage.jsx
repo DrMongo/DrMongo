@@ -4,18 +4,31 @@ import { withTracker } from 'meteor/react-meteor-data';
 ConnectionDashboardPage = withTracker(props => {
   const connectionSlug = props.connection;
   const handle = Meteor.subscribe('databases', connectionSlug);
-
+  log(Connections.findOne({slug: connectionSlug}))
   return {
     loading: !handle.ready(),
     connection: Connections.findOne({slug: connectionSlug})
   }
 })(React.createClass({
 
-  componentWillMount() {
+  componentDidMount() {
     this.setState({searching: true});
-    updateConnectionStructure(this.props.connectionId, function() {
-      this.setState({searching: false});     
-    })
+    var self = this;
+    if (this.props.connection) {
+      updateConnectionStructure(this.props.connection._id, function() {
+        self.setState({searching: false});     
+      })
+    }
+  },
+
+  componentWillReceiveProps (nextProps) {
+    this.setState({searching: true});
+    var self = this;
+    if (nextProps.connection) {
+      updateConnectionStructure(nextProps.connection._id, function() {
+        self.setState({searching: false});     
+      })
+    }
   },
 
   render() {
