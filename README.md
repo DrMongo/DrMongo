@@ -22,6 +22,7 @@ Then clone and run Dr. Mongo:
 ```
 $ git clone https://github.com/DrMongo/DrMongo.git
 $ cd DrMongo
+$ meteor npm install
 $ meteor --port 3040
 ```
 _Your Dr. Mongo instance has to be running along with your other Meteor apps, so we use port 3040, but you are free to use any port._
