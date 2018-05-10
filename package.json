@@ -22,6 +22,7 @@
   },
   "homepage": "http://www.drmongo.com/",
   "dependencies": {
+    "babel-runtime": "^6.26.0",
     "filesize": "^3.5.10",
     "react": "^15.6.2",
     "react-addons-pure-render-mixin": "^15.6.2",
