@@ -48,8 +48,9 @@ NewVersionMessage = withTracker(props => {
     if(this.props.version && this.props.version.newVersionAvailable) {
       return (
         <div className="alert alert-warning box-shadow-4">
-          <span>New version of Dr. Mongo is available! </span>
-          <a href="https://github.com/DrMongo/DrMongo/blob/master/README.md#update" target="_blank">read more</a>
+          <div>Dr. Mongo is <strong>deprecated</strong></div>
+          <span>Please visit our new desktop app </span>
+          <a href="http://www.drmingo.com/" target="_blank">Dr. Mingo</a>
         </div>
       );
     } else {
