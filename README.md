@@ -1,4 +1,7 @@
 [![Stories in Ready](https://badge.waffle.io/DrMongo/DrMongo.png?label=ready&title=Ready)](https://waffle.io/DrMongo/DrMongo)
+
+Dr. Mongo is **deprecated**. Please visit our new desktop app [Dr. Mingo](http://www.drmingo.com/).
+
 # Dr. Mongo
 
 MongoDB admin app built on MeteorJs.
