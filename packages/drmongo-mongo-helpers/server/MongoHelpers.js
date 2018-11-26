@@ -3,14 +3,17 @@
 
 let getConnection = (data, cb) => {
   const uri = MongodbUriParser.parse(data.connection.mongoUri);
-  if(data.database) {
-    uri.database = data.database
+  if(data.options.database) {
+    uri.database = data.options.database
   }
   const mongoUri = MongodbUriParser.format(uri);
 
   log('> connecting to: ' + mongoUri);
 
-  MongoInternals.NpmModules.mongodb.module(mongoUri, (error, db) => {
+  var MongoClient = MongoInternals.NpmModules.mongodb.module.MongoClient;
+  log('> Connection options: ', data.options)
+  
+  MongoClient.connect(mongoUri, data.options, (error, db) => {
     if(error) {
       cb(error, null);
     } else {
@@ -23,9 +26,15 @@ let getConnection = (data, cb) => {
 MongoHelpers = {
 
   getDatabases(connection) {
-    let db = MongoHelpers.connect(connection);
-    if (!db) return false;
     // Use the admin database for the operation
+    var mongoUriParsed = MongodbUriParser.parse(connection.mongoUri);
+    console.log(mongoUriParsed)
+    var authSource = mongoUriParsed.options ? mongoUriParsed.options.authSource : null;
+
+    let db = MongoHelpers.connect(connection, {authSource: authSource});
+    if (!db) return false;
+
+
     var adminDb = db.admin();
 
     // Get all the available databases
@@ -33,6 +42,7 @@ MongoHelpers = {
       adminDb.listDatabases().then((result) => cb(null, result))
     });
     let databases = listDatabasesWrapper();
+    log('DATABASES', databases);
 
     let databasesList;
     if(databases.ok === 0) {
@@ -93,10 +103,15 @@ MongoHelpers = {
     return response;
   },
 
-  connect(connection, database = null) {
+  connect(connection, options) {
+    if (_.isString(options)) {
+      options = {
+        database: options
+      }
+    }
     const getConnectionWrapper = Meteor.wrapAsync(getConnection);
     try {
-      var result = getConnectionWrapper({connection, database});
+      var result = getConnectionWrapper({connection, options});
     }
     catch(error) {
       log('ERROR: ' + JSON.stringify(error))
